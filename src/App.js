@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { App, View } from 'framework7-react';
+import AboutMenu from './components/AboutMenu';
+import Menu from './components/Menu';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const f7params = {
+    name: 'Campero Fertilizadoras',
+    id: 'com.inta.campero',
+    routes: [
+        {
+            path: '/',
+            component: Menu
+        },
+        {
+            path: '/about/',
+            component: AboutMenu
+        }
+    ]
+};
 
-export default App;
+const Campero = () => {
+    return (
+        <App {...f7params}>
+          <View main url="/">
+            <Menu />
+          </View>
+        </App>
+    );
+};
+
+export default Campero;
