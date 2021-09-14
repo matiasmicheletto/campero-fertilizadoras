@@ -1,6 +1,6 @@
 import { App, View } from 'framework7-react';
-import AboutMenu from './components/AboutMenu';
-import Menu from './components/Menu';
+import About from './components/About';
+import Home from './components/Home';
 
 const f7params = {
     name: 'Campero Fertilizadoras',
@@ -8,11 +8,11 @@ const f7params = {
     routes: [
         {
             path: '/',
-            component: Menu
+            component: Home
         },
         {
             path: '/about/',
-            component: AboutMenu
+            component: About
         }
     ]
 };
@@ -20,9 +20,7 @@ const f7params = {
 const Campero = () => {
     return (
         <App {...f7params}>
-          <View main url="/">
-            <Menu />
-          </View>
+          <View main url="/" />
         </App>
     );
 };

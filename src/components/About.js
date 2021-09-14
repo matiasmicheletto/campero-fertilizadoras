@@ -1,7 +1,7 @@
 import { Link, Page } from 'framework7-react';
 import React from 'react';
 
-const AboutMenu = () => {
+const About = () => {
     
     return (
         <Page name="about">
@@ -11,4 +11,4 @@ const AboutMenu = () => {
     );
 };
 
-export default AboutMenu;
+export default About;
