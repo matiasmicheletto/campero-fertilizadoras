@@ -1,0 +1,11 @@
+.BackButton {
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	padding:10px;
+	background-color: rgba(50, 50, 200, .7);
+	margin-top: 20px;	
+	color:white;	
+	z-index: 9999;
+	display: inline-block;		
+}

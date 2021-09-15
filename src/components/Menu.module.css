@@ -1,5 +1,5 @@
 .HomePage::after {
-	content: "";
+	content: "";	
 	background: url(../img/backgrounds/fondo_menu.jpg);
 	background-position: center;
 	background-repeat: no-repeat;
@@ -13,8 +13,16 @@
 	z-index: -1;   
 }
 
+.InfoPage {
+	background: url(../img/backgrounds/fondo_ayuda.jpg);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;	
+}
+
 .Title {
 	margin-bottom: 0px;
+	color:white;
 }
 
 .Subtitle {	
@@ -22,6 +30,7 @@
 	font-size: 20px; 
 	font-style: oblique; 	
 	font-weight: 600; 
+	color:white;
 	margin-top: -5px;	
 	transform: rotate(-7deg);
 	-webkit-transform: rotate(-7deg);
@@ -40,7 +49,7 @@
 }
 
 .MenuButton{
-	background-color: rgba(200, 200, 200, .8)!important;
+	background-color: rgba(200, 200, 200, .7);
 	margin-top: 12px;
 	color:black;
 	min-height: 60px;
@@ -49,6 +58,7 @@
 	z-index: 9999;
 	display: inline-block;
 	min-width: 300px;
+	font-size: large;
 }
 
 .MenuButton p{
