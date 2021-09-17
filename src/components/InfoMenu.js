@@ -9,7 +9,7 @@ const InfoMenu = () => (
         <PageContent>
             <Block style={{position:"absolute", bottom:"15%", width:"100%", textAlign: "center"}}>
                 <div className="menu-button-container">
-                    <Link href="/control/" className={classes.MenuButton}>
+                    <Link className={classes.MenuButton}>
                         <p>Iniciar ayuda</p>
                     </Link>
                     <br />
