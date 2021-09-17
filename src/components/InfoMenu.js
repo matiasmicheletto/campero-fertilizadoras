@@ -2,7 +2,7 @@ import { Page, Link, PageContent, Block } from 'framework7-react';
 import classes from './Menu.module.css';
 import logoInta from '../img/backgrounds/logoInta.png';
 import logoMin from '../img/backgrounds/logomin.png';
-import BackButton from './BackButton';
+import { BackButton } from './Buttons';
 
 const InfoMenu = () => (
     <Page name="info" className={classes.InfoPage}>

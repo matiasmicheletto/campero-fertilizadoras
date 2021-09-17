@@ -1,0 +1,16 @@
+.Container {
+    position: relative;    
+}
+
+.Input {
+    padding: 0px;    
+    margin-top: -10px;
+}
+
+.UnitLabel {
+    position: absolute;
+    top: 23px;
+    right: 50px;
+    z-index: 999;
+    color: rgb(150,150,150);
+}

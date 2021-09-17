@@ -7,7 +7,7 @@ import {
     AccordionContent 
 } from 'framework7-react';
 import logoInta from '../img/logo_inta.png';
-import BackButton from './BackButton';
+import { BackButton } from './Buttons';
 
 const About = () => (
     <Page name="about">

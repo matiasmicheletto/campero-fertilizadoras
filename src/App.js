@@ -27,15 +27,16 @@ const f7params = {
     ]
 };
 
-const viewStyle = {
-    align:"center",
-    maxWidth:"800px", 
-    margin:"0 auto"
+const mainViewStyle = {
+    align: "center",
+    border: "1px solid black",
+    maxWidth: "800px", 
+    margin: "0 auto"
 };
 
 const Campero = () => (
     <App {...f7params}>
-        <View main url="/" style={viewStyle}/>
+        <View main url="/" style={mainViewStyle}/>
     </App>
 );
 
