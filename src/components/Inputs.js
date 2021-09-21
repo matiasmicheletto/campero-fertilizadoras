@@ -1,5 +1,5 @@
 import { ListInput } from "framework7-react";
-import classes from './CustomInput.module.css'
+import classes from './Inputs.module.css'
 
 const CustomInput = props => {
     return (

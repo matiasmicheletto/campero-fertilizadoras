@@ -6,8 +6,8 @@ import {
     ListItem,
     AccordionContent 
 } from 'framework7-react';
-import logoInta from '../img/logo_inta.png';
-import { BackButton } from './Buttons';
+import logoInta from '../../img/logo_inta.png';
+import { BackButton } from '../Buttons';
 
 const About = props => (
     <Page name="about">

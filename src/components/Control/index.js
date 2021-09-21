@@ -3,11 +3,11 @@ import MethodSelector from './MethodSelector';
 import SectionDosif from './SectionDosif';
 import SectionDistr from './SectionDistr';
 import SectionProfile from './SectionProfile';
-import { BackButton } from './Buttons';
+import { BackButton } from '../Buttons';
 import { useState } from 'react';
 
 const Control = props => {
-    const [method, setMethod] = useState("direct"); // Metodo de medicion de distancia
+    const [method, setMethod] = useState("direct"); // Metodo de medicion de distancia direct/indirect
 
     return(
         <Page>            

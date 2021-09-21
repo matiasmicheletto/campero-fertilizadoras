@@ -16,7 +16,7 @@ const BackButton = ({gray, f7router}) => (
 
 const CalculatorButton = () => (
     <Block style={{textAlign: "center", margin:"0px", padding:"0px"}}>
-        <Link tooltip="Calcular" className={classes.RoundButton} >
+        <Link tooltip="Medir" href="/velocity/" className={classes.RoundButton} >
             <FaCalculator />
         </Link>
     </Block>   

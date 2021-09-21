@@ -1,11 +1,10 @@
 import { Page, Link, PageContent, Block } from 'framework7-react';
-import classes from './Menu.module.css';
-import logoInta from '../img/backgrounds/logoInta.png';
-import logoMin from '../img/backgrounds/logomin.png';
-import { BackButton } from './Buttons';
-import { useEffect } from 'react/cjs/react.development';
+import classes from '../Menus.module.css';
+import logoInta from '../../img/backgrounds/logoInta.png';
+import logoMin from '../../img/backgrounds/logomin.png';
+import { BackButton } from '../Buttons';
 
-const InfoMenu = props => (
+const Info = props => (
     <Page name="info" className={classes.InfoPage}>
         <PageContent>
             <Block className={classes.ButtonContainer}>
@@ -31,4 +30,4 @@ const InfoMenu = props => (
     </Page>
 );
 
-export default InfoMenu;
+export default Info;

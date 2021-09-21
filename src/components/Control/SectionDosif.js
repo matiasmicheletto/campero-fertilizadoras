@@ -1,6 +1,6 @@
 import { Block, BlockTitle, Row, Col, List } from 'framework7-react';
-import CustomInput from './CustomInput';
-import { CalculatorButton } from './Buttons';
+import CustomInput from '../Inputs';
+import { CalculatorButton } from '../Buttons';
 
 const SectionDosif = props => (
     <Block>

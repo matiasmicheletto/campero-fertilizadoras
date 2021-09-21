@@ -1,12 +1,12 @@
 import { Page, Link, PageContent, Block } from 'framework7-react';
-import classes from './Menu.module.css';
-import control from '../img/icons/control.png';
-import supplies from '../img/icons/calculador.png';
-import reports from '../img/icons/reportes.png';
-import info from '../img/icons/info.png';
-import logoInta from '../img/backgrounds/logoInta.png';
-import logoMin from '../img/backgrounds/logomin.png';
-import logo from '../img/icons/logo.jpg';
+import classes from './../Menus.module.css';
+import control from '../../img/icons/control.png';
+import supplies from '../../img/icons/calculador.png';
+import reports from '../../img/icons/reportes.png';
+import info from '../../img/icons/info.png';
+import logoInta from '../../img/backgrounds/logoInta.png';
+import logoMin from '../../img/backgrounds/logomin.png';
+import logo from '../../img/icons/logo.jpg';
 
 const Home = () => (
     <Page name="home" className={classes.HomePage}>
