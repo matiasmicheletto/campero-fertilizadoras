@@ -6,7 +6,7 @@ import SectionProfile from './SectionProfile';
 import { BackButton } from './Buttons';
 import { useState } from 'react';
 
-const Control = () => {
+const Control = props => {
     const [method, setMethod] = useState("direct"); // Metodo de medicion de distancia
 
     return(
@@ -16,7 +16,7 @@ const Control = () => {
             <SectionDosif method={method}/>
             <SectionDistr />
             <SectionProfile />
-            <BackButton to="/" />
+            <BackButton {...props} />
         </Page>
     )
 };

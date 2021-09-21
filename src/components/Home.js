@@ -18,28 +18,26 @@ const Home = () => (
                 <h2 className={classes.Title}>CAMPERO</h2>
                 <h3 className={classes.Subtitle}>Fertilizadoras</h3>
             </Block>
-            <Block style={{position:"absolute", bottom:"15%", width:"100%", textAlign: "center"}}>
-                <div className="menu-button-container">
-                    <Link href="/control/" className={classes.MenuButton}>
-                        <img className={classes.HomeIcon} src={control} alt="control"/>
-                        <p>Control de fertilización</p>
-                    </Link>
-                    <br />
-                    <Link href="/supplies/" className={[classes.MenuButton]}>
-                        <img className={classes.HomeIcon} src={supplies} alt="supplies"/>
-                        <p>Calculador de insumos</p>
-                    </Link>
-                    <br />
-                    <Link href="/reports/" className={classes.MenuButton}>
-                        <img className={classes.HomeIcon} src={reports} alt="reports"/>
-                        <p>Reportes</p>
-                    </Link>
-                    <br />
-                    <Link href="/info/" className={classes.MenuButton}>
-                        <img className={classes.HomeIcon} src={info} alt="info"/>
-                        <p>Información y ayuda</p>
-                    </Link>
-                </div>
+            <Block className={classes.ButtonContainer}>
+                <Link href="/control/" className={classes.MenuButton}>
+                    <img className={classes.HomeIcon} src={control} alt="control"/>
+                    <p>Control de fertilización</p>
+                </Link>
+                <br />
+                <Link href="/supplies/" className={[classes.MenuButton]}>
+                    <img className={classes.HomeIcon} src={supplies} alt="supplies"/>
+                    <p>Calculador de insumos</p>
+                </Link>
+                <br />
+                <Link href="/reports/" className={classes.MenuButton}>
+                    <img className={classes.HomeIcon} src={reports} alt="reports"/>
+                    <p>Reportes</p>
+                </Link>
+                <br />
+                <Link href="/info/" className={classes.MenuButton}>
+                    <img className={classes.HomeIcon} src={info} alt="info"/>
+                    <p>Información y ayuda</p>
+                </Link>
             </Block>
             <div className={classes.LogoFooter}>
                 <img src={logoInta} height="80%" className={classes.LogoInta} alt="inta"/>

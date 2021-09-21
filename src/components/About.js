@@ -9,7 +9,7 @@ import {
 import logoInta from '../img/logo_inta.png';
 import { BackButton } from './Buttons';
 
-const About = () => (
+const About = props => (
     <Page name="about">
         <BlockTitle>Acerca de Campero Fertilizadoras</BlockTitle>
         <Block>
@@ -124,7 +124,7 @@ const About = () => (
                     </AccordionContent>
                 </ListItem>
             </List>
-            <BackButton to="/info/" gray/>
+            <BackButton {...props} gray/>
         </Block>
     </Page>
 );

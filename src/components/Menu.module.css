@@ -48,6 +48,13 @@
     width: 40px;
 }
 
+.ButtonContainer {
+	position: absolute; 
+	bottom: 15%; 
+	width: 100%; 
+	text-align: center;	
+}
+
 .MenuButton{
 	background-color: rgba(200, 200, 200, .7);
 	margin-top: 12px;
