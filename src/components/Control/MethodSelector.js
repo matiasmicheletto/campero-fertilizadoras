@@ -5,7 +5,7 @@ const MethodSelector = props => {
     const setMethod = (el,value) => {
         // Alterna estado del selector y retorna valor por prop
         if(el.target.checked)
-            props.setMethod(value);
+            props.onChange(value);
     }
 
     return (

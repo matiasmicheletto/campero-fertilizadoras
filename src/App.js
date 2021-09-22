@@ -3,6 +3,7 @@ import About from './components/About/index';
 import Control from './components/Control/index';
 import Home from './components/Home/index';
 import Info from './components/Info/index';
+import './toast-colors.css';
 
 /*
     CAMPERO Fertilizadoras
