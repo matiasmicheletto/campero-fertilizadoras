@@ -15,6 +15,10 @@ const pushState = page => window.history.pushState(null, null, page);
 const f7params = {
     name: 'Campero Fertilizadoras',
     id: 'com.inta.campero',    
+    dialog: {
+        buttonOk: 'Aceptar',
+        buttonCancel: 'Cancelar'
+    },
     routes: [
         { // Menu principal
             path: '/',

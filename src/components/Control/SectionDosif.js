@@ -1,10 +1,19 @@
 import { Block, BlockTitle, Row, Col, List, Button } from 'framework7-react';
+import { useState } from 'react';
 import CustomInput from '../Inputs';
 import { CalculatorButton } from '../Buttons';
-import { useState } from 'react';
+import MethodSelector from './MethodSelector';
+import ResultsDose from './ResultsDose';
 import Toast from '../Toast';
 
-const SectionDosif = props => {
+const SectionDosif = () => {
+    // Metodo de medicion de distancia direct/indirect
+    const [method, setMethod] = useState("direct"); 
+    
+    // Mostrar/ocultar bloque de resultados parciales
+    const [results, setResults] = useState(false);
+    
+    // Campos del formulario
     const [inputs, setInputs] = useState({
         dose: 0, // Dosis real (medida)
         width: 0, // Ancho de labor
@@ -14,17 +23,25 @@ const SectionDosif = props => {
         recolected: 0 // Peso recolectado
     });
 
-    const updateInput = (name, value) => {
+    // Resultados
+    const [outputs, setOutputs] = useState({        
+        dose: 0, // Dosis deseada
+        diffp: 0, // Diferencia porcentual
+        diffkg: 0 // Diferencia en kg
+    });
+
+    const updateInput = (name, value) => {        
+        // Parseo input
         const update = {};
         update[name] = parseFloat(value);
         if( isNaN(update[name]) )
             update[name] = 0;
         setInputs({...inputs, ...update});
-        props.setResults({show:false});
+        setResults(false); // Ocultar bloque de resultados
     };
 
-    const computeResults = () => {        
-        // Control de inputs
+    const submit = () => {        
+        // Calcular resultados parciales
         const {dose, recolected, width, time, speed} = inputs;
         let distance = inputs.distance; // Calculable
 
@@ -36,15 +53,15 @@ const SectionDosif = props => {
             Toast("error", "Debe indicar el ancho de labor", 2000, "center");
             return;
         }
-        if(distance === 0 && props.method === "direct"){
+        if(distance === 0 && method === "direct"){
             Toast("error", "Debe indicar distancia recorrida", 2000, "center");
             return;
         }
-        if(time === 0 && props.method === "indirect"){
+        if(time === 0 && method === "indirect"){
             Toast("error", "Debe indicar tiempo de medición", 2000, "center");
             return;
         }
-        if(speed === 0 && props.method === "indirect"){
+        if(speed === 0 && method === "indirect"){
             Toast("error", "Debe indicar tiempo de medición", 2000, "center");
             return;
         }
@@ -52,109 +69,99 @@ const SectionDosif = props => {
             Toast("error", "Debe indicar el peso recolectado", 2000, "center");
             return;
         }
-        if(props.method === "indirect")
+        if(method === "indirect")
             distance = speed*10/36*time;
         
         // Calculo de outputs
         const calculateddose = recolected/distance/width*10000;
-        const res = {
-            show: true, // Habilitar bloque de resultados
+        const res = {            
             dose: calculateddose, 
             diffp: (calculateddose-dose)/dose*100, 
             diffkg: calculateddose-dose 
         }   
-        props.setResults(res);
+        setOutputs(res);
+        setResults(true);
     };
 
     return (
-        <Block style={{marginBottom:"0px"}}>
-            <BlockTitle>Control de dosificación</BlockTitle>
-            <List form noHairlinesMd style={{marginBottom:"10px"}}>
-                <CustomInput
-                    outline
-                    floatingLabel
-                    clearButton
-                    slot="list"
-                    label="Dosis"
-                    type="number"                
-                    unit="Kg/Ha"                    
-                    value={inputs.dose || ''}
-                    onChange={v=>updateInput("dose", v.target.value)}
-                    ></CustomInput>
-                <CustomInput
-                    outline
-                    floatingLabel
-                    clearButton
-                    slot="list"
-                    label="Ancho de labor"
-                    type="number"
-                    unit="m"
-                    value={inputs.width || ''}
-                    onChange={v=>updateInput("width", v.target.value)}
-                    ></CustomInput>
-                {props.method==="direct" ?
-                    <CustomInput
-                        outline
-                        floatingLabel
-                        clearButton
+        <div>
+            <MethodSelector method={method} onChange={v => {setMethod(v); setResults(false);}}/>
+            <Block style={{marginBottom:"0px"}}>
+                <BlockTitle>Control de dosificación</BlockTitle>
+                <List form noHairlinesMd style={{marginBottom:"10px"}}>
+                    <CustomInput                    
                         slot="list"
-                        label="Distancia"
+                        label="Dosis"
+                        type="number"                
+                        unit="Kg/Ha"                    
+                        value={inputs.dose || ''}
+                        onChange={v=>updateInput("dose", v.target.value)}
+                        ></CustomInput>
+                    <CustomInput                    
+                        slot="list"
+                        label="Ancho de labor"
                         type="number"
                         unit="m"
-                        value={inputs.distance || ''}
-                        onChange={v=>updateInput("distance", v.target.value)}       
+                        value={inputs.width || ''}
+                        onChange={v=>updateInput("width", v.target.value)}
                         ></CustomInput>
-                    :
-                    <div slot="list">
-                        <CustomInput
-                            outline
-                            floatingLabel
-                            clearButton
-                            label="Tiempo"
+                    {method==="direct" ?
+                        <CustomInput                        
+                            slot="list"
+                            label="Distancia"
                             type="number"
-                            unit="seg"
-                            value={inputs.time || ''}
-                            onChange={v=>updateInput("time", v.target.value)}       
+                            unit="m"
+                            value={inputs.distance || ''}
+                            onChange={v=>updateInput("distance", v.target.value)}       
                             ></CustomInput>
-                        <Row>
-                            <Col width="80">
-                                <CustomInput                                
-                                    outline
-                                    floatingLabel
-                                    clearButton                        
-                                    label="Velocidad"
-                                    type="number"
-                                    unit="Km/h"
-                                    value={inputs.speed || ''}
-                                    onChange={v=>updateInput("speed", v.target.value)}       
-                                    ></CustomInput>
-                            </Col>
-                            <Col width="20" style={{paddingTop:"5px", marginRight:"10px"}}>
-                                <CalculatorButton href="/velocity/" onClick={()=>Toast("info", "No implementado", 2000, "center")}/>
-                            </Col>
-                        </Row>
-                    </div>
+                        :
+                        <div slot="list">
+                            <CustomInput                            
+                                label="Tiempo"
+                                type="number"
+                                unit="seg"
+                                value={inputs.time || ''}
+                                onChange={v=>updateInput("time", v.target.value)}       
+                                ></CustomInput>
+                            <Row>
+                                <Col width="80">
+                                    <CustomInput                                                                                          
+                                        label="Velocidad"
+                                        type="number"
+                                        unit="Km/h"
+                                        value={inputs.speed || ''}
+                                        onChange={v=>updateInput("speed", v.target.value)}       
+                                        ></CustomInput>
+                                </Col>
+                                <Col width="20" style={{paddingTop:"5px", marginRight:"10px"}}>
+                                    <CalculatorButton href="/velocity/" onClick={()=>Toast("info", "No implementado", 2000, "center")}/>
+                                </Col>
+                            </Row>
+                        </div>
+                    }
+                    <CustomInput                    
+                        slot="list"
+                        label="Peso recolectado"
+                        type="number"
+                        unit="Kg"                    
+                        onChange={v=>updateInput("recolected", v.target.value)}       
+                        ></CustomInput>
+                </List>
+                <Row>
+                    <Col></Col>
+                    <Col>
+                        <Button fill onClick={submit} style={{textTransform:"none"}}>Calcular</Button>
+                    </Col>
+                    <Col></Col>
+                </Row>
+                {results ?
+                    <ResultsDose results={outputs}/>
+                :
+                    null
                 }
-                <CustomInput
-                    outline
-                    floatingLabel
-                    clearButton
-                    slot="list"
-                    label="Peso recolectado"
-                    type="number"
-                    unit="Kg"                    
-                    onChange={v=>updateInput("recolected", v.target.value)}       
-                    ></CustomInput>
-            </List>
-            <Row>
-                <Col></Col>
-                <Col>
-                    <Button fill onClick={computeResults}>Calcular</Button>
-                </Col>
-                <Col></Col>
-            </Row>
-        </Block>
+            </Block>
+        </div>
     );
-}
+};
 
 export default SectionDosif;
