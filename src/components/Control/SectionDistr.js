@@ -1,15 +1,12 @@
-import { List, Block, BlockTitle, Card, f7 } from 'framework7-react';
+import { List, Block, BlockTitle, Card } from 'framework7-react';
 import CustomInput from '../Inputs';
-
-const showPrompt = row => {
-    f7.dialog.prompt(
-        "Peso recolectado",
-        "",
-        v=>console.log("Fila ", row, v),
-    );
-};
+import openCollectedPrompt from '../Prompts';
 
 const SectionDistr = props => {
+
+    const addCollected = (row, value) => {
+        console.log(row, value);
+    }
 
     return (
         <Block style={{marginBottom:"0px"}}>
@@ -48,12 +45,12 @@ const SectionDistr = props => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr onClick={()=>showPrompt(1)}>
+                        <tr onClick={()=>openCollectedPrompt(1, addCollected)}>
                             <td>1</td>
                             <td>Izq</td>
                             <td></td>
                         </tr>
-                        <tr onClick={()=>showPrompt(2)}>
+                        <tr onClick={()=>openCollectedPrompt(2, addCollected)}>
                             <td>2</td>
                             <td>Der</td>
                             <td></td>
