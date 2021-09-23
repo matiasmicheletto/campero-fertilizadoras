@@ -4,8 +4,8 @@ import IconCollected from '../img/icons/recolectado_chorrillo.png';
 import CustomInput from './Inputs';
 import React from 'react';
 
-const openCollectedPrompt = (row, callback) => { 
-    // Modal ingreso de peso recolectado
+const openCollectedPrompt = (row, side, callback) => { 
+    // Modal ingreso de peso recolectado de la bandeja
 
     //React.useLayoutEffect = React.useEffect;
     
@@ -27,8 +27,14 @@ const openCollectedPrompt = (row, callback) => {
         </List>
     );
 
+    const labels = { // Lado de la bandeja
+        left: "izquierda",
+        middle: "centro",
+        right: "derecha"
+    };
+
     f7.dialog.create({
-        title: "Bandeja "+row,
+        title: "Bandeja "+(row+1)+" ("+labels[side]+")",
         content: content,
         buttons:[
             {
