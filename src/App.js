@@ -1,9 +1,10 @@
 import { App, View, f7 } from 'framework7-react';
-import About from './components/About/index';
-import Control from './components/Control/index';
 import Home from './components/Home/index';
+import Control from './components/Control/index';
+import Velocity from './components/Velocity/index';
 import Info from './components/Info/index';
-import './toast-colors.css';
+import About from './components/About/index';
+import './index.css';
 
 /*
     CAMPERO Fertilizadoras
@@ -41,7 +42,7 @@ const f7params = {
         },
         { // Medicion de velocidad
             path: '/velocity/',
-            //component: VelocityCalculator,
+            component: Velocity,
             on:{pageInit: ()=>pushState("velocity")}
         },
         { // Calculo de insumos
@@ -57,16 +58,9 @@ window.addEventListener("popstate",function(){
     f7.view.main.router.back();
 }, false);
 
-// Estilo mobile+browser
-const mainViewStyle = {
-    align: "center",
-    maxWidth: "800px", 
-    margin: "0 auto"
-};
-
 const Campero = () => (
     <App {...f7params}>
-        <View main url="/" style={mainViewStyle}/>
+        <View main url="/" className="app"/>
     </App>
 );
 

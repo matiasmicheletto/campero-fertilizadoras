@@ -134,7 +134,7 @@ const SectionDosif = () => {
                                         ></CustomInput>
                                 </Col>
                                 <Col width="20" style={{paddingTop:"5px", marginRight:"10px"}}>
-                                    <CalculatorButton href="/velocity/" onClick={()=>Toast("info", "No implementado", 2000, "center")}/>
+                                    <CalculatorButton />
                                 </Col>
                             </Row>
                         </div>

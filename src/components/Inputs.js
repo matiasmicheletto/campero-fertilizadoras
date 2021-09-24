@@ -3,13 +3,12 @@ import classes from './Inputs.module.css'
 
 const CustomInput = props => {
     return (
-        <div className={classes.Container}>
-            <ListInput 
-                {...props} 
+        <div className={classes.Container} style={props.style}>
+            <ListInput
+                {...props}
                 outline
                 floatingLabel
                 clearButton
-                className={classes.Input}
                 ></ListInput>
             {props.unit ? <span className={classes.UnitLabel}>{props.unit}</span> : null}
         </div>

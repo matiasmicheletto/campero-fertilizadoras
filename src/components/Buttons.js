@@ -14,9 +14,9 @@ const BackButton = ({gray, f7router}) => (
     </Block>   
 ); 
 
-const CalculatorButton = props => (
+const CalculatorButton = () => (
     <Block style={{textAlign: "center", margin:"0px", padding:"0px"}}>
-        <Link tooltip="Medir" href={props.href} className={classes.RoundButton} onClick={props.onClick}>
+        <Link tooltip="Medir" href="/velocity/" className={classes.RoundButton}>
             <FaStopwatch size={20}/>
         </Link>
     </Block>   
