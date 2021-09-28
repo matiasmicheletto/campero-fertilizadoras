@@ -5,10 +5,11 @@ import classes from './Velocity.module.css';
 import moment from 'moment';
 import Timer from './Timer';
 import Toast from "../Toast";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaPlay, FaStop, FaPlus, FaMinus } from 'react-icons/fa';
+import { ModelCtx } from "../../Context";
 
-const timer = new Timer;
+const timer = new Timer();
 
 const InputBlock = props => ( // Input de distancia
     <List form noHairlinesMd className={classes.Form}>
@@ -82,7 +83,10 @@ const OutputBlock = props => ( // Bloque con resultado final a exportar
 );
 
 
-const Velocity = () => { // View
+const Velocity = ({f7router}) => { // View
+    
+    const model = useContext(ModelCtx);
+
     const [time, setTime] = useState(0);     
     
     const [running, setRunning] = useState(0);
@@ -145,6 +149,11 @@ const Velocity = () => { // View
 
     const dataAvg = () => data.length > 0 ? data.reduce((r, a) => a.vel + r, 0)/data.length : 0;
 
+    const exportData = () => {           
+        model.measured_velocity = dataAvg();
+        f7router.back();
+    }
+
     return (
         <Page>
             <Navbar title="Cronómetro" style={{maxHeight:"40px", marginBottom:"0px"}}/>      
@@ -181,7 +190,7 @@ const Velocity = () => { // View
             <Block style={{textAlign:"center"}}>
                 <Row>
                     <Col width={20}></Col>
-                    <Col width={60}><Button fill>Exportar</Button></Col>
+                    <Col width={60}><Button disabled={data.length===0} fill onClick={exportData}>Exportar</Button></Col>
                     <Col width={20}></Col>
                 </Row>
             </Block>

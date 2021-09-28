@@ -4,6 +4,7 @@ import Control from './components/Control/index';
 import Velocity from './components/Velocity/index';
 import Info from './components/Info/index';
 import About from './components/About/index';
+import ModelProvider from './Context';
 import './index.css';
 
 /*
@@ -60,7 +61,9 @@ window.addEventListener("popstate",function(){
 
 const Campero = () => (
     <App {...f7params}>
-        <View main url="/" className="app"/>
+        <ModelProvider>
+            <View main url="/" className="app"/>
+        </ModelProvider>
     </App>
 );
 

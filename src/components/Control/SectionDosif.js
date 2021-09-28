@@ -1,12 +1,17 @@
 import { Block, BlockTitle, Row, Col, List, Button } from 'framework7-react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import CustomInput from '../Inputs';
 import { CalculatorButton } from '../Buttons';
 import MethodSelector from './MethodSelector';
 import ResultsDose from './ResultsDose';
 import Toast from '../Toast';
+import { ModelCtx } from '../../Context';
+import { useEffect } from 'react/cjs/react.development';
 
 const SectionDosif = () => {
+
+    const model = useContext(ModelCtx);
+
     // Metodo de medicion de distancia direct/indirect
     const [method, setMethod] = useState("direct"); 
     
@@ -22,6 +27,12 @@ const SectionDosif = () => {
         speed: 0, // Velocidad de labor
         recolected: 0 // Peso recolectado
     });
+
+    useEffect(()=>{
+        if(model.measured_velocity)
+            inputs.speed = parseFloat(model.measured_velocity.toFixed(2));
+    });
+    
 
     // Resultados
     const [outputs, setOutputs] = useState({        
