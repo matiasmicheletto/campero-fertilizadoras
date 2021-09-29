@@ -6,7 +6,6 @@ import MethodSelector from './MethodSelector';
 import ResultsDose from './ResultsDose';
 import Toast from '../Toast';
 import { ModelCtx } from '../../Context';
-import { useEffect } from 'react/cjs/react.development';
 
 const SectionDosif = () => {
 
@@ -24,13 +23,12 @@ const SectionDosif = () => {
         work_width: 0, // Ancho de labor
         distance: 0, // Distancia recorrida
         time: 0, // Tiempo de medicion
-        work_velocity: 0, // Velocidad de labor
+        work_velocity: model.work_velocity, // Velocidad de labor
         recolected: 0 // Peso recolectado
     });
 
-    useEffect(()=>{        
-        inputs.work_velocity = model.work_velocity;
-    });
+    if(model.work_velocity)
+        inputs.work_velocity = parseFloat(model.work_velocity.toFixed(2));
 
     // Resultados
     const [outputs, setOutputs] = useState({        
@@ -111,7 +109,7 @@ const SectionDosif = () => {
                                         onChange={v=>updateInput("work_velocity", v.target.value)}       
                                         ></CustomInput>
                                 </Col>
-                                <Col width="20" style={{paddingTop:"5px", marginRight:"10px"}}>
+                                <Col width="20" style={{paddingTop:"12px", marginRight:"10px"}}>
                                     <CalculatorButton />
                                 </Col>
                             </Row>
