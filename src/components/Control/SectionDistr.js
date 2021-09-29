@@ -1,21 +1,28 @@
 import { List, Block, BlockTitle, Card, Row, Col, Button } from 'framework7-react';
 import { FaArrowCircleLeft, FaArrowCircleRight, FaStopCircle } from 'react-icons/fa';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import CustomInput from '../Inputs';
 import openCollectedPrompt from '../Prompts';
 import Toast from '../Toast';
+import { ModelCtx } from '../../Context';
+import SimpleChart from '../SimpleChart';
 
 const SectionDistr = props => {
 
+    const model = useContext(ModelCtx);
+
     // Campos del formulario
     const [inputs, setInputs] = useState({
-        trayArea: 0,
-        distance: 0,        
-        passNumber: 0
+        tray_area: 0,
+        tray_distance: 0,        
+        pass_number: 0
     });
 
     // Lista de peso de bandejas
     const [trayArray, setTrayArray] = useState([]);
+
+    // Mostrar/ocultar bloque de resultados de perfil medido
+    const [results, setResults] = useState(false);
 
     const updateInput = (name, value) => {        
         // Parseo input
@@ -23,7 +30,9 @@ const SectionDistr = props => {
         update[name] = parseFloat(value);
         if( isNaN(update[name]) )
             update[name] = 0;
+        model[name] = update[name];
         setInputs({...inputs, ...update});        
+        setResults(false);
     };
 
     const setNumTrays = n => { 
@@ -38,7 +47,9 @@ const SectionDistr = props => {
                     collected: 0,
                 });
             }
+            model.tray_number = n;
             setTrayArray(tempArr);            
+            setResults(false);
         }
     };
 
@@ -47,32 +58,51 @@ const SectionDistr = props => {
         let tempArr = [...trayArray];
         tempArr[row].collected = value;
         setTrayArray(tempArr);
+        setResults(false);
     };
 
+    const getTrayArray = () => trayArray.map(tr=>tr.collected);
+
     const submit = () => {
-        // Calcular perfil de fertilizacion
-        const {trayArea, distance, trayNumber, passNumber} = inputs;
+        // Calcular perfil de fertilizacion        
+        model.tray_data = getTrayArray();  
+        const res = model.getProfile(inputs.tray_distance*trayArray.length/2);
+        if(res.status === "error")
+            Toast("error", res.message, 2000, "center");
+        else{
+            console.log(res.profile);
+            setResults(true);
+        }
+    };
 
-        console.log(inputs);
+    const collected_chart_config = { // Configuracion del grafico de barras del perfil
+        type: "line",
+        title: "Distribución medida",
+        yaxis: "Peso recolectado (gr.)",
+        tooltip_prepend: "Bandeja ",
+        tooltip_append: " gr",
+        categories: Object.keys(getTrayArray()).map(v=>parseInt(v)+1),
+        series:[{           
+            name: "Peso recolectado",
+            showInLegend: false, 
+            data: getTrayArray(),
+            color: "rgb(50,50,250)"
+        }]
+    };
 
-        if(trayArea === 0){
-            Toast("error", "Debe indicar la superficie de bandeja", 2000, "center");
-            return;
-        }
-        if(distance === 0){
-            Toast("error", "Debe indicar la distancia entre bandejas", 2000, "center");
-            return;
-        }
-        if(trayNumber === 0){
-            Toast("error", "Debe indicar la cantidad de bandejas", 2000, "center");
-            return;
-        }
-        if(passNumber === 0){
-            Toast("error", "Debe indicar la cantidad de pasadas", 2000, "center");
-            return;
-        }
-
-        console.log(trayArray.map(tr=>tr.collected));
+    const profile_chart_config = { // Configuracion del grafico de barras del perfil
+        type: "line",
+        title: "Perfil de fertilización",
+        yaxis: "Peso (gr.)",
+        tooltip_prepend: "",
+        tooltip_append: " gr",
+        categories: Object.keys(model.current_profile).map(v=>parseInt(v)+1),
+        series:[{           
+            name: "Peso aplicado",
+            showInLegend: false, 
+            data: model.current_profile,
+            color: "rgb(50,250,50)"
+        }]
     };
 
     return (
@@ -84,16 +114,16 @@ const SectionDistr = props => {
                     label="Superf. de bandeja"
                     type="number"
                     unit="m²"                    
-                    value={inputs.trayArea || ''}
-                    onChange={v=>updateInput("trayArea", v.target.value)}
+                    value={inputs.tray_area || ''}
+                    onChange={v=>updateInput("tray_area", v.target.value)}
                     ></CustomInput>
                 <CustomInput
                     slot="list"
                     label="Dist. entre bandejas"
                     type="number"
                     unit="m"
-                    value={inputs.distance || ''}
-                    onChange={v=>updateInput("distance", v.target.value)}
+                    value={inputs.tray_distance || ''}
+                    onChange={v=>updateInput("tray_distance", v.target.value)}
                     ></CustomInput>
                 <CustomInput
                     slot="list"
@@ -105,8 +135,8 @@ const SectionDistr = props => {
                     slot="list"
                     label="Cantidad de pasadas"
                     type="number"
-                    value={inputs.passNumber || ''}
-                    onChange={v=>updateInput("passNumber", v.target.value)}
+                    value={inputs.pass_number || ''}
+                    onChange={v=>updateInput("pass_number", v.target.value)}
                     ></CustomInput>
             </List>
             <Card>
@@ -140,14 +170,32 @@ const SectionDistr = props => {
                         }
                     </tbody>
                 </table>
-            </Card>          
+            </Card>
+            { trayArray.length > 0 ?
+                <Row>
+                    <Col>
+                        <SimpleChart id="collected_plot" config={collected_chart_config} />
+                    </Col>
+                </Row>
+            :
+                null
+            }
             <Row>
-                <Col></Col>
-                <Col>
-                    <Button onClick={submit} fill style={{textTransform:"none"}}>Calcular</Button>
+                <Col width={20}></Col>
+                <Col width={60}>
+                    <Button onClick={submit} fill style={{textTransform:"none"}}>Calcular perfil</Button>
                 </Col>
-                <Col></Col>
+                <Col width={20}></Col>
             </Row>
+            {results ?
+                <Row>
+                    <Col>
+                        <SimpleChart id="profile_plot" config={profile_chart_config} />
+                    </Col>
+                </Row>
+            :
+                null
+            }
         </Block>
     );
 };
