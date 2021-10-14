@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Highcharts from 'highcharts';
 
+
 const SimpleChart = props => {
 
     const config = {
@@ -20,6 +21,12 @@ const SimpleChart = props => {
         },
         yAxis: {
             min: 0,
+            labels: {
+                formatter: function() {
+                    var label = this.axis.defaultLabelFormatter.call(this);                    
+                    return props.config.label_formatter ? props.config.label_formatter(label) : label;                    
+                }
+            },
             title: {
                 text: props.config.yaxis
             }

@@ -78,9 +78,10 @@ const SectionDistr = props => {
     const collected_chart_config = { // Configuracion del grafico de barras del perfil
         type: "line",
         title: "Distribución medida",
-        yaxis: "Peso recolectado (gr.)",
+        yaxis: "Peso (Kg/ha.)",
         tooltip_prepend: "Bandeja ",
         tooltip_append: " gr",
+        label_formatter: value => (value/model.pass_number/model.tray_area/10).toFixed(2),
         categories: Object.keys(getTrayArray()).map(v=>parseInt(v)+1),
         series:[{           
             name: "Peso recolectado",
@@ -164,7 +165,7 @@ const SectionDistr = props => {
                                         <FaArrowCircleRight size={20}/>
                                     }
                                     </td>
-                                    <td>{tr.collected} gr</td>
+                                    <td>{tr.collected.toFixed(2)} gr</td>
                                 </tr>
                             ))
                         }
