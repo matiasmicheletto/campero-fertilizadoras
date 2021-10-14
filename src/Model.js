@@ -106,11 +106,11 @@ export default class CamperoModel {
 
         for(let i = 0; i < s; i++){
             if(this.work_pattern === "circular"){ // Patron circular
-                this.current_profile[i] += this.tray_data[n-1-i];
-                this.current_profile[n-1-i] += this.tray_data[i];
+                this.current_profile[i] += this.tray_data[n-s+i];
+                this.current_profile[n-1-i] += this.tray_data[s-i-1];
             }else{ // Ida y vuelta sobre la mano
-                this.current_profile[i] += this.tray_data[s-1-i];
-                this.current_profile[n-1-i] += this.tray_data[n-s-1];
+                this.current_profile[i] += this.tray_data[s-i-1];
+                this.current_profile[n-1-i] += this.tray_data[n-s+i];
             }
         }
         
