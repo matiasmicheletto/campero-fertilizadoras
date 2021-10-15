@@ -25,4 +25,4 @@
   - 14-10-2021:  
     - [x] Tabla ingreso pesos: agregar decimal.  
     - [x] Cambiar unidades eje vert grafico distribucion -> kg/ha (burbuja queda igual)  
-    - [ ] Al calcular perfil, ocultar grafico azul y dejar verde  
+    - [ ] Al calcular perfil, mostrar solo grafico de perfil calculado

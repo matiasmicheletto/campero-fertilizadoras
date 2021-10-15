@@ -6,16 +6,17 @@ import openCollectedPrompt from '../Prompts';
 import Toast from '../Toast';
 import { ModelCtx } from '../../Context';
 import SimpleChart from '../SimpleChart';
+import SectionProfile from './SectionProfile';
 
 const SectionDistr = props => {
 
     const model = useContext(ModelCtx);
 
-    // Campos del formulario
+    // Campos del formulario de muestreo
     const [inputs, setInputs] = useState({
-        tray_area: 0,
-        tray_distance: 0,        
-        pass_number: 0
+        tray_area: model.tray_area || 0,
+        tray_distance: model.tray_distance || 0,
+        pass_number: model.pass_number || 0
     });
 
     // Lista de peso de bandejas
@@ -63,19 +64,17 @@ const SectionDistr = props => {
 
     const getTrayArray = () => trayArray.map(tr=>tr.collected);
 
-    const submit = () => {
-        // Calcular perfil de fertilizacion        
+    const submit = () => { 
+        // Pasar datos al modelo y habilitar resultados
         model.tray_data = getTrayArray();  
-        const res = model.getProfile(inputs.tray_distance*trayArray.length/2);
-        if(res.status === "error")
-            Toast("error", res.message, 2000, "center");
-        else{
-            console.log(res.profile);
+        const status_code = model.distr_valid_input();
+        if(status_code != 0)
+            Toast("error", model.error_messages[status_code], 2000, "center");
+        else
             setResults(true);
-        }
     };
 
-    const collected_chart_config = { // Configuracion del grafico de barras del perfil
+    const collected_chart_config = { // Configuracion del grafico de datos medidos
         type: "line",
         title: "Distribución medida",
         yaxis: "Peso (Kg/ha.)",
@@ -88,21 +87,6 @@ const SectionDistr = props => {
             showInLegend: false, 
             data: getTrayArray(),
             color: "rgb(50,50,250)"
-        }]
-    };
-
-    const profile_chart_config = { // Configuracion del grafico de barras del perfil
-        type: "line",
-        title: "Perfil de fertilización",
-        yaxis: "Peso (gr.)",
-        tooltip_prepend: "",
-        tooltip_append: " gr",
-        categories: Object.keys(model.current_profile).map(v=>parseInt(v)+1),
-        series:[{           
-            name: "Peso aplicado",
-            showInLegend: false, 
-            data: model.current_profile,
-            color: "rgb(50,250,50)"
         }]
     };
 
@@ -135,6 +119,7 @@ const SectionDistr = props => {
                 <CustomInput
                     slot="list"
                     label="Cantidad de pasadas"
+                    min={0}
                     type="number"
                     value={inputs.pass_number || ''}
                     onChange={v=>updateInput("pass_number", v.target.value)}
@@ -172,28 +157,26 @@ const SectionDistr = props => {
                     </tbody>
                 </table>
             </Card>
-            { trayArray.length > 0 ?
-                <Row>
-                    <Col>
-                        <SimpleChart id="collected_plot" config={collected_chart_config} />
-                    </Col>
-                </Row>
+            { trayArray.length > 0 && !results ?
+                <>
+                    <Row>
+                        <Col>
+                            <SimpleChart id="collected_plot" config={collected_chart_config} />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col width={20}></Col>
+                        <Col width={60}>
+                            <Button onClick={submit} fill style={{textTransform:"none"}}>Calcular perfil</Button>
+                        </Col>
+                        <Col width={20}></Col>
+                    </Row>
+                </>
             :
                 null
             }
-            <Row>
-                <Col width={20}></Col>
-                <Col width={60}>
-                    <Button onClick={submit} fill style={{textTransform:"none"}}>Calcular perfil</Button>
-                </Col>
-                <Col width={20}></Col>
-            </Row>
             {results ?
-                <Row>
-                    <Col>
-                        <SimpleChart id="profile_plot" config={profile_chart_config} />
-                    </Col>
-                </Row>
+                <SectionProfile />
             :
                 null
             }

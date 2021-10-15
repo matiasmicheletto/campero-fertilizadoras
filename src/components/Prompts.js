@@ -44,7 +44,7 @@ const openCollectedPrompt = (row, side, callback) => {
                 text: "Aceptar",
                 onClick: ()=>{
                     const inputEl = document.getElementById("collectedweightinput");                    
-                    callback(row, parseFloat(inputEl.value));
+                    callback(row, parseFloat(inputEl.value) || 0);
                 }
             }
         ],

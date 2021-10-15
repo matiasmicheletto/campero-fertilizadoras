@@ -1,8 +1,8 @@
 import { Block, Radio, Row, Col, BlockTitle } from 'framework7-react';
 
-const MethodSelector = props => {    
+const PatternSelector = props => {    
     
-    const setMethod = (el,value) => {
+    const setPattern = (el,value) => {
         // Alterna estado del selector y retorna valor por prop
         if(el.target.checked)
             props.onChange(value);
@@ -10,23 +10,23 @@ const MethodSelector = props => {
 
     return (
         <Block style={{margin:"0px"}}>
-            <BlockTitle>Variable de muestreo</BlockTitle>
+            <BlockTitle>Patrón de fertilización</BlockTitle>
             <Row>
                 <Col style={{textAlign:"center"}}>
                     <Radio 
                         name="input-type" 
-                        checked={props.method==="direct"} 
-                        onChange={e=>setMethod(e,"direct")}/> Distancia
+                        checked={props.pattern==="linear"} 
+                        onChange={e=>setPattern(e,"linear")}/> Ida y vuelta
                 </Col>
                 <Col style={{textAlign:"center"}}>
                     <Radio 
                         name="input-type" 
-                        checked={props.method==="indirect"} 
-                        onChange={e=>setMethod(e,"indirect")}/> Tiempo
+                        checked={props.pattern==="circular"} 
+                        onChange={e=>setPattern(e,"circular")}/> En círculos
                 </Col>
             </Row>
         </Block>
     );
 };
 
-export default MethodSelector;
+export default PatternSelector;

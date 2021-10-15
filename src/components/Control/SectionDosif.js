@@ -19,23 +19,19 @@ const SectionDosif = () => {
     
     // Campos del formulario
     const [inputs, setInputs] = useState({
-        dose: 0, // Dosis real (medida)
-        work_width: 0, // Ancho de labor
-        distance: 0, // Distancia recorrida
-        time: 0, // Tiempo de medicion
+        dose: model.dose || 0, // Dosis real (medida)
+        work_width: model.work_width || 0, // Ancho de labor
+        distance: model.distance || 0, // Distancia recorrida
+        time: model.time || 0, // Tiempo de medicion
         work_velocity: model.work_velocity, // Velocidad de labor
-        recolected: 0 // Peso recolectado
+        recolected: model.recolected || 0 // Peso recolectado
     });
 
     if(model.work_velocity)
         inputs.work_velocity = parseFloat(model.work_velocity.toFixed(2));
 
     // Resultados
-    const [outputs, setOutputs] = useState({        
-        dose: 0, // Dosis deseada
-        diffp: 0, // Diferencia porcentual
-        diffkg: 0 // Diferencia en kg
-    });
+    const [outputs, setOutputs] = useState(model.getRealDose());
 
     const updateInput = (name, value) => {        
         // Parseo input
@@ -119,7 +115,8 @@ const SectionDosif = () => {
                         slot="list"
                         label="Peso recolectado"
                         type="number"
-                        unit="Kg"                    
+                        unit="Kg"    
+                        value={inputs.recolected || ''}                
                         onChange={v=>updateInput("recolected", v.target.value)}       
                         ></CustomInput>
                 </List>
