@@ -32,6 +32,8 @@ export default class CamperoModel {
     }
 
     invalidInput(name){        
+        if( typeof name !== "string" )
+            return false;
         return this[name] === 0 || 
             this[name] === null || 
             this[name] === undefined || 
@@ -91,6 +93,13 @@ export default class CamperoModel {
         }   
     }
 
+    getDensityFromRecolected(recolected) { // Kg/ha a partir de peso recolectado de bandeja
+        if(this.invalidInput("pass_number") || this.invalidInput("tray_area"))
+            return recolected;
+        else
+            return (recolected/this.pass_number/this.tray_area/10).toFixed(2);
+    }
+
     getProfile(ww, pattern) {// Perfil de fertilizacion
         const status_code = this.distr_valid_input();
         if(status_code !== 0)
@@ -120,11 +129,22 @@ export default class CamperoModel {
                 current_profile[n-1-i] += this.tray_data[n-s+i];
             }
         }
+
+        const sum = current_profile.reduce((a, b) => a + b, 0);
+        const avg = sum / current_profile.length;
+        const sqdiff = current_profile.map(x => Math.pow(x - avg, 2));
+        const dst = Math.sqrt(sqdiff.reduce((a, b) => a + b, 0) / (current_profile.length-1));
+        const dose = avg/this.pass_number/this.tray_area*10;
+        const cv = dst/avg*100;
         
         return {
             status: "ok",
             profile: current_profile,
-            overlap: s
+            overlap: s,
+            dose: dose,
+            avg: avg,
+            dst: dst,
+            cv: cv
         };
     }
 }

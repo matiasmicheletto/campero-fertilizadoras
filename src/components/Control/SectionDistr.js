@@ -68,7 +68,7 @@ const SectionDistr = props => {
         // Pasar datos al modelo y habilitar resultados
         model.tray_data = getTrayArray();  
         const status_code = model.distr_valid_input();
-        if(status_code != 0)
+        if(status_code !== 0)
             Toast("error", model.error_messages[status_code], 2000, "center");
         else
             setResults(true);
@@ -80,7 +80,7 @@ const SectionDistr = props => {
         yaxis: "Peso (Kg/ha.)",
         tooltip_prepend: "Bandeja ",
         tooltip_append: " gr",
-        label_formatter: value => (value/model.pass_number/model.tray_area/10).toFixed(2),
+        label_formatter: value=>model.getDensityFromRecolected(value),
         categories: Object.keys(getTrayArray()).map(v=>parseInt(v)+1),
         series:[{           
             name: "Peso recolectado",
@@ -99,7 +99,7 @@ const SectionDistr = props => {
                     label="Superf. de bandeja"
                     type="number"
                     unit="m²"                    
-                    value={inputs.tray_area || ''}
+                    defaultValue={inputs.tray_area || ''}
                     onChange={v=>updateInput("tray_area", v.target.value)}
                     ></CustomInput>
                 <CustomInput
@@ -107,7 +107,7 @@ const SectionDistr = props => {
                     label="Dist. entre bandejas"
                     type="number"
                     unit="m"
-                    value={inputs.tray_distance || ''}
+                    defaultValue={inputs.tray_distance || ''}
                     onChange={v=>updateInput("tray_distance", v.target.value)}
                     ></CustomInput>
                 <CustomInput
@@ -121,42 +121,55 @@ const SectionDistr = props => {
                     label="Cantidad de pasadas"
                     min={0}
                     type="number"
-                    value={inputs.pass_number || ''}
+                    defaultValue={inputs.pass_number || ''}
                     onChange={v=>updateInput("pass_number", v.target.value)}
                     ></CustomInput>
             </List>
-            <Card>
-                <table className="data-table" style={{textAlign:"center", minWidth:"0px", tableLayout:"fixed"}}>
-                    <thead>
-                        <tr>
-                            <th>Bandeja</th>
-                            <th>Lado</th>
-                            <th><div>Peso</div><div>recolectado</div></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            trayArray.map((tr,idx) => (
-                                <tr key={idx} onClick={()=>openCollectedPrompt(idx, tr.side, addCollected)}>
-                                    <td>{idx+1}</td>
-                                    <td>
-                                    {
-                                        tr.side==="middle"?
-                                        <FaStopCircle size={20}/>
-                                        :
-                                        tr.side==="left"?
-                                        <FaArrowCircleLeft size={20}/>
-                                        :
-                                        <FaArrowCircleRight size={20}/>
-                                    }
-                                    </td>
-                                    <td>{tr.collected.toFixed(2)} gr</td>
+            {
+                trayArray.length > 0 ?
+                <Card>
+                    <div>
+                        <table className="data-table" style={{textAlign:"center", minWidth:"0px", tableLayout:"fixed"}} >
+                            <thead style={{backgroundColor:"rgb(200,200,200)"}}>
+                                <tr style={{maxHeight:"40px!important"}}>
+                                    <th className="label-cell">Bandeja</th>
+                                    <th className="label-cell">Lado</th>
+                                    <th className="label-cell"><div>Peso</div><div>recolectado</div></th>
                                 </tr>
-                            ))
-                        }
-                    </tbody>
-                </table>
-            </Card>
+                            </thead>
+                        </table>
+                    </div>
+                    <div style={{maxHeight:"300px",overflow: "auto"}}>
+                        <table className="data-table" style={{textAlign:"center", minWidth:"0px", tableLayout:"fixed"}} >                        
+                            <tbody style={{maxHeight:"300px",overflow: "auto"}}>
+                                {
+                                    trayArray.map((tr,idx) => (
+                                        <tr key={idx} onClick={()=>openCollectedPrompt(idx, tr.side, addCollected)}>
+                                            <td>{idx+1}</td>
+                                            <td className="label-cell">
+                                            {
+                                                tr.side==="middle"?
+                                                <FaStopCircle size={20}/>
+                                                :
+                                                tr.side==="left"?
+                                                <FaArrowCircleLeft size={20}/>
+                                                :
+                                                <FaArrowCircleRight size={20}/>
+                                            }
+                                            </td>
+                                            <td className="numeric-cell">{tr.collected.toFixed(2)} gr</td>
+                                        </tr>
+                                    ))
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </Card>
+                :
+                <div style={{textAlign:"center", color:"rgb(150,150,150)"}}>
+                    <p>Ingrese la cantidad de bandejas</p>
+                </div>
+            }
             { trayArray.length > 0 && !results ?
                 <>
                     <Row>

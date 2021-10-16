@@ -3,6 +3,7 @@ import { useState, useContext } from 'react';
 import { ModelCtx } from '../../Context';
 import SimpleChart from '../SimpleChart';
 import PatternSelector from './PatternSelector';
+import ResultsProfile from './ResultsProfile';
 
 
 const SectionProfile = () => {
@@ -14,26 +15,28 @@ const SectionProfile = () => {
         pattern: "linear"
     });
 
+    // Resultado del perfil
+    const results = model.getProfile(inputs.ww, inputs.pattern);
+    console.log(results);
+
     // Rango del deslizador de ancho de labor
-    const ww_min = 0;
+    const ww_min = 1;
     const ww_max = model.tray_number*model.tray_distance;
     const ww_steps = ww_max; // Cantidad de pasos == valor maximo --> paso = 1mt.
 
-    // Resultado del perfil
-    const res = model.getProfile(inputs.ww, inputs.pattern);
-    console.log(res);
     // Configuracion del grafico del perfil
     const profile_chart_config = { 
         type: "line",
-        title: "Perfil de fertilización",
+        title: "",
+        height: "60%",
         yaxis: "Peso (gr.)",
         tooltip_prepend: "",
         tooltip_append: " gr",
-        categories: Object.keys(res.profile).map(v=>parseInt(v)+1),
+        categories: Object.keys(results.profile).map(v=>parseInt(v)+1),
         series:[{
             name: "Peso aplicado",
             showInLegend: false, 
-            data: res.profile,
+            data: results.profile,
             color: "rgb(50,250,50)"
         }]
     };
@@ -54,8 +57,8 @@ const SectionProfile = () => {
                     scaleSubSteps={3}
                     onRangeChange={v=>setInputs({pattern: inputs.pattern, ww: parseFloat(v)})}
                 />
-                
             </Row>
+            <ResultsProfile results={results}/>
             <Row>
                 <Col>
                     <SimpleChart id="profile_plot" config={profile_chart_config} />

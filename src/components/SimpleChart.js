@@ -7,7 +7,7 @@ const SimpleChart = props => {
     const config = {
         chart: {
             type: props.config.type,
-            height: "100%"
+            height: props.config.height || "100%"
         },
         title: {
             text: props.config.title

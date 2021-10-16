@@ -66,7 +66,7 @@ const SectionDosif = () => {
                         label="Dosis deseada"
                         type="number"                
                         unit="Kg/Ha"                    
-                        value={inputs.dose || ''}
+                        defaultValue={inputs.dose || ''}
                         onChange={v=>updateInput("dose", v.target.value)}
                         ></CustomInput>
                     <CustomInput                    
@@ -74,7 +74,7 @@ const SectionDosif = () => {
                         label="Ancho de labor"
                         type="number"
                         unit="m"
-                        value={inputs.work_width || ''}
+                        defaultValue={inputs.work_width || ''}
                         onChange={v=>updateInput("work_width", v.target.value)}
                         ></CustomInput>
                     {method==="direct" ?
@@ -83,7 +83,7 @@ const SectionDosif = () => {
                             label="Distancia"
                             type="number"
                             unit="m"
-                            value={inputs.distance || ''}
+                            defaultValue={inputs.distance || ''}
                             onChange={v=>updateInput("distance", v.target.value)}       
                             ></CustomInput>
                         :
@@ -92,7 +92,7 @@ const SectionDosif = () => {
                                 label="Tiempo"
                                 type="number"
                                 unit="seg"
-                                value={inputs.time || ''}
+                                defaultValue={inputs.time || ''}
                                 onChange={v=>updateInput("time", v.target.value)}       
                                 ></CustomInput>
                             <Row>
@@ -101,7 +101,7 @@ const SectionDosif = () => {
                                         label="Velocidad"
                                         type="number"
                                         unit="Km/h"
-                                        value={inputs.work_velocity || ''}
+                                        defaultValue={inputs.work_velocity || ''}
                                         onChange={v=>updateInput("work_velocity", v.target.value)}       
                                         ></CustomInput>
                                 </Col>
@@ -116,7 +116,7 @@ const SectionDosif = () => {
                         label="Peso recolectado"
                         type="number"
                         unit="Kg"    
-                        value={inputs.recolected || ''}                
+                        defaultValue={inputs.recolected || ''}                
                         onChange={v=>updateInput("recolected", v.target.value)}       
                         ></CustomInput>
                 </List>
