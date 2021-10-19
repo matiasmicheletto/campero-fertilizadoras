@@ -27,7 +27,10 @@ export default class CamperoModel {
             "Debe indicar la superficie de bandeja", // 7
             "Debe indicar la distancia entre bandejas", // 8
             "Debe indicar la cantidad de bandejas", // 9
-            "Debe indicar la cantidad de pasadas" // 10
+            "Debe indicar la cantidad de pasadas", // 10
+            "El ancho de labor indicado es inválido", // 11
+            "Patrón de trabajo incorrecto", // 12
+            "Error en valores de peso recolectado" // 13
         ];
     }
 
@@ -66,6 +69,12 @@ export default class CamperoModel {
             return 9;
         if(this.invalidInput("pass_number"))
             return 10;
+        if(this.invalidInput("work_width"))
+            return 11;
+        if(this.work_pattern !== "linear" && this.work_pattern !== "circular")
+            return 12;
+        if(this.tray_data?.length !== this.tray_number)
+            return 13;
         return 0;
     }
 
@@ -100,28 +109,28 @@ export default class CamperoModel {
             return (recolected/this.pass_number/this.tray_area/10).toFixed(2);
     }
 
-    getProfile(ww, pattern) {// Perfil de fertilizacion
+    getProfile() {// Perfil de fertilizacion
         const status_code = this.distr_valid_input();
         if(status_code !== 0)
             return {
                 status: "error",
-                message: this.error_messages[status_code]
-            };
-        
-        if(typeof ww !== "number" || (pattern!=="circular" && pattern!=="linear"))
-            return {
-                status: "error",
-                message: "Ancho de labor y/o patrón de trabajo incorrectos"
+                message: this.error_messages[status_code],
+                profile: [],
+                overlap: 0,
+                dose: 0,
+                avg: 0,
+                dst: 0,
+                cv: 0
             };
 
         // Calcular el perfil
         const tw = this.tray_distance*this.tray_number; // Ancho de medicion
-        const s = Math.floor(tw - ww); // Solapamiento de arreglos
+        const s = Math.floor(tw - this.work_width); // Solapamiento de arreglos
         const current_profile = [...this.tray_data];
         const n = this.tray_number;
 
         for(let i = 0; i < s; i++){
-            if(pattern === "circular"){ // Patron circular
+            if(this.work_pattern === "circular"){ // Patron circular
                 current_profile[i] += this.tray_data[n-s+i];
                 current_profile[n-1-i] += this.tray_data[s-i-1];
             }else{ // Ida y vuelta sobre la mano
@@ -145,6 +154,13 @@ export default class CamperoModel {
             avg: avg,
             dst: dst,
             cv: cv
+        };
+    }
+
+    getSupplies() {
+        return {
+            status: "error",
+            message: ""
         };
     }
 }

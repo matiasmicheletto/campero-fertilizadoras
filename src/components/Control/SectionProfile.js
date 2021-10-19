@@ -11,12 +11,22 @@ const SectionProfile = () => {
     const model = useContext(ModelCtx);
 
     const [inputs, setInputs] = useState({
-        ww: model.tray_number*model.tray_distance/2,
-        pattern: "linear"
+        ww: model.work_width,
+        pattern: model.work_pattern
     });
 
-    // Resultado del perfil
-    const results = model.getProfile(inputs.ww, inputs.pattern);
+    const updateWW = (value) => {        
+        model.work_width = parseFloat(value);
+        setInputs({...inputs, ww: model.work_width});
+    };
+
+    const updatePattern = (value) => {
+        model.work_pattern = value;
+        setInputs({...inputs, pattern: value});
+    };
+
+    // Resultado del perfil    
+    const results = model.getProfile();
     console.log(results);
 
     // Rango del deslizador de ancho de labor
@@ -43,7 +53,7 @@ const SectionProfile = () => {
 
     return (
         <>
-            <PatternSelector pattern={inputs.pattern} onChange={v => setInputs({ww: inputs.ww, pattern:v})}/>
+            <PatternSelector pattern={inputs.pattern} onChange={v => updatePattern(v)}/>
             <Row style={{marginTop:10, marginBottom:30}}>
                 <BlockTitle>Ancho de labor: {inputs.ww} mts.</BlockTitle>
                 <Range
@@ -55,7 +65,7 @@ const SectionProfile = () => {
                     scale={true}
                     scaleSteps={ww_steps}
                     scaleSubSteps={3}
-                    onRangeChange={v=>setInputs({pattern: inputs.pattern, ww: parseFloat(v)})}
+                    onRangeChange={v=>updateWW(v)}
                 />
             </Row>
             <ResultsProfile results={results}/>
