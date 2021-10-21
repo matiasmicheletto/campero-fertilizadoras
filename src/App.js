@@ -4,6 +4,7 @@ import Control from './components/Control/index';
 import Velocity from './components/Velocity/index';
 import Info from './components/Info/index';
 import About from './components/About/index';
+import Supplies from './components/Supplies/index';
 import ModelProvider from './Context';
 import './index.css';
 
@@ -48,7 +49,7 @@ const f7params = {
         },
         { // Calculo de insumos
             path: '/supplies/',
-            //component: Supplies,
+            component: Supplies,
             on:{pageInit: ()=>pushState("supplies")}
         }
     ]

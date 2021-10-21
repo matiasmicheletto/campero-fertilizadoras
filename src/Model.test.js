@@ -130,7 +130,7 @@ describe('Validación formulario insumos', ()=>{
     });
 
     test('Formulario correcto', ()=>{
-        model.product = "Urea";
+        model.products = [{name: "Urea granulada", density: 50}];
         const output = model.getSupplies();
         expect(output).toMatchObject({status:"ok"});
     });
@@ -199,29 +199,192 @@ describe('Cálculo de dosificación', ()=>{
 });
 
 describe('Cálculo de perfil de fertilización', ()=>{
-    test('10 muestras, lineal', ()=>{
+    let model;
 
+    // Tipo de comparacion por atributo: exacto o cercano (para float)
+    const exact_comp = {
+        status: true,
+        profile: true,
+        dose: false,
+        avg: false,
+        dst: false,
+        cv: false
+    };
+
+    const check_all = (expected, output) => {
+        // Compara atributos de objeto por valor exacto o aproximado
+        for(let attr in expected)
+            if(exact_comp[attr])
+                expect(output[attr]).toBe(expected[attr]);
+            else 
+                expect(output[attr]).toBeCloseTo(expected[attr]);
+    };
+
+    beforeEach(()=>{
+        model = new CamperoModel();
+    });
+
+    test('10 muestras, ida y vuelta', ()=>{
+        Object.assign(model, {
+            work_pattern: 'linear',
+            tray_area: 0.4,
+            tray_distance: 2,
+            tray_number: 10,
+            pass_number: 2,
+            work_width: 15,
+            tray_data: []
+        });
+        const output = model.getProfile();
+        const expected = {
+            status: "ok", 
+            profile: [],
+            dose: 0, 
+            avg: 0, 
+            dst: 0, 
+            cv: 0
+        };
+        check_all(expected, output);
     });
 
     test('10 muestras, circular', ()=>{
-
+        Object.assign(model, {
+            work_pattern: 'circular',
+            tray_area: 0.4,
+            tray_distance: 2,
+            tray_number: 10,
+            pass_number: 2,
+            work_width: 15,
+            tray_data: []
+        });
+        const output = model.getProfile();
+        const expected = {
+            status: "ok", 
+            profile: [],
+            dose: 0, 
+            avg: 0, 
+            dst: 0, 
+            cv: 0
+        };
+        check_all(expected, output);
     });
 
-    test('20 muestras, lineal', ()=>{
-
+    test('20 muestras, ida y vuelta', ()=>{
+        Object.assign(model, {
+            work_pattern: 'linear',
+            tray_area: 0.4,
+            tray_distance: 1,
+            tray_number: 20,
+            pass_number: 2,
+            work_width: 15,
+            tray_data: []
+        });
+        const output = model.getProfile();
+        const expected = {
+            status: "ok", 
+            profile: [],
+            dose: 0, 
+            avg: 0, 
+            dst: 0, 
+            cv: 0
+        };
+        check_all(expected, output);
     });
 
     test('20 muestras, circular', ()=>{
-
+        Object.assign(model, {
+            work_pattern: 'circular',
+            tray_area: 0.4,
+            tray_distance: 1,
+            tray_number: 20,
+            pass_number: 2,
+            work_width: 15,
+            tray_data: []
+        });
+        const output = model.getProfile();
+        const expected = {
+            status: "ok", 
+            profile: [],
+            dose: 0, 
+            avg: 0, 
+            dst: 0, 
+            cv: 0
+        };
+        check_all(expected, output);
     });
 });
 
 describe('Cálculo de insumos', ()=>{
-    test('1 producto', ()=>{
+    let model;
 
+    beforeEach(()=>{
+        model = new CamperoModel();
+    });
+
+    test('1 producto', ()=>{
+        Object.assign(model, {
+            work_area: 54,
+            field_name: "Lote 1",
+            products: [
+                {
+                    name: "fertilizante",
+                    density: 55
+                }
+            ]
+        });
+        const output = model.getSupplies();
+        expect(output.status).toBe("ok");
+        expect(output.quantities).toStrictEqual([2970]);
     });
 
     test('2 productos', ()=>{
+        Object.assign(model, {
+            work_area: 120,
+            field_name: "Lote 2",
+            products: [
+                {
+                    name: "fertilizante",
+                    density: 50
+                },
+                {
+                    name: "otro",
+                    density: 20
+                }
+            ]
+        });
+        const output = model.getSupplies();
+        expect(output.status).toBe("ok");
+        expect(output.quantities).toStrictEqual([6000, 2400]);
+    });
 
+    test('5 productos', ()=>{
+        Object.assign(model, {
+            work_area: 10,
+            field_name: "Lote 3",
+            products: [
+                {
+                    name: "fertilizante 1",
+                    density: 60
+                },
+                {
+                    name: "fertilizante 2",
+                    density: 20
+                },
+                {
+                    name: "fertilizante 3",
+                    density: 35
+                },
+                {
+                    name: "fertilizante 3",
+                    density: 15
+                },
+                {
+                    name: "fertilizante 3",
+                    density: 12
+                }
+            ]
+        });
+        const output = model.getSupplies();
+        expect(output.status).toBe("ok");
+        expect(output.quantities).toStrictEqual([600, 200, 350, 150, 120]);
     });
 });

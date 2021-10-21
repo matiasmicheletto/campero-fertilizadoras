@@ -1,5 +1,5 @@
 import { Link, Block } from 'framework7-react';
-import { FaArrowLeft, FaStopwatch } from 'react-icons/fa';
+import { FaArrowLeft, FaPlus, FaStopwatch, FaTrash } from 'react-icons/fa';
 import classes from './Buttons.module.css';
 
 const BackButton = ({gray, f7router}) => (
@@ -22,4 +22,27 @@ const CalculatorButton = () => (
     </Block>   
 );
 
-export { BackButton, CalculatorButton };
+const DeleteButton = props => (
+    <div style={{textAlign:"right", padding:"5px", height:"5px"}}>
+        <Link
+            tooltip="Quitar" 
+            onClick={props.onClick}>
+            <FaTrash size={15} color={"darkred"}/>
+        </Link>   
+    </div>
+);
+
+const AddButton = props => (
+    <Block style={{textAlign: "right", margin:"0px", padding:"0px"}}>
+        <Link 
+            tooltip="Agregar producto" 
+            onClick={props.onClick}
+            className={classes.RoundButton}
+            style={{backgroundColor:"green", margin:"0px 0px 20px 0px"}}
+        >
+            <FaPlus size={20}/>
+        </Link>
+    </Block>   
+);
+
+export { BackButton, CalculatorButton, DeleteButton, AddButton };

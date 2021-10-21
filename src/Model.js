@@ -15,6 +15,11 @@ export default class CamperoModel {
         this.tray_area = null; // Area de bandeja
         this.pass_number = null; // Cantidad de pasadas
         this.work_pattern = "linear"; // Patron de trabajo, "circular" o "linear"        
+        // Variables de insumos
+        this.work_area = null; // Superficie de lote
+        this.field_name = null; // Nombre del lote
+        this.products = []; // Lista de prductos
+
         // Lista de errores por codigo
         this.error_messages = [ 
             "ok", // 0
@@ -30,11 +35,14 @@ export default class CamperoModel {
             "Debe indicar la cantidad de pasadas", // 10
             "El ancho de labor indicado es inválido", // 11
             "Patrón de trabajo incorrecto", // 12
-            "Error en valores de peso recolectado" // 13
+            "Error en valores de peso recolectado", // 13
+            "Debe indicar el área de trabajo", //14
+            "Debe indicar un nombre de lote", //15
+            "Debe indicar nombre/s de producto/s" //16
         ];
     }
 
-    invalidInput(name){        
+    _invalid_numeric_input(name){ // Control de valor de parametros numericos
         if( typeof name !== "string" )
             return false;
         return this[name] === 0 || 
@@ -44,32 +52,38 @@ export default class CamperoModel {
             typeof(this[name]) !== "number";
     }
 
-    dosif_valid_input() { 
-        if(this.invalidInput("dose"))
+    _invalid_string_input(name){ // Control de valor de parametros textuales
+        if( typeof name !== "string" )
+            return false;
+        return this[name] === "" || typeof(this[name]) !== "string";
+    }
+
+    _dosif_valid_input() { // Control de los parametros para calculo de doficicacion
+        if(this._invalid_numeric_input("dose"))
             return 1;
-        if(this.invalidInput("work_width"))
+        if(this._invalid_numeric_input("work_width"))
             return 2;
-        if(this.invalidInput("distance") && this.method === "direct")
+        if(this._invalid_numeric_input("distance") && this.method === "direct")
             return 3;
-        if(this.invalidInput("time") && this.method === "indirect")
+        if(this._invalid_numeric_input("time") && this.method === "indirect")
             return 4;
-        if(this.invalidInput("work_velocity") && this.method === "indirect")
+        if(this._invalid_numeric_input("work_velocity") && this.method === "indirect")
             return 5;
-        if(this.invalidInput("recolected"))
+        if(this._invalid_numeric_input("recolected"))
             return 6;
         return 0;
     }
 
-    distr_valid_input() {
-        if(this.invalidInput("tray_area"))
+    _distr_valid_input() { // Control de parametros para el calculo de distribucion
+        if(this._invalid_numeric_input("tray_area"))
             return 7;
-        if(this.invalidInput("tray_distance"))
+        if(this._invalid_numeric_input("tray_distance"))
             return 8;
-        if(this.invalidInput("tray_number"))
+        if(this._invalid_numeric_input("tray_number"))
             return 9;
-        if(this.invalidInput("pass_number"))
+        if(this._invalid_numeric_input("pass_number"))
             return 10;
-        if(this.invalidInput("work_width"))
+        if(this._invalid_numeric_input("work_width"))
             return 11;
         if(this.work_pattern !== "linear" && this.work_pattern !== "circular")
             return 12;
@@ -78,8 +92,18 @@ export default class CamperoModel {
         return 0;
     }
 
+    _supplies_valid_input() { // Control de parametros para calculo de insumos
+        if(this._invalid_numeric_input("work_area"))
+            return 14;
+        if(this._invalid_string_input("field_name"))
+            return 15;
+        if(this.products?.length < 1)
+            return 16;
+        return 0;
+    }
+
     getRealDose() { // Dosis real
-        const status_code = this.dosif_valid_input();
+        const status_code = this._dosif_valid_input();
         if(status_code !== 0)
             return {
                 status: "error",
@@ -102,15 +126,15 @@ export default class CamperoModel {
         }   
     }
 
-    getDensityFromRecolected(recolected) { // Kg/ha a partir de peso recolectado de bandeja
-        if(this.invalidInput("pass_number") || this.invalidInput("tray_area"))
+    getDensityFromRecolected(recolected) { // Kg/ha a partir de peso recolectado de bandejas
+        if(this._invalid_numeric_input("pass_number") || this._invalid_numeric_input("tray_area"))
             return recolected;
         else
             return (recolected/this.pass_number/this.tray_area/10).toFixed(2);
     }
 
     getProfile() {// Perfil de fertilizacion
-        const status_code = this.distr_valid_input();
+        const status_code = this._distr_valid_input();
         if(status_code !== 0)
             return {
                 status: "error",
@@ -157,10 +181,22 @@ export default class CamperoModel {
         };
     }
 
-    getSupplies() {
+    getSupplies() { // Calculo de insumos
+        const status_code = this._supplies_valid_input();
+        if(status_code !== 0)
+            return {
+                status: "error",
+                message: this.error_messages[status_code]
+            };
+
+        const quantities = []
+        for(let p in this.products)
+            quantities.push(this.products[p].density*this.work_area);
+
         return {
-            status: "error",
-            message: ""
+            status: "ok",
+            message: "",
+            quantities: quantities
         };
     }
 }
