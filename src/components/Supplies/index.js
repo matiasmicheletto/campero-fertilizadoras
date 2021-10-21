@@ -63,7 +63,7 @@ const Supplies = props => {
                                 label="Lote"
                                 type="text"
                                 defaultValue={inputs.field_name || ''}
-                                onChange={v=>console.log(v)}
+                                onChange={v=>setInputs({...inputs, field_name:v})}
                                 ></CustomInput>
                         </Col>
                         <Col width={50} style={{width:"50%"}}>
