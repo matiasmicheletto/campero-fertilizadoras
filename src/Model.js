@@ -189,10 +189,10 @@ export default class CamperoModel {
                 message: this.error_messages[status_code]
             };
 
-        const quantities = []
+        const quantities = [];
         for(let p in this.products)
             quantities.push(this.products[p].density*this.work_area);
-
+        
         return {
             status: "ok",
             message: "",

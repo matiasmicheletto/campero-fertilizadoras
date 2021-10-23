@@ -47,8 +47,23 @@ const Supplies = props => {
         setProducts(temp);
     };
 
+    const setFieldParams = (attr, value) => {
+        const temp = { ...inputs };
+        model[attr] = value;
+        temp[attr] = value;
+        setInputs(temp);
+    };
+
+    const setProductParams = (index, attr, value) => {
+        const temp = [...products];
+        temp[index][attr] = value;
+        model.products = temp;
+        setProducts(temp);
+    };
+
     const submit = () => {
-        Toast("error", "Todavia no implementado", 2000, "center");
+        const supplies = model.getSupplies();
+        console.log(supplies);
     };
 
     return (
@@ -63,16 +78,16 @@ const Supplies = props => {
                                 label="Lote"
                                 type="text"
                                 defaultValue={inputs.field_name || ''}
-                                onChange={v=>setInputs({...inputs, field_name:v})}
+                                onChange={v=>setFieldParams('field_name', v.target.value)}
                                 ></CustomInput>
                         </Col>
                         <Col width={50} style={{width:"50%"}}>
                             <CustomInput                    
                                 label="Superficie"
-                                type="number"   
-                                unit="ha"                                     
+                                type="number"
+                                unit="ha"
                                 defaultValue={inputs.work_area || ''}
-                                onChange={v=>console.log(v)}                                
+                                onChange={v=>setFieldParams('work_area', parseInt(v.target.value))}
                                 ></CustomInput>
                         </Col>
                     </Row>
@@ -90,16 +105,16 @@ const Supplies = props => {
                                         slot="list"
                                         label="Nombre"
                                         type="text"                                        
-                                        defaultValue={inputs.field_name || ''}
-                                        onChange={v=>console.log(v)}
+                                        defaultValue={p.name || ''}
+                                        onChange={v=>setProductParams(index, "name", v.target.value)}
                                         ></CustomInput>
                                     <CustomInput
                                         slot="list"
                                         label="Densidad"
                                         type="number"   
                                         unit="kg/ha"
-                                        defaultValue={inputs.work_area || ''}
-                                        onChange={v=>console.log(v)}
+                                        defaultValue={p.density || ''}
+                                        onChange={v=>setProductParams(index, "density", parseInt(v.target.value))}
                                         ></CustomInput>    
                                 </List>
                             </CardContent>                    
