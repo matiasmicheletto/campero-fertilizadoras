@@ -5,6 +5,7 @@ import Velocity from './components/Velocity/index';
 import Info from './components/Info/index';
 import About from './components/About/index';
 import Supplies from './components/Supplies/index';
+import SuppliesList from './components/SuppliesList/index';
 import ModelProvider from './Context';
 import './index.css';
 
@@ -51,6 +52,11 @@ const f7params = {
             path: '/supplies/',
             component: Supplies,
             on:{pageInit: ()=>pushState("supplies")}
+        },
+        { // Lista de insumos
+            path: '/suppliesList/',
+            component: SuppliesList,
+            on:{pageInit: ()=>pushState("suppliesList")}
         }
     ]
 };

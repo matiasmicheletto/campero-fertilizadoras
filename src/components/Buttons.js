@@ -2,12 +2,12 @@ import { Link, Block } from 'framework7-react';
 import { FaArrowLeft, FaPlus, FaStopwatch, FaTrash } from 'react-icons/fa';
 import classes from './Buttons.module.css';
 
-const BackButton = ({gray, f7router}) => (
+const BackButton = props => (
     <Block className={classes.Container}>
         <Link tooltip="Volver" 
-            onClick={() => f7router.back()}
+            onClick={() => props.f7router.back()}
             className={classes.RoundButton} 
-            style={gray?{color:"black", backgroundColor:"rgba(200,200,200,.8)"}:{}}
+            style={props.gray?{color:"black", backgroundColor:"rgba(200,200,200,.8)"}:{}}
         >
             <FaArrowLeft />
         </Link>

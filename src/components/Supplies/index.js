@@ -13,8 +13,8 @@ import {
 import { useContext, useState } from 'react';
 import CustomInput from '../Inputs';
 import { BackButton, DeleteButton, AddButton } from '../Buttons';
-import Toast from '../Toast';
 import { ModelCtx } from '../../Context';
+import Toast from '../Toast';
 
 const generate_id = () => "_" + Math.random().toString(36).substr(2) + Date.now();
 
@@ -62,8 +62,17 @@ const Supplies = props => {
     };
 
     const submit = () => {
-        const supplies = model.getSupplies();
-        console.log(supplies);
+        const res = model.getSupplies();
+        if(res.status === "ok"){
+            const quantities = res.quantities;
+            const products = model.products;
+            const work_area = model.work_area;
+            const field_name = model.field_name;            
+            props.f7router.navigate("/suppliesList/", { props: { quantities, products, work_area, field_name } });
+        }else{
+            Toast("error", res.message, 2000, "center");
+        }
+        
     };
 
     return (
@@ -120,6 +129,14 @@ const Supplies = props => {
                             </CardContent>                    
                         </Card>
                     ))
+                }
+                {
+                    products.length > 0 ? 
+                        null
+                    :                        
+                        <div style={{textAlign: "center", color:"rgb(150,150,150)"}}>
+                            <p>Agregue productos a la lista presionando en "+"</p>
+                        </div>
                 }
             </Block>
             <Block style={{margin:0}}>

@@ -36,9 +36,10 @@ export default class CamperoModel {
             "El ancho de labor indicado es inválido", // 11
             "Patrón de trabajo incorrecto", // 12
             "Error en valores de peso recolectado", // 13
-            "Debe indicar el área de trabajo", //14
-            "Debe indicar un nombre de lote", //15
-            "Debe indicar nombre/s de producto/s" //16
+            "Debe indicar un nombre de lote", // 14
+            "Debe indicar el área de trabajo", // 15
+            "Debe agregar al menos un producto a la lista", // 16
+            "Debe indicar el nombre y densidad del/los producto/s", // 17
         ];
     }
 
@@ -93,12 +94,16 @@ export default class CamperoModel {
     }
 
     _supplies_valid_input() { // Control de parametros para calculo de insumos
-        if(this._invalid_numeric_input("work_area"))
-            return 14;
         if(this._invalid_string_input("field_name"))
+            return 14;
+        if(this._invalid_numeric_input("work_area"))
             return 15;
         if(this.products?.length < 1)
             return 16;
+        for(let i = 0; i < this.products.length; i++) {
+            if(this.products[i].name === "" || this.products[i].density === 0)
+                return 17;
+        }
         return 0;
     }
 
