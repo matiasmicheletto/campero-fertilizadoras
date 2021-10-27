@@ -182,7 +182,7 @@ export default class CamperoModel {
         const dst = Math.sqrt(sqdiff.reduce((a, b) => a + b, 0) / (current_profile.length-1));
         const dose = avg/this.pass_number/this.tray_area*10;
         const cv = dst/avg*100;
-        
+
         return {
             status: "success",
             profile: current_profile,            

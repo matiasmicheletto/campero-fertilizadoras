@@ -19,3 +19,17 @@
     - [ ] Abrir reportes.  
     - [ ] Editar/borrar reportes.  
     - [ ] Exportar reportes a pdf.  
+
+
+#### Por hacer
+  - Determinar modelo de reportes.    
+  - Cargar/guardar lista de reportes en localStorage.  
+  
+  - Botones "agregar a reporte actual".  
+  - Side panel con datos y acciones de reporte actual.  
+
+  - Vista para abrir y mostrar reportes.  
+  - Vista listado de reportes.  
+  - Seleccionar, eliminar, cambiar nombre, abrir reportes.  
+
+  - Generar pdf de reporte y exportar/compartir.  
