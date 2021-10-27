@@ -15,7 +15,7 @@ const ResultsProfile = props => (
                 </tr>                        
                 <tr>
                     <td><b>Coef. variac.:</b></td>
-                    <td style={{textAlign:"right"}}>{props.results?.cv.toFixed(2)}</td>
+                    <td style={{textAlign:"right"}}>{props.results?.cv.toFixed(2)} %</td>
                 </tr>
                 <tr>
                     <td><b>Desvío estándar:</b></td>

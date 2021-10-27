@@ -63,16 +63,15 @@ const Supplies = props => {
 
     const submit = () => {
         const res = model.getSupplies();
-        if(res.status === "ok"){
+        if(res.status === "error")        
+            Toast("error", res.message, 2000, "center");
+        else{
             const quantities = res.quantities;
             const products = model.products;
             const work_area = model.work_area;
             const field_name = model.field_name;            
             props.f7router.navigate("/suppliesList/", { props: { quantities, products, work_area, field_name } });
-        }else{
-            Toast("error", res.message, 2000, "center");
         }
-        
     };
 
     return (

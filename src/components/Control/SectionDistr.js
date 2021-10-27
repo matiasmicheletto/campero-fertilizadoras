@@ -67,7 +67,7 @@ const SectionDistr = props => {
     const submit = () => { 
         // Pasar datos al modelo y habilitar resultados
         model.tray_data = getTrayArray();  
-        const status_code = model.distr_valid_input(0, "linear");
+        const status_code = model._distr_valid_input(0, "linear");
         if(status_code !== 0)
             Toast("error", model.error_messages[status_code], 2000, "center");
         else

@@ -19,8 +19,3 @@
     - [ ] Abrir reportes.  
     - [ ] Editar/borrar reportes.  
     - [ ] Exportar reportes a pdf.  
-
-### Tareas sprint actual
-  - Incorporar casos de prueba perfil.  
-  - Adaptar ecuaciones para nuevos casos de prueba.  
-  

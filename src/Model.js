@@ -22,7 +22,7 @@ export default class CamperoModel {
 
         // Lista de errores por codigo
         this.error_messages = [ 
-            "ok", // 0
+            "success", // 0
             "Debe indicar la dosis deseada", // 1
             "Debe indicar el ancho de labor", // 2
             "Debe indicar la distancia recorrida", // 3
@@ -124,7 +124,7 @@ export default class CamperoModel {
         // Calculo de outputs
         const calculateddose = this.recolected/this.distance/this.work_width*10000;
         return {
-            status: "ok",
+            status: "success",
             dose: calculateddose, 
             diffp: (calculateddose-this.dose)/this.dose*100, 
             diffkg: calculateddose-this.dose 
@@ -153,21 +153,29 @@ export default class CamperoModel {
             };
 
         // Calcular el perfil
-        const tw = this.tray_distance*this.tray_number; // Ancho de medicion
-        const s = Math.floor(tw - this.work_width); // Solapamiento de arreglos
+        const n = this.tray_number; // Para abreviar
         const current_profile = [...this.tray_data];
-        const n = this.tray_number;
+        const tw = this.tray_distance*n; // Ancho de medicion        
+        const get_s = r => Math.floor((tw - r*this.work_width)/this.tray_distance);
+        let r = 1;
+        let s = get_s(r);   
+        while(s > 0) {                        
+            const side = this.work_pattern === "circular" ? "left" : r%2===0 ? "left" : "right";
 
-        for(let i = 0; i < s; i++){
-            if(this.work_pattern === "circular"){ // Patron circular
-                current_profile[i] += this.tray_data[n-s+i];
-                current_profile[n-1-i] += this.tray_data[s-i-1];
-            }else{ // Ida y vuelta sobre la mano
-                current_profile[i] += this.tray_data[s-i-1];
-                current_profile[n-1-i] += this.tray_data[n-s+i];
+            for(let i = 0; i < s; i++){
+                if(side === "left"){ // Sumar del lado izquierdo
+                    current_profile[i] += this.tray_data[n-s+i];
+                    current_profile[n-1-i] += this.tray_data[s-i-1];                    
+                }else{ // Sumar del lado derecho
+                    current_profile[i] += this.tray_data[s-i-1];
+                    current_profile[n-1-i] += this.tray_data[n-s+i];
+                }
             }
+            r++; // Siguiente pasada
+            s = get_s(r); // Solapamiento
         }
 
+        // Estadistica del arreglo de perfil
         const sum = current_profile.reduce((a, b) => a + b, 0);
         const avg = sum / current_profile.length;
         const sqdiff = current_profile.map(x => Math.pow(x - avg, 2));
@@ -176,9 +184,8 @@ export default class CamperoModel {
         const cv = dst/avg*100;
         
         return {
-            status: "ok",
-            profile: current_profile,
-            overlap: s,
+            status: "success",
+            profile: current_profile,            
             dose: dose,
             avg: avg,
             dst: dst,
@@ -199,7 +206,7 @@ export default class CamperoModel {
             quantities.push(this.products[p].density*this.work_area);
         
         return {
-            status: "ok",
+            status: "success",
             message: "",
             quantities: quantities
         };
