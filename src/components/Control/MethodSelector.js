@@ -10,19 +10,19 @@ const MethodSelector = props => {
 
     return (
         <Block style={{margin:"0px"}}>
-            <BlockTitle>Variable de muestreo</BlockTitle>
+            <BlockTitle>Método de muestreo</BlockTitle>
             <Row>
                 <Col style={{textAlign:"center"}}>
                     <Radio 
                         name="input-type" 
                         checked={props.method==="direct"} 
-                        onChange={e=>setMethod(e,"direct")}/> Distancia
+                        onChange={e=>setMethod(e,"direct")}/> Por distancia
                 </Col>
                 <Col style={{textAlign:"center"}}>
                     <Radio 
                         name="input-type" 
                         checked={props.method==="indirect"} 
-                        onChange={e=>setMethod(e,"indirect")}/> Tiempo
+                        onChange={e=>setMethod(e,"indirect")}/> Por tiempo
                 </Col>
             </Row>
         </Block>

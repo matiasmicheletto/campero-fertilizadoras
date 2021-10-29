@@ -52,20 +52,21 @@
 	position: absolute; 
 	bottom: 15%; 
 	width: 100%; 
-	text-align: center;	
+	text-align: center;		
 }
 
 .MenuButton{
-	background-color: rgba(200, 200, 200, .7);
-	margin-top: 12px;
+	background-color: rgba(200, 200, 200, .7);	
 	color:black;
-	min-height: 60px;
+	margin: 10px auto;
+	height: 60px;
 	line-height: 20px;
 	border-radius: 5px;
 	z-index: 9999;
 	display: inline-block;
-	min-width: 300px;
-	font-size: large;
+	width: 300px;
+	font-size: large;	
+	display: flex;
 }
 
 .MenuButton p{

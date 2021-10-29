@@ -11,11 +11,9 @@ const Info = props => (
                 <Link className={classes.MenuButton}>
                     <p>Iniciar ayuda</p>
                 </Link>
-                <br />
                 <Link external rel="noopener noreferrer" target="_blank" href="https://www.facebook.com/intaascasubi" className={[classes.MenuButton]}>
                     <p>Info técnica y novedades</p>
                 </Link>
-                <br />
                 <Link href="/about/" className={classes.MenuButton} style={{marginBottom:"30px"}}>
                     <p>Acerca de</p>
                 </Link>                                

@@ -21,19 +21,16 @@ const Home = () => (
             <Block className={classes.ButtonContainer}>
                 <Link href="/control/" className={classes.MenuButton}>
                     <img className={classes.HomeIcon} src={control} alt="control"/>
-                    <p>Control de fertilización</p>
+                    <p>Parámetros de <br/> fertilización</p>
                 </Link>
-                <br />
                 <Link href="/supplies/" className={[classes.MenuButton]}>
                     <img className={classes.HomeIcon} src={supplies} alt="supplies"/>
                     <p>Calculador de insumos</p>
                 </Link>
-                <br />
                 <Link href="/reports/" className={classes.MenuButton}>
                     <img className={classes.HomeIcon} src={reports} alt="reports"/>
                     <p>Reportes</p>
                 </Link>
-                <br />
                 <Link href="/info/" className={classes.MenuButton}>
                     <img className={classes.HomeIcon} src={info} alt="info"/>
                     <p>Información y ayuda</p>

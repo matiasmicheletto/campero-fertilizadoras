@@ -20,6 +20,7 @@ const SectionDosif = () => {
     // Campos del formulario
     const [inputs, setInputs] = useState({
         dose: model.dose || 0, // Dosis real (medida)
+        gear: model.gear || 0, // Cambio de la maquinaria
         work_width: model.work_width || 0, // Ancho de labor
         distance: model.distance || 0, // Distancia recorrida
         time: model.time || 0, // Tiempo de medicion
@@ -44,6 +45,14 @@ const SectionDosif = () => {
         setResults(false); // Ocultar bloque de resultados
     };
 
+    const updateGear = value => {
+        if(value !== ""){
+            model.gear = value;
+            setInputs({...inputs, gear: value});
+            setResults(false); // Ocultar bloque de resultados
+        }
+    };
+
     const submit = () => {                
         // Calculo de outputs        
         const res = model.getRealDose();
@@ -59,15 +68,22 @@ const SectionDosif = () => {
         <div>
             <MethodSelector method={method} onChange={v => {setMethod(v); model.method = v; setResults(false);}}/>
             <Block style={{marginBottom:"0px"}}>
-                <BlockTitle>Control de dosificación</BlockTitle>
+                <BlockTitle>Dosis</BlockTitle>
                 <List form noHairlinesMd style={{marginBottom:"10px"}}>
                     <CustomInput                    
                         slot="list"
-                        label="Dosis deseada"
+                        label="Dosis prevista"
                         type="number"                
-                        unit="Kg/Ha"                    
+                        unit="Kg/ha"
                         defaultValue={inputs.dose || ''}
                         onChange={v=>updateInput("dose", v.target.value)}
+                        ></CustomInput>
+                    <CustomInput
+                        slot="list"
+                        label="Cambio"
+                        type="text"                        
+                        defaultValue={inputs.gear || ''}
+                        onChange={v=>updateGear(v.target.value)}
                         ></CustomInput>
                     <CustomInput                    
                         slot="list"

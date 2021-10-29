@@ -92,7 +92,7 @@ const SectionDistr = props => {
 
     return (
         <Block>
-            <BlockTitle>Control de distribución</BlockTitle>
+            <BlockTitle>Distribución y ancho de labor</BlockTitle>
             <List form noHairlinesMd style={{marginBottom:"10px"}}>
                 <CustomInput
                     slot="list"

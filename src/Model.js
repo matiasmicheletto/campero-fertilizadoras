@@ -1,7 +1,9 @@
 export default class CamperoModel {
     constructor(){
         // Variables de dosificacion
-        this.dose = null; // Dosis deseada
+        this.dose = null; // Dosis prevista
+        this.calculateddose = null; // Dosis a calcular
+        this.gear = null; // Cambio de la maquina
         this.recolected = null; // Peso total recolectado
         this.time = null;  // Tiempo de muestreo      
         this.work_velocity = null; // Velocidad de trabajo
@@ -23,7 +25,7 @@ export default class CamperoModel {
         // Lista de errores por codigo
         this.error_messages = [ 
             "success", // 0
-            "Debe indicar la dosis deseada", // 1
+            "Debe indicar la dosis prevista", // 1
             "Debe indicar el ancho de labor", // 2
             "Debe indicar la distancia recorrida", // 3
             "Debe indicar el tiempo de medición", // 4
@@ -76,6 +78,9 @@ export default class CamperoModel {
     }
 
     _distr_valid_input() { // Control de parametros para el calculo de distribucion
+        const code1 = this._dosif_valid_input();
+        if(code1 !== 0)
+            return code1;
         if(this._invalid_numeric_input("tray_area"))
             return 7;
         if(this._invalid_numeric_input("tray_distance"))
@@ -112,6 +117,7 @@ export default class CamperoModel {
         if(status_code !== 0)
             return {
                 status: "error",
+                code: status_code,
                 message: this.error_messages[status_code],
                 dose: 0, 
                 diffp: 0, 
@@ -122,12 +128,13 @@ export default class CamperoModel {
             this.distance = this.work_velocity*10/36*this.time;
 
         // Calculo de outputs
-        const calculateddose = this.recolected/this.distance/this.work_width*10000;
+        this.calculateddose = this.recolected/this.distance/this.work_width*10000;
         return {
             status: "success",
-            dose: calculateddose, 
-            diffp: (calculateddose-this.dose)/this.dose*100, 
-            diffkg: calculateddose-this.dose 
+            code: 0,            
+            dose: this.calculateddose, 
+            diffp: (this.calculateddose-this.dose)/this.dose*100, 
+            diffkg: this.calculateddose-this.dose 
         }   
     }
 
@@ -143,7 +150,19 @@ export default class CamperoModel {
         if(status_code !== 0)
             return {
                 status: "error",
+                code: status_code,
                 message: this.error_messages[status_code],
+                profile: [],
+                overlap: 0,
+                dose: 0,
+                avg: 0,
+                dst: 0,
+                cv: 0
+            };
+        const status2 = this.getRealDose();
+        if(status2.code !== 0)
+            return {
+                ...status2,
                 profile: [],
                 overlap: 0,
                 dose: 0,
@@ -180,13 +199,14 @@ export default class CamperoModel {
         const avg = sum / current_profile.length;
         const sqdiff = current_profile.map(x => Math.pow(x - avg, 2));
         const dst = Math.sqrt(sqdiff.reduce((a, b) => a + b, 0) / (current_profile.length-1));
-        const dose = avg/this.pass_number/this.tray_area*10;
-        const cv = dst/avg*100;
+        //const dose = avg/this.pass_number/this.tray_area*10;
+        const cv = avg === 0 ? 0 : dst/avg*100;
 
         return {
             status: "success",
-            profile: current_profile,            
-            dose: dose,
+            code: 0,
+            profile: current_profile,
+            dose: this.calculateddose,
             avg: avg,
             dst: dst,
             cv: cv

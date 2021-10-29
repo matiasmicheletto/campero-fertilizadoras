@@ -7,7 +7,7 @@ const ResultsProfile = props => (
             <tbody>
                 <tr>
                     <td><b>Dosis:</b></td>
-                    <td style={{textAlign:"right"}}>{props.results?.dose.toFixed(2)} Kg/Ha</td>
+                    <td style={{textAlign:"right"}}>{props.results?.dose.toFixed(2)} Kg/ha</td>
                 </tr>
                 <tr>
                     <td><b>Promedio:</b></td>
@@ -17,10 +17,12 @@ const ResultsProfile = props => (
                     <td><b>Coef. variac.:</b></td>
                     <td style={{textAlign:"right"}}>{props.results?.cv.toFixed(2)} %</td>
                 </tr>
+                {/*
                 <tr>
                     <td><b>Desvío estándar:</b></td>
                     <td style={{textAlign:"right"}}>{props.results?.dst.toFixed(2)}</td>
                 </tr>
+                */}
             </tbody>
         </table>
     </Block>

@@ -61,8 +61,7 @@ const SectionProfile = () => {
                     max={ww_max}
                     label={true}
                     step={1}
-                    value={inputs.ww}
-                    scale={true}
+                    value={inputs.ww}                    
                     scaleSteps={ww_steps}
                     scaleSubSteps={3}
                     onRangeChange={v=>updateWW(v)}
