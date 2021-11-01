@@ -1,4 +1,4 @@
-import { BlockTitle, Navbar, Page } from 'framework7-react';
+import { Navbar, Page } from 'framework7-react';
 import SectionDosif from './SectionDosif';
 import SectionDistr from './SectionDistr';
 import { BackButton } from '../Buttons';

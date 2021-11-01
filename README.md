@@ -25,8 +25,7 @@
     - [ ] Exportar reportes a pdf.  
 
 
-#### Sprint actual
-  - Agregar los iconos a todos los campos de los formularios.  
+#### Sprint actual  
   - Guardado/recuperado de datos ingresados en formulario (model persistente).  
 
 #### Insumos

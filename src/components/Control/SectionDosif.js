@@ -6,6 +6,10 @@ import MethodSelector from './MethodSelector';
 import ResultsDose from './ResultsDose';
 import Toast from '../Toast';
 import { ModelCtx } from '../../Context';
+import iconDose from '../../img/icons/kg_ha_fert.png';
+import iconGear from '../../img/icons/cambio.png';
+import iconDistance from '../../img/icons/dist_muestreo.png';
+import iconCollected from '../../img/icons/recolectado_chorrillo.png';
 
 const SectionDosif = () => {
 
@@ -72,6 +76,7 @@ const SectionDosif = () => {
                 <List form noHairlinesMd style={{marginBottom:"10px"}}>
                     <CustomInput                    
                         slot="list"
+                        icon={iconDose}
                         label="Dosis prevista"
                         type="number"                
                         unit="Kg/ha"
@@ -80,6 +85,7 @@ const SectionDosif = () => {
                         ></CustomInput>
                     <CustomInput
                         slot="list"
+                        icon={iconGear}
                         label="Cambio"
                         type="text"                        
                         defaultValue={inputs.gear || ''}
@@ -96,6 +102,7 @@ const SectionDosif = () => {
                     {method==="direct" ?
                         <CustomInput                        
                             slot="list"
+                            icon={iconDistance}
                             label="Distancia"
                             type="number"
                             unit="m"
@@ -129,6 +136,7 @@ const SectionDosif = () => {
                     }
                     <CustomInput                    
                         slot="list"
+                        icon={iconCollected}
                         label="Peso recolectado"
                         type="number"
                         unit="Kg"    

@@ -7,6 +7,8 @@ import Toast from '../Toast';
 import { ModelCtx } from '../../Context';
 import SimpleChart from '../SimpleChart';
 import SectionProfile from './SectionProfile';
+import iconTrayDist from '../../img/icons/dist_bandejas.png';
+import iconTrayNum from '../../img/icons/cant_bandejas.png';
 
 const SectionDistr = props => {
 
@@ -104,6 +106,7 @@ const SectionDistr = props => {
                     ></CustomInput>
                 <CustomInput
                     slot="list"
+                    icon={iconTrayDist}
                     label="Dist. entre bandejas"
                     type="number"
                     unit="m"
@@ -112,6 +115,7 @@ const SectionDistr = props => {
                     ></CustomInput>
                 <CustomInput
                     slot="list"
+                    icon={iconTrayNum}
                     label="Cantidad de bandejas"
                     type="number"                    
                     onChange={v=>setNumTrays(parseInt(v.target.value))}
