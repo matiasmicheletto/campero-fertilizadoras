@@ -18,7 +18,7 @@ const About = props => (
                     <AccordionContent>
                         <Block>
                             <center>
-                                    <h3>CAMPERO FERTILIZADORAS 1.0.0</h3>
+                                    <h3>CAMPERO FERTILIZADORAS 1.0</h3>
                             </center>
                             <h3>Staff</h3>
                             <p><b>Autor:</b> Juan Pablo D'Amico</p>
@@ -29,11 +29,7 @@ const About = props => (
                 <ListItem accordionItem title="Descripción de la app">
                     <AccordionContent>
                         <Block>
-                            <p style={{textAlign: "justify"}}>Campero es una aplicación utilitaria para tablets y smartphones que permite calcular los
-                            principales parámetros de operación y prestaciones de fertilizadoras.                                
-                            Con la información generada es posible calcular el requerimiento de insumos para una labor
-                            determinada además los reportes correspondientes que pueden ser almacenados en formato
-                            PDF y compartidos por correo electrónico o WhatsApp.</p>
+                            <p style={{textAlign: "justify"}}>Campero Fertilizadoras es una aplicación utilitaria para tablets y smartphones que permite calcular los principales parámetros de operación y prestaciones de sembradoras y fertilizadoras de proyección o "al voleo". Al usar la aplicación se puede determinar la dosis de producto por hectárea. También es posible determinar el ancho de labor y la uniformidad transversal. Con la información generada es posible calcular el requerimiento de insumos para una labor determinada además los reportes correspondientes que pueden ser almacenados en formato PDF y compartidos por correo electrónico o WhatsApp.</p>
                         </Block>
                     </AccordionContent>
                 </ListItem>
@@ -47,7 +43,7 @@ const About = props => (
                                 <img src={logoInta} width="25px" style={{verticalAlign:"middle"}} alt="logo INTA"/> E.E.A. Hilario Ascasubi <a href="inta.gob.ar/ascasubi">inta.gob.ar/ascasubi</a>
                             </p>
                             <p>
-                                E-mail: <a href="mailto:eeaascasubi.criollo@insta.gob.ar">eeaascasubi.criollo@insta.gob.ar</a>
+                                E-mail: <a href="mailto:eeaascasubi.criollo@insta.gob.ar">eeaascasubi.criollo@inta.gob.ar</a>
                             </p>
                         </Block>
                     </AccordionContent>

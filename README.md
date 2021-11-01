@@ -29,6 +29,10 @@
   - Agregar los iconos a todos los campos de los formularios.  
   - Guardado/recuperado de datos ingresados en formulario (model persistente).  
 
+#### Insumos
+  - Tipo de presentacion: envase/granel.  
+  - Segerir densidad calculada para el primer (cada?) producto agregado.  
+
 #### Próximo sprint
   - Reportes.  
 

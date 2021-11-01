@@ -1,0 +1,31 @@
+/*
+Versión  
+Campero fertilizadoras 1.0
+Datos de contacto
+INTA inta.gob.ar/
+EEA H. Ascasubi: inta.gob.ar/ascasubi
+Staff
+Autor: Juan Pablo D´Amico. 
+Desarrollo: Matías Micheletto , Santiago Crocioni; Gabriel Eggly.
+Descripción de la App
+Campero fertilizadoras es una aplicación utilitaria para tablets y smartphones que permite calcular los principales parámetros de operación y prestaciones de sembradoras y fertilizadoras de proyección o “al voleo”. Al usar la aplicación se puede determinar  la dosis de producto por hectárea. También es posible determinar el ancho de labor y la uniformidad transversal. Con la información generada es posible calcular el requerimiento de insumos para una labor determinada además los reportes correspondientes que pueden ser almacenados en formato PDF y compartidos por correo electrónico o WhatsApp.
+Fuente de información
+¿?
+ 
+Términos y condiciones de uso
+ 
+Aceptación de los términos y condiciones
+Al acceder o utilizar los servicios de CAMPERO, el usuario acepta los términos y condiciones establecidos a continuación.
+Los textos, las imágenes y demás información que aparece en este sitio y su disposición, pertenecen al Instituto Nacional de Tecnología Agropecuaria (INTA), salvo que se indique lo contrario. La Estación Experimental Agropecuaria Hilario Ascasubi (CERBAS - INTA) autoriza a los usuarios a realizar copias, impresiones y distribuir la información contenida en este sitio, sujeta a las siguientes condiciones:
+El uso, impresión, y reproducción de la información disponible en este sitio deberá estar sujeta a fines personales, no comerciales, salvo expresa autorización de la Estación Experimental Agropecuaria Hilario Ascasubi (CERBAS - INTA). La modificación de dicha información no está permitida, y es obligatorio para el usuario citar la fuente original en todas las copias que efectúe.
+Salvo expresa autorización de la Estación Experimental Agropecuaria Hilario Ascasubi (CERBAS - INTA), el emblema y/o el logo del INTA no deberán ser removidos de ninguna página o elemento gráfico propio en que figuren, ni podrán ser utilizados en páginas o elementos gráficos ajenos. De igual manera, no deberán ser modificados, sin autorización, ninguno de esos elementos.
+
+No se deberán establecer enlaces cuyo resultado sea la exhibición de una página o imagen de este sitio a menos de contar con la autorización correspondientes.
+Cambios en los términos y condiciones
+La Estación Experimental Agropecuaria Hilario Ascasubi (CERBAS - INTA) se reserva los derechos de cambiar o suspender la totalidad o parte de los servicios prestados en cualquier momento, previa notificación. Si luego de notificados los cambios en los términos y condiciones, el usuario continúa utilizando dichos servicios, significa que acepta y está de acuerdo en los términos y condiciones modificados.
+
+Responsabilidades
+La Estación Experimental Agropecuaria Hilario Ascasubi (CERBAS - INTA) no será responsable de los perjuicios que pudieran ocasionar el uso, o la imposibilidad de uso, de la información disponible en este sitio. La Estación Experimental Agropecuaria Hilario Ascasubi (CERBAS - INTA) no será responsable de ninguna decisión que el usuario tome luego de la ejecución de las utilidades de la aplicación. Las opiniones, análisis y/o información contenidas en el sitio, son provistas a los usuarios con el único fin de colaborar con los mismos a tomar sus propias decisiones y no pueden ser consideradas como única información necesaria. De este modo, el usuario de dicha información, entiende y acepta que, las decisiones que el mismo pudiere adoptar o dejar de adoptar corren enteramente bajo su propio juicio y riesgo. La Estación Experimental Agropecuaria Hilario Ascasubi (CERBAS - INTA) no efectúa ninguna aseveración o garantía en relación al contenido del sitio, incluyendo permisos de comercialización, o garantía alguna sobre la exactitud, adecuación o integridad de la información y los materiales, y no será responsable por errores u omisiones en los mismos. Es responsabilidad del usuario verificar cualquier información detallada en este sitio. Los enlaces hacia otras organizaciones que se hallen contenidos en estas páginas, cumplen una función meramente informativa y La Estación Experimental Agropecuaria Hilario Ascasubi (CERBAS - INTA) no asume, por consiguiente, responsabilidad alguna en cuanto a su validez o contenido. La Estación Experimental Agropecuaria Hilario Ascasubi (CERBAS - INTA) no asume responsabilidad alguna, con relación a los daños que pudieren sufrir los usuarios debido al uso maligno o intrusivo de este servidor, especialmente en cuanto se refiere a la alteración, agregado o falsificación de la información contenida en el mismo, o a la introducción de virus, troyanos, etc., así como de un contenido gráfico ofensivo o ilegal. La Estación Experimental Agropecuaria Hilario Ascasubi (CERBAS - INTA) no recaba, ni almacena ningún dato sensible de sus usuarios y sólo accede a la información y configuración del dispositivo autorizados y/o habilitado por el usuario.
+
+
+*/
