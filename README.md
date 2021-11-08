@@ -26,14 +26,13 @@
 
 
 #### Sprint actual  
-  - Guardado/recuperado de datos ingresados en formulario (model persistente).  
+  - Refactor de modelo (separar parametros de los métodos y todo separado de la GUI).  
+  - Separar dosis, la inicial de descarga de la otra de distribución y mostrar porcentajes.  
+  - Guardado/recuperado de datos ingresados en los formularios (model persistente).  
 
 #### Insumos
   - Tipo de presentacion: envase/granel.  
-  - Segerir densidad calculada para el primer (cada?) producto agregado.  
+  - Segerir densidad calculada para el primer (o cada?) producto agregado.  
 
 #### Próximo sprint
   - Reportes.  
-
-#### Próximo sprint
-  - Refactor de modelo (desacoplar completamente de la GUI).

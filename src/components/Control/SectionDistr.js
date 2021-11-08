@@ -9,6 +9,9 @@ import SimpleChart from '../SimpleChart';
 import SectionProfile from './SectionProfile';
 import iconTrayDist from '../../img/icons/dist_bandejas.png';
 import iconTrayNum from '../../img/icons/cant_bandejas.png';
+import iconTrayArea from '../../img/icons/sup_bandeja.png';
+import iconPassNumber from '../../img/icons/cant_pasadas.png';
+import api from '../../Api';
 
 const SectionDistr = props => {
 
@@ -69,11 +72,16 @@ const SectionDistr = props => {
     const submit = () => { 
         // Pasar datos al modelo y habilitar resultados
         model.tray_data = getTrayArray();  
-        const status_code = model._distr_valid_input(0, "linear");
-        if(status_code !== 0)
-            Toast("error", model.error_messages[status_code], 2000, "center");
-        else
-            setResults(true);
+        setResults(true);
+    };
+
+    const densityFromRecolected = value => {
+        const res = api.computeDensityFromRecolected({
+            recolected: model.recolected,
+            pass_number: model.pass_number,
+            tray_area: model.tray_area
+        });
+        return res.density;
     };
 
     const collected_chart_config = { // Configuracion del grafico de datos medidos
@@ -82,7 +90,7 @@ const SectionDistr = props => {
         yaxis: "Peso (Kg/ha.)",
         tooltip_prepend: "Bandeja ",
         tooltip_append: " gr",
-        label_formatter: value=>model.getDensityFromRecolected(value),
+        label_formatter: densityFromRecolected,
         categories: Object.keys(getTrayArray()).map(v=>parseInt(v)+1),
         series:[{           
             name: "Peso recolectado",
@@ -98,6 +106,7 @@ const SectionDistr = props => {
             <List form noHairlinesMd style={{marginBottom:"10px"}}>
                 <CustomInput
                     slot="list"
+                    icon={iconTrayArea}
                     label="Superf. de bandeja"
                     type="number"
                     unit="m²"                    
@@ -122,6 +131,7 @@ const SectionDistr = props => {
                     ></CustomInput>
                 <CustomInput
                     slot="list"
+                    icon={iconPassNumber}
                     label="Cantidad de pasadas"
                     min={0}
                     type="number"
@@ -193,7 +203,7 @@ const SectionDistr = props => {
                 null
             }
             {results ?
-                <SectionProfile />
+                <SectionProfile hideResults={()=>setResults(false)}/>
             :
                 null
             }

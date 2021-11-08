@@ -4,30 +4,40 @@ import { ModelCtx } from '../../Context';
 import SimpleChart from '../SimpleChart';
 import PatternSelector from './PatternSelector';
 import ResultsProfile from './ResultsProfile';
+import api from '../../Api';
+import Toast from '../Toast';
 
 
-const SectionProfile = () => {
+const SectionProfile = props => {
 
     const model = useContext(ModelCtx);
 
     const [inputs, setInputs] = useState({
-        ww: model.work_width,
-        pattern: model.work_pattern
+        tray_data: model.tray_data,
+        tray_number: model.tray_number,
+        tray_distance: model.tray_distance,
+        work_width: model.work_width,
+        work_pattern: model.work_pattern
     });
 
     const updateWW = (value) => {        
         model.work_width = parseFloat(value);
-        setInputs({...inputs, ww: model.work_width});
+        setInputs({...inputs, work_width: model.work_width});
     };
 
     const updatePattern = (value) => {
         model.work_pattern = value;
-        setInputs({...inputs, pattern: value});
+        setInputs({...inputs, work_pattern: value});
     };
 
-    // Resultado del perfil    
-    const results = model.getProfile();
+    // Resultado del perfil        
+    const results = api.computeDistributionProfile(inputs);
     console.log(results);
+    if(results.status === 'error'){
+        Toast("error", model.error_messages[results.wrong_keys[0]], 2000, "center");
+        props.hideResults();
+        return null;
+    }    
 
     // Rango del deslizador de ancho de labor
     const ww_min = 1;
@@ -53,21 +63,21 @@ const SectionProfile = () => {
 
     return (
         <>
-            <PatternSelector pattern={inputs.pattern} onChange={v => updatePattern(v)}/>
+            <PatternSelector pattern={inputs.work_pattern} onChange={v => updatePattern(v)}/>
             <Row style={{marginTop:10, marginBottom:30}}>
-                <BlockTitle>Ancho de labor: {inputs.ww} mts.</BlockTitle>
+                <BlockTitle>Ancho de labor: {inputs.work_width} mts.</BlockTitle>
                 <Range
                     min={ww_min}
                     max={ww_max}
                     label={true}
                     step={1}
-                    value={inputs.ww}                    
+                    value={inputs.work_width}                    
                     scaleSteps={ww_steps}
                     scaleSubSteps={3}
                     onRangeChange={v=>updateWW(v)}
                 />
             </Row>
-            <ResultsProfile results={results}/>
+            <ResultsProfile results={results} dose={model.expected_dose}/>
             <Row>
                 <Col>
                     <SimpleChart id="profile_plot" config={profile_chart_config} />

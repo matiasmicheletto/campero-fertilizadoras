@@ -9,7 +9,11 @@ import { ModelCtx } from '../../Context';
 import iconDose from '../../img/icons/kg_ha_fert.png';
 import iconGear from '../../img/icons/cambio.png';
 import iconDistance from '../../img/icons/dist_muestreo.png';
+import iconWorkWidth from '../../img/icons/ancho_labor.png';
+import iconVelocity from '../../img/icons/velocidad.png';
+import iconTime from '../../img/icons/tiempo.png';
 import iconCollected from '../../img/icons/recolectado_chorrillo.png';
+import api from '../../Api';
 
 const SectionDosif = () => {
 
@@ -23,20 +27,17 @@ const SectionDosif = () => {
     
     // Campos del formulario
     const [inputs, setInputs] = useState({
-        dose: model.dose || 0, // Dosis real (medida)
+        expected_dose: model.expected_dose || 0, // Dosis real (medida)
         gear: model.gear || 0, // Cambio de la maquinaria
         work_width: model.work_width || 0, // Ancho de labor
         distance: model.distance || 0, // Distancia recorrida
         time: model.time || 0, // Tiempo de medicion
-        work_velocity: model.work_velocity, // Velocidad de labor
+        work_velocity: parseFloat(model.work_velocity) || 0, // Velocidad de labor
         recolected: model.recolected || 0 // Peso recolectado
     });
-
-    if(model.work_velocity)
-        inputs.work_velocity = parseFloat(model.work_velocity.toFixed(2));
-
+    
     // Resultados
-    const [outputs, setOutputs] = useState(model.getRealDose());
+    const [outputs, setOutputs] = useState({});
 
     const updateInput = (name, value) => {        
         // Parseo input
@@ -58,10 +59,11 @@ const SectionDosif = () => {
     };
 
     const submit = () => {                
-        // Calculo de outputs        
-        const res = model.getRealDose();
+        // Calculo de outputs                
+        const res = api.computeDose({method:method, ...inputs});
+        console.log(res);
         if(res.status === "error")
-            Toast("error", res.message, 2000, "center");
+            Toast("error", model.error_messages[res.wrong_keys[0]], 2000, "center");
         else{
             setOutputs(res);
             setResults(true);
@@ -80,8 +82,8 @@ const SectionDosif = () => {
                         label="Dosis prevista"
                         type="number"                
                         unit="Kg/ha"
-                        defaultValue={inputs.dose || ''}
-                        onChange={v=>updateInput("dose", v.target.value)}
+                        defaultValue={inputs.expected_dose || ''}
+                        onChange={v=>updateInput("expected_dose", v.target.value)}
                         ></CustomInput>
                     <CustomInput
                         slot="list"
@@ -93,6 +95,7 @@ const SectionDosif = () => {
                         ></CustomInput>
                     <CustomInput                    
                         slot="list"
+                        icon={iconWorkWidth}
                         label="Ancho de labor"
                         type="number"
                         unit="m"
@@ -113,6 +116,7 @@ const SectionDosif = () => {
                         <div slot="list">
                             <CustomInput                            
                                 label="Tiempo"
+                                icon={iconTime}
                                 type="number"
                                 unit="seg"
                                 defaultValue={inputs.time || ''}
@@ -122,6 +126,7 @@ const SectionDosif = () => {
                                 <Col width="80">
                                     <CustomInput                                                                                          
                                         label="Velocidad"
+                                        icon={iconVelocity}
                                         type="number"
                                         unit="Km/h"
                                         defaultValue={inputs.work_velocity || ''}

@@ -7,20 +7,20 @@ const ResultsProfile = props => (
             <tbody>
                 <tr>
                     <td><b>Dosis:</b></td>
-                    <td style={{textAlign:"right"}}>{props.results?.dose.toFixed(2)} Kg/ha</td>
+                    <td style={{textAlign:"right"}}>{props.dose.toFixed(2)} Kg/ha</td>
                 </tr>
                 <tr>
                     <td><b>Promedio:</b></td>
-                    <td style={{textAlign:"right"}}>{props.results?.avg.toFixed(2)} gr</td>
+                    <td style={{textAlign:"right"}}>{props.results.avg.toFixed(2)} gr</td>
                 </tr>                        
                 <tr>
                     <td><b>Coef. variac.:</b></td>
-                    <td style={{textAlign:"right"}}>{props.results?.cv.toFixed(2)} %</td>
+                    <td style={{textAlign:"right"}}>{props.results.cv.toFixed(2)} %</td>
                 </tr>
                 {/*
                 <tr>
                     <td><b>Desvío estándar:</b></td>
-                    <td style={{textAlign:"right"}}>{props.results?.dst.toFixed(2)}</td>
+                    <td style={{textAlign:"right"}}>{props.results.dst.toFixed(2)}</td>
                 </tr>
                 */}
             </tbody>
