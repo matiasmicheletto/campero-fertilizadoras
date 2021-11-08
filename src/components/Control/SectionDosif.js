@@ -61,10 +61,11 @@ const SectionDosif = () => {
     const submit = () => {                
         // Calculo de outputs                
         const res = api.computeDose({method:method, ...inputs});
-        console.log(res);
+        console.log(res);        
         if(res.status === "error")
             Toast("error", model.error_messages[res.wrong_keys[0]], 2000, "center");
         else{
+            model.computed_dose = res.dose;
             setOutputs(res);
             setResults(true);
         }

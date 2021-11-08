@@ -2,7 +2,7 @@ export default class CamperoModel {
     constructor(){
         // Variables de dosificacion
         this.expected_dose = null; // Dosis prevista
-        this.calculateddose = null; // Dosis a calcular
+        this.computed_dose = null; // Dosis a calcular
         this.gear = null; // Cambio de la maquina
         this.recolected = null; // Peso total recolectado
         this.time = null;  // Tiempo de muestreo      
@@ -22,7 +22,7 @@ export default class CamperoModel {
         this.field_name = null; // Nombre del lote
         this.products = []; // Lista de prductos
 
-        this.error_messages = {
+        this.error_messages = { // Mensajes de error
             recolected: "Debe indicar el peso recolectado",
             distance: "Debe indicar la distancia recorrida",
             work_width: "Debe indicar el ancho de labor",
@@ -35,8 +35,17 @@ export default class CamperoModel {
             tray_number: "Debe indicar la cantidad de bandejas",
             tray_distance: "Debe indicar la distancia entre bandejas",
             work_pattern: "Debe indicar el patrón de trabajo",
-            products: "Debe indicar la densidad de cada producto",
+            products: "La lista de productos tiene datos faltantes",
             work_area: "Debe indicar el área de trabajo"
         };
+    }
+
+    saveToLocalStorage(){ // Guardar datos en localStorage
+        localStorage.setItem("campero_model", JSON.stringify(this));
+    }
+
+    getFromLocalStorage(){ // Recuperar datos de localStorage
+        let model = JSON.parse(localStorage.getItem("campero_model"));
+        Object.assign(this, model);
     }
 }

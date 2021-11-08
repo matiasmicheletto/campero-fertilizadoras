@@ -15,6 +15,7 @@ import CustomInput from '../Inputs';
 import { BackButton, DeleteButton, AddButton } from '../Buttons';
 import { ModelCtx } from '../../Context';
 import Toast from '../Toast';
+import api from '../../Api';
 
 const generate_id = () => "_" + Math.random().toString(36).substr(2) + Date.now();
 
@@ -62,9 +63,9 @@ const Supplies = props => {
     };
 
     const submit = () => {
-        const res = model.getSupplies();
+        const res = api.computeSuppliesList({products:products, work_area:inputs.work_area});
         if(res.status === "error")        
-            Toast("error", res.message, 2000, "center");
+            Toast("error", model.error_messages[res.wrong_keys[0]], 2000, "center");
         else{
             const quantities = res.quantities;
             const products = model.products;

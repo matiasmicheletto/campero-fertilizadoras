@@ -71,19 +71,19 @@ const SectionProfile = props => {
                     max={ww_max}
                     label={true}
                     step={1}
-                    value={inputs.work_width}                    
+                    defaultValue={inputs.work_width}
                     scaleSteps={ww_steps}
                     scaleSubSteps={3}
                     onRangeChange={v=>updateWW(v)}
                 />
             </Row>
-            <ResultsProfile results={results} dose={model.expected_dose}/>
+            <ResultsProfile results={results} expected_dose={model.expected_dose} computed_dose={model.computed_dose}/>
             <Row>
                 <Col>
                     <SimpleChart id="profile_plot" config={profile_chart_config} />
                 </Col>
             </Row>
-            <Row>
+            <Row style={{marginTop:20}}>
                 <Col width={20}></Col>
                 <Col width={60}>
                     <Button fill style={{textTransform:"none"}}>Agregar a reporte</Button>

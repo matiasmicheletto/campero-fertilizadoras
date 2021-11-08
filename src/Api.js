@@ -1,25 +1,25 @@
 // Ecuaciones CAMPERO Fertilizadoras
 
-const isString = value => typeof value === 'string' || value instanceof String;
+const isString = value => (typeof value === 'string' || value instanceof String) && value !== "";
 const isPositiveInteger = value => Number.isInteger(value) && value > 0;
 const isFloat = value => Number.isFinite(value);
 const isPositiveFloat = value => Number.isFinite(value) && value > 0;
 
 const schemas = { 
     computeDoseDirect:{        
-        recolected: v => isPositiveFloat(v),
-        distance: v => isPositiveFloat(v),
+        expected_dose: v => isPositiveFloat(v),
         work_width: v => isPositiveFloat(v),
-        expected_dose: v => isPositiveFloat(v)
+        distance: v => isPositiveFloat(v),
+        recolected: v => isPositiveFloat(v)
     },
     computeDoseIndirect: {
-        work_velocity: v => isPositiveFloat(v),
-        time: v =>  isPositiveFloat(v)
+        time: v =>  isPositiveFloat(v),
+        work_velocity: v => isPositiveFloat(v)
     },
     computeDensityFromRecolected: {
+        tray_area: v => isPositiveFloat(v),
         recolected: v => isPositiveFloat(v),
-        pass_number: v => isPositiveInteger(v),
-        tray_area: v => isPositiveFloat(v)
+        pass_number: v => isPositiveInteger(v)
     },
     computeDistributionProfile: {
         tray_data: v => v.every(x => isFloat(x)),
@@ -29,7 +29,7 @@ const schemas = {
         work_pattern: v => isString(v) && (v === "circular" || v === "linear")
     },
     computeSuppliesList: {
-        products: v => v.every(x => isPositiveFloat(x.density) && isString(x.name)),
+        products: v => v.length > 0 && v.every(x => isPositiveFloat(x.density) && isString(x.name)),            
         work_area: v => isPositiveFloat(v)
     }
 };
@@ -47,6 +47,7 @@ const computeDoseDirect = params => {
 };
 
 const computeDoseIndirect = params => {
+    console.log(params);
     const wrong_keys = validate(schemas.computeDoseIndirect, params);
     if(wrong_keys.length > 0) return {status: "error", wrong_keys};
     const { recolected, work_velocity, time, work_width, expected_dose } = params;
@@ -65,6 +66,7 @@ const computeDose = params => {
 }
 
 const computeDensityFromRecolected = params => {
+    console.log(params);
     const wrong_keys = validate(schemas.computeDensityFromRecolected, params);
     if(wrong_keys.length > 0) return {status: "error", wrong_keys};
     const {recolected, pass_number, tray_area} = params;
@@ -73,6 +75,7 @@ const computeDensityFromRecolected = params => {
 };
 
 const computeDistributionProfile = params => {
+    console.log(params);
     const wrong_keys = validate(schemas.computeDistributionProfile, params);
     if(wrong_keys.length > 0) return {status: "error", wrong_keys};    
     const {tray_data, tray_number, tray_distance, work_width, work_pattern} = params;
@@ -104,6 +107,7 @@ const computeDistributionProfile = params => {
 };
 
 const computeSuppliesList = params => {
+    console.log(params);
     const wrong_keys = validate(schemas.computeSuppliesList, params);
     if(wrong_keys.length > 0) return {status: "error", wrong_keys};
     const {products, work_area} = params;
