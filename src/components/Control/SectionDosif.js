@@ -14,6 +14,7 @@ import iconVelocity from '../../img/icons/velocidad.png';
 import iconTime from '../../img/icons/tiempo.png';
 import iconCollected from '../../img/icons/recolectado_chorrillo.png';
 import api from '../../Api';
+import { error_messages } from '../../Utils';
 
 const SectionDosif = () => {
 
@@ -64,7 +65,7 @@ const SectionDosif = () => {
         const res = api.computeDose({method:method, ...inputs});
         console.log(res);        
         if(res.status === "error")
-            Toast("error", model.error_messages[res.wrong_keys[0]], 2000, "center");
+            Toast("error", error_messages[res.wrong_keys[0]], 2000, "center");
         else{
             model.computed_dose = res.dose;
             setOutputs(res);

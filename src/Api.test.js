@@ -1,5 +1,4 @@
 import api from './Api';
-//import { error_messages } from './Model';
 
 describe('Validación de formulario de dosificación', () => {    
     
@@ -306,8 +305,8 @@ describe('Cálculo de perfil de fertilización', ()=>{
     };
 
     const check_all = (params, expected) => {
-        // Compara atributos de objeto por valor exacto o aproximado
-        const res = api.computeDistributionProfile(params);        
+        // Compara atributos de objeto por valor exacto o aproximado        
+        const res = api.computeDistributionProfile(params);
         for(let attr in expected)
             switch(comp_type[attr]){
                 case 0:

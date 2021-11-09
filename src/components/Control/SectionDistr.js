@@ -3,7 +3,6 @@ import { FaArrowCircleLeft, FaArrowCircleRight, FaStopCircle } from 'react-icons
 import { useState, useContext } from 'react';
 import CustomInput from '../Inputs';
 import openCollectedPrompt from '../Prompts';
-import Toast from '../Toast';
 import { ModelCtx } from '../../Context';
 import SimpleChart from '../SimpleChart';
 import SectionProfile from './SectionProfile';
@@ -23,6 +22,7 @@ const SectionDistr = props => {
         tray_distance: model.tray_distance || 0,
         pass_number: model.pass_number || 0,
         tray_data: model.tray_data || [],
+        tray_number: model.tray_number || 0
     });
 
     // Mostrar/ocultar bloque de resultados de perfil medido
@@ -56,7 +56,7 @@ const SectionDistr = props => {
             model.tray_number = n;
             model.tray_data = tempArr;
             model.saveToLocalStorage();
-            setInputs({...inputs, tray_data: tempArr});
+            setInputs({...inputs, tray_data: tempArr, tray_number: n});
             setResults(false);
         }
     };
@@ -85,13 +85,12 @@ const SectionDistr = props => {
     const submit = () => { 
         // Pasar datos al modelo y habilitar resultados
         // TODO: hacer barrido de bandejas
-        console.log(inputs);
         setResults(true);
     };
 
     const densityFromRecolected = value => {
         const res = api.computeDensityFromRecolected({
-            recolected: model.recolected,
+            recolected: value,
             pass_number: model.pass_number,
             tray_area: model.tray_area
         });
@@ -142,7 +141,8 @@ const SectionDistr = props => {
                     slot="list"
                     icon={iconTrayNum}
                     label="Cantidad de bandejas"
-                    type="number"          
+                    type="number"       
+                    value={inputs.tray_number || ''}   
                     onInputClear={()=>setNumTrays(0)}          
                     onChange={v=>setNumTrays(parseInt(v.target.value))}
                     ></CustomInput>

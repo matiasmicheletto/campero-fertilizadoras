@@ -1,11 +1,12 @@
 import { Row, Col, Button, Range, BlockTitle } from 'framework7-react';
 import { useState, useContext } from 'react';
 import { ModelCtx } from '../../Context';
+import Toast from '../Toast';
 import SimpleChart from '../SimpleChart';
 import PatternSelector from './PatternSelector';
 import ResultsProfile from './ResultsProfile';
 import api from '../../Api';
-import Toast from '../Toast';
+import { error_messages } from '../../Utils';
 
 
 const SectionProfile = props => {
@@ -13,10 +14,12 @@ const SectionProfile = props => {
     const model = useContext(ModelCtx);
 
     const [inputs, setInputs] = useState({
-        tray_data: model.tray_data,
+        tray_area: model.tray_area,
+        tray_data: model.tray_data.map(x=>x.collected),
         tray_number: model.tray_number,
         tray_distance: model.tray_distance,
         work_width: model.work_width,
+        pass_number: model.pass_number,
         work_pattern: model.work_pattern
     });
 
@@ -31,10 +34,9 @@ const SectionProfile = props => {
     };
 
     // Resultado del perfil        
-    const results = api.computeDistributionProfile(inputs);
-    console.log(results);
+    const results = api.computeDistributionProfile(inputs);    
     if(results.status === 'error'){
-        Toast("error", model.error_messages[results.wrong_keys[0]], 2000, "center");
+        Toast("error", error_messages[results.wrong_keys[0]], 2000, "center");
         props.hideResults();
         return null;
     }    

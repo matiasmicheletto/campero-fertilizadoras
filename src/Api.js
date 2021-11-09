@@ -5,7 +5,7 @@ const isPositiveInteger = value => Number.isInteger(value) && value > 0;
 const isFloat = value => Number.isFinite(value);
 const isPositiveFloat = value => Number.isFinite(value) && value > 0;
 
-const DEBUG = true;
+const DEBUG = false;
 
 const schemas = { 
     computeDoseDirect:{        
@@ -84,7 +84,7 @@ const computeDistributionProfile = params => {
     const wrong_keys = validate(schemas.computeDistributionProfile, params);
     if(wrong_keys.length > 0) return {status: "error", wrong_keys};    
     const {tray_data, tray_number, tray_distance, work_width, work_pattern} = params;
-    const profile = tray_data.map(x => x.collected);
+    const profile = [...tray_data];
     const tw = tray_distance * tray_number; 
     const get_s = r => Math.floor((tw - r * work_width) / tray_distance);
     let r = 1;
@@ -122,9 +122,11 @@ const computeSuppliesList = params => {
     return {status: "success", quantities};
 };
 
-export default {
+const exported = {
     computeDose,
     computeDensityFromRecolected,
     computeDistributionProfile,
     computeSuppliesList
 };
+
+export default exported;
