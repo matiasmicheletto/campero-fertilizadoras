@@ -46,6 +46,7 @@ const SectionDosif = () => {
         if( isNaN(update[name]) )
             update[name] = 0;
         model[name] = update[name];
+        model.saveToLocalStorage();
         setInputs({...inputs, ...update});
         setResults(false); // Ocultar bloque de resultados
     };
@@ -71,6 +72,17 @@ const SectionDosif = () => {
         }
     };
 
+    const clearForm = () => {
+        model.clearLocalStorage();        
+        const temp = {};
+        for(let key in inputs){
+            model[key] = null;
+            temp[key] = null;
+        }           
+        setInputs(temp);
+        setResults(false); // Ocultar bloque de resultados
+    };
+
     return (
         <div>
             <MethodSelector method={method} onChange={v => {setMethod(v); model.method = v; setResults(false);}}/>
@@ -83,7 +95,8 @@ const SectionDosif = () => {
                         label="Dosis prevista"
                         type="number"                
                         unit="Kg/ha"
-                        defaultValue={inputs.expected_dose || ''}
+                        value={inputs.expected_dose || ''}                        
+                        onInputClear={() => updateInput('expected_dose', null)}
                         onChange={v=>updateInput("expected_dose", v.target.value)}
                         ></CustomInput>
                     <CustomInput
@@ -91,7 +104,8 @@ const SectionDosif = () => {
                         icon={iconGear}
                         label="Cambio"
                         type="text"                        
-                        defaultValue={inputs.gear || ''}
+                        value={inputs.gear || ''}
+                        onInputClear={() => updateGear(null)}
                         onChange={v=>updateGear(v.target.value)}
                         ></CustomInput>
                     <CustomInput                    
@@ -100,7 +114,7 @@ const SectionDosif = () => {
                         label="Ancho de labor"
                         type="number"
                         unit="m"
-                        defaultValue={inputs.work_width || ''}
+                        value={inputs.work_width || ''}
                         onChange={v=>updateInput("work_width", v.target.value)}
                         ></CustomInput>
                     {method==="direct" ?
@@ -110,7 +124,8 @@ const SectionDosif = () => {
                             label="Distancia"
                             type="number"
                             unit="m"
-                            defaultValue={inputs.distance || ''}
+                            value={inputs.distance || ''}
+                            onInputClear={() => updateInput('distance', null)}
                             onChange={v=>updateInput("distance", v.target.value)}       
                             ></CustomInput>
                         :
@@ -120,7 +135,8 @@ const SectionDosif = () => {
                                 icon={iconTime}
                                 type="number"
                                 unit="seg"
-                                defaultValue={inputs.time || ''}
+                                value={inputs.time || ''}
+                                onInputClear={() => updateInput('time', null)}
                                 onChange={v=>updateInput("time", v.target.value)}       
                                 ></CustomInput>
                             <Row>
@@ -130,7 +146,8 @@ const SectionDosif = () => {
                                         icon={iconVelocity}
                                         type="number"
                                         unit="Km/h"
-                                        defaultValue={inputs.work_velocity || ''}
+                                        value={inputs.work_velocity || ''}
+                                        onInputClear={() => updateInput('work_velocity', null)}
                                         onChange={v=>updateInput("work_velocity", v.target.value)}       
                                         ></CustomInput>
                                 </Col>
@@ -146,7 +163,8 @@ const SectionDosif = () => {
                         label="Peso recolectado"
                         type="number"
                         unit="Kg"    
-                        defaultValue={inputs.recolected || ''}                
+                        value={inputs.recolected || ''}  
+                        onInputClear={() => updateInput('recolected', null)}              
                         onChange={v=>updateInput("recolected", v.target.value)}       
                         ></CustomInput>
                 </List>
@@ -154,6 +172,13 @@ const SectionDosif = () => {
                     <Col width={20}></Col>
                     <Col width={60}>
                         <Button fill onClick={submit} style={{textTransform:"none"}}>Calcular dosis</Button>
+                    </Col>
+                    <Col width={20}></Col>
+                </Row>
+                <Row style={{marginTop:5}}>
+                    <Col width={20}></Col>
+                    <Col width={60}>
+                        <Button fill color="red" onClick={clearForm} style={{textTransform:"none"}}>Borrar formulario</Button>
                     </Col>
                     <Col width={20}></Col>
                 </Row>

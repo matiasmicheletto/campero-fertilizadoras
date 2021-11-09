@@ -21,11 +21,9 @@ const SectionDistr = props => {
     const [inputs, setInputs] = useState({
         tray_area: model.tray_area || 0,
         tray_distance: model.tray_distance || 0,
-        pass_number: model.pass_number || 0
+        pass_number: model.pass_number || 0,
+        tray_data: model.tray_data || [],
     });
-
-    // Lista de peso de bandejas
-    const [trayArray, setTrayArray] = useState([]);
 
     // Mostrar/ocultar bloque de resultados de perfil medido
     const [results, setResults] = useState(false);
@@ -37,6 +35,8 @@ const SectionDistr = props => {
         if( isNaN(update[name]) )
             update[name] = 0;
         model[name] = update[name];
+        model.saveToLocalStorage();
+        console.log(update);
         setInputs({...inputs, ...update});        
         setResults(false);
     };
@@ -54,24 +54,38 @@ const SectionDistr = props => {
                 });
             }
             model.tray_number = n;
-            setTrayArray(tempArr);            
+            model.tray_data = tempArr;
+            model.saveToLocalStorage();
+            setInputs({...inputs, tray_data: tempArr});
             setResults(false);
         }
     };
 
     const addCollected = (row, value) => { 
         // Callback prompt
-        let tempArr = [...trayArray];
+        let tempArr = [...inputs.tray_data];
         tempArr[row].collected = value;
-        setTrayArray(tempArr);
+        model.tray_data = tempArr;
+        model.saveToLocalStorage();
+        setInputs({...inputs, tray_data: tempArr});
         setResults(false);
     };
 
-    const getTrayArray = () => trayArray.map(tr=>tr.collected);
+    const clearForm = () => {
+        model.clearLocalStorage();
+        const temp = {};
+        for(let key in inputs){
+            model[key] = null;
+            temp[key] = null;
+        }           
+        setInputs(temp);
+        setResults(false); // Ocultar bloque de resultados
+    };
 
     const submit = () => { 
         // Pasar datos al modelo y habilitar resultados
-        model.tray_data = getTrayArray();  
+        // TODO: hacer barrido de bandejas
+        console.log(inputs);
         setResults(true);
     };
 
@@ -91,11 +105,11 @@ const SectionDistr = props => {
         tooltip_prepend: "Bandeja ",
         tooltip_append: " gr",
         label_formatter: densityFromRecolected,
-        categories: Object.keys(getTrayArray()).map(v=>parseInt(v)+1),
+        categories: inputs.tray_data?.map(v=>parseFloat(v.collected)+1),
         series:[{           
             name: "Peso recolectado",
             showInLegend: false, 
-            data: getTrayArray(),
+            data: inputs.tray_data?.map(v=>v.collected),
             color: "rgb(50,50,250)"
         }]
     };
@@ -110,7 +124,8 @@ const SectionDistr = props => {
                     label="Superf. de bandeja"
                     type="number"
                     unit="m²"                    
-                    defaultValue={inputs.tray_area || ''}
+                    value={inputs.tray_area || ''}
+                    onInputClear={()=>updateInput('tray_area', null)}
                     onChange={v=>updateInput("tray_area", v.target.value)}
                     ></CustomInput>
                 <CustomInput
@@ -119,14 +134,16 @@ const SectionDistr = props => {
                     label="Dist. entre bandejas"
                     type="number"
                     unit="m"
-                    defaultValue={inputs.tray_distance || ''}
+                    value={inputs.tray_distance || ''}
+                    onInputClear={()=>updateInput('tray_distance', null)}
                     onChange={v=>updateInput("tray_distance", v.target.value)}
                     ></CustomInput>
                 <CustomInput
                     slot="list"
                     icon={iconTrayNum}
                     label="Cantidad de bandejas"
-                    type="number"                    
+                    type="number"          
+                    onInputClear={()=>setNumTrays(0)}          
                     onChange={v=>setNumTrays(parseInt(v.target.value))}
                     ></CustomInput>
                 <CustomInput
@@ -135,12 +152,13 @@ const SectionDistr = props => {
                     label="Cantidad de pasadas"
                     min={0}
                     type="number"
-                    defaultValue={inputs.pass_number || ''}
+                    value={inputs.pass_number || ''}
+                    onInputClear={()=>updateInput('pass_number', null)}
                     onChange={v=>updateInput("pass_number", v.target.value)}
                     ></CustomInput>
             </List>
             {
-                trayArray.length > 0 ?
+                inputs.tray_data?.length > 0 ?
                 <Card>
                     <div>
                         <table className="data-table" style={{textAlign:"center", minWidth:"0px", tableLayout:"fixed"}} >
@@ -157,7 +175,7 @@ const SectionDistr = props => {
                         <table className="data-table" style={{textAlign:"center", minWidth:"0px", tableLayout:"fixed"}} >                        
                             <tbody style={{maxHeight:"300px",overflow: "auto"}}>
                                 {
-                                    trayArray.map((tr,idx) => (
+                                    inputs.tray_data.map((tr,idx) => (
                                         <tr key={idx} onClick={()=>openCollectedPrompt(idx, tr.side, addCollected)}>
                                             <td>{idx+1}</td>
                                             <td className="label-cell">
@@ -184,7 +202,7 @@ const SectionDistr = props => {
                     <p>Ingrese la cantidad de bandejas</p>
                 </div>
             }
-            { trayArray.length > 0 && !results ?
+            { inputs.tray_data.length > 0 && !results ?
                 <>
                     <Row>
                         <Col>
@@ -195,6 +213,13 @@ const SectionDistr = props => {
                         <Col width={20}></Col>
                         <Col width={60}>
                             <Button onClick={submit} fill style={{textTransform:"none"}}>Calcular perfil</Button>
+                        </Col>
+                        <Col width={20}></Col>
+                    </Row>
+                    <Row style={{marginTop:5}}>
+                        <Col width={20}></Col>
+                        <Col width={60}>
+                            <Button fill color="red" onClick={clearForm} style={{textTransform:"none"}}>Borrar formulario</Button>
                         </Col>
                         <Col width={20}></Col>
                     </Row>

@@ -4,11 +4,11 @@ import classes from './Inputs.module.css'
 const CustomInput = props => {
     return (
         <div className={classes.Container} style={props.style}>
-            <ListInput          
-                className={classes.Input}      
+            <ListInput
+                className={classes.Input}
                 outline
                 floatingLabel
-                clearButton                
+                clearButton
                 {...props}>
                 {
                 props.icon ?

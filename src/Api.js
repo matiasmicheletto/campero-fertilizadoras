@@ -5,6 +5,8 @@ const isPositiveInteger = value => Number.isInteger(value) && value > 0;
 const isFloat = value => Number.isFinite(value);
 const isPositiveFloat = value => Number.isFinite(value) && value > 0;
 
+const DEBUG = true;
+
 const schemas = { 
     computeDoseDirect:{        
         expected_dose: v => isPositiveFloat(v),
@@ -22,15 +24,18 @@ const schemas = {
         pass_number: v => isPositiveInteger(v)
     },
     computeDistributionProfile: {
-        tray_data: v => v.every(x => isFloat(x)),
-        tray_number: v => isPositiveInteger(v),
         tray_distance: v => isPositiveFloat(v),
+        tray_number: v => isPositiveInteger(v),
+        tray_data: v => v?.length > 0 && v.every(x => isFloat(x)),
+        tray_area: v => isPositiveFloat(v),
+        pass_number: v => isPositiveInteger(v),
         work_width: v => isPositiveFloat(v),
         work_pattern: v => isString(v) && (v === "circular" || v === "linear")
     },
     computeSuppliesList: {
-        products: v => v.length > 0 && v.every(x => isPositiveFloat(x.density) && isString(x.name)),            
-        work_area: v => isPositiveFloat(v)
+        field_name: v => isString(v),
+        work_area: v => isPositiveFloat(v),
+        products: v => v?.length > 0 && v.every(x => isPositiveFloat(x.density) && isString(x.name))
     }
 };
 
@@ -42,12 +47,12 @@ const computeDoseDirect = params => {
     const { recolected, distance, work_width, expected_dose } = params;    
     const dose = recolected/distance/work_width*10000;
     const diffkg = dose-expected_dose;
-    const diffp = diffkg/dose*100;
+    const diffp = diffkg/expected_dose*100;
     return { status: "success", dose, diffkg, diffp };
 };
 
 const computeDoseIndirect = params => {
-    console.log(params);
+    if(DEBUG) console.log(params);
     const wrong_keys = validate(schemas.computeDoseIndirect, params);
     if(wrong_keys.length > 0) return {status: "error", wrong_keys};
     const { recolected, work_velocity, time, work_width, expected_dose } = params;
@@ -56,7 +61,7 @@ const computeDoseIndirect = params => {
 };
 
 const computeDose = params => {
-    console.log(params);
+    if(DEBUG) console.log(params);
     if(params.method === "direct")
         return computeDoseDirect(params);
     else if(params.method === "indirect")
@@ -66,7 +71,7 @@ const computeDose = params => {
 }
 
 const computeDensityFromRecolected = params => {
-    console.log(params);
+    if(DEBUG) console.log(params);
     const wrong_keys = validate(schemas.computeDensityFromRecolected, params);
     if(wrong_keys.length > 0) return {status: "error", wrong_keys};
     const {recolected, pass_number, tray_area} = params;
@@ -75,11 +80,11 @@ const computeDensityFromRecolected = params => {
 };
 
 const computeDistributionProfile = params => {
-    console.log(params);
+    if(DEBUG) console.log(params);
     const wrong_keys = validate(schemas.computeDistributionProfile, params);
     if(wrong_keys.length > 0) return {status: "error", wrong_keys};    
     const {tray_data, tray_number, tray_distance, work_width, work_pattern} = params;
-    const profile = [...tray_data];
+    const profile = tray_data.map(x => x.collected);
     const tw = tray_distance * tray_number; 
     const get_s = r => Math.floor((tw - r * work_width) / tray_distance);
     let r = 1;
@@ -107,7 +112,7 @@ const computeDistributionProfile = params => {
 };
 
 const computeSuppliesList = params => {
-    console.log(params);
+    if(DEBUG) console.log(params);
     const wrong_keys = validate(schemas.computeSuppliesList, params);
     if(wrong_keys.length > 0) return {status: "error", wrong_keys};
     const {products, work_area} = params;
