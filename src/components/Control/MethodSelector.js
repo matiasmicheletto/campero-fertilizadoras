@@ -5,7 +5,12 @@ const MethodSelector = props => {
     const setMethod = (el,value) => {
         // Alterna estado del selector y retorna valor por prop
         if(el.target.checked)
-            props.onChange(value);
+            props.onChange({
+                target: {
+                    name: 'method',
+                    value: value
+                }
+            });
     }
 
     return (
@@ -15,13 +20,13 @@ const MethodSelector = props => {
                 <Col style={{textAlign:"center"}}>
                     <Radio 
                         name="input-type" 
-                        checked={props.method==="direct"} 
+                        checked={props.value==="direct"} 
                         onChange={e=>setMethod(e,"direct")}/> Por distancia
                 </Col>
                 <Col style={{textAlign:"center"}}>
                     <Radio 
                         name="input-type" 
-                        checked={props.method==="indirect"} 
+                        checked={props.value==="indirect"} 
                         onChange={e=>setMethod(e,"indirect")}/> Por tiempo
                 </Col>
             </Row>

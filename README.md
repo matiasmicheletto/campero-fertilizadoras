@@ -26,6 +26,8 @@
 
 
 #### Insumos
+  - Inputs con valor 0.  
+  - Mover slider ancho de labor hacia abajo del gráfico.  
   - Tipo de presentacion: envase/granel.  
   - Segerir densidad calculada para el primer (o cada?) producto agregado.  
 

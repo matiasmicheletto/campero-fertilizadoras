@@ -6,7 +6,7 @@ import reports from '../../img/icons/reportes.png';
 import info from '../../img/icons/info.png';
 import logoInta from '../../img/backgrounds/logoInta.png';
 import logoMin from '../../img/backgrounds/logomin.png';
-import logo from '../../img/icons/logo.jpg';
+import logo from '../../img/icons/logo.png';
 
 const Home = () => (
     <Page name="home" className={classes.HomePage}>

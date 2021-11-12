@@ -12,144 +12,145 @@ import iconDistance from '../../img/icons/dist_muestreo.png';
 import iconWorkWidth from '../../img/icons/ancho_labor.png';
 import iconVelocity from '../../img/icons/velocidad.png';
 import iconTime from '../../img/icons/tiempo.png';
-import iconCollected from '../../img/icons/recolectado_chorrillo.png';
+import iconCollected from '../../img/icons/peso_recolectado.png';
 import api from '../../Api';
 import { error_messages } from '../../Utils';
 
 const SectionDosif = () => {
 
     const model = useContext(ModelCtx);
-
-    // Metodo de medicion de distancia direct/indirect
-    const [method, setMethod] = useState(model.method); 
-    
-    // Mostrar/ocultar bloque de resultados parciales
-    const [results, setResults] = useState(false);
     
     // Campos del formulario
     const [inputs, setInputs] = useState({
-        expected_dose: model.expected_dose || 0, // Dosis real (medida)
-        gear: model.gear || 0, // Cambio de la maquinaria
-        work_width: model.work_width || 0, // Ancho de labor
-        distance: model.distance || 0, // Distancia recorrida
-        time: model.time || 0, // Tiempo de medicion
-        work_velocity: parseFloat(model.work_velocity) || 0, // Velocidad de labor
-        recolected: model.recolected || 0 // Peso recolectado
+        method: model.method || 'direct',
+        expected_dose: model.expected_dose || '', // Dosis real (medida)
+        gear: model.gear || '', // Cambio de la maquinaria
+        work_width: model.work_width || '', // Ancho de labor
+        distance: model.distance || '', // Distancia recorrida
+        time: model.time || '', // Tiempo de medicion
+        work_velocity: parseFloat(model.work_velocity) || '', // Velocidad de labor
+        recolected: model.recolected || '' // Peso recolectado
     });
     
     // Resultados
-    const [outputs, setOutputs] = useState({});
+    const [outputs, setOutputs] = useState({
+        show: false,
+        dose: '',
+        diffkg: '',
+        diffp: ''
+    });
 
-    const updateInput = (name, value) => {        
-        // Parseo input
-        const update = {};
-        update[name] = parseFloat(value);
-        if( isNaN(update[name]) )
-            update[name] = 0;
-        model[name] = update[name];
-        model.saveToLocalStorage();
-        setInputs({...inputs, ...update});
-        setResults(false); // Ocultar bloque de resultados
+    const setInputValue = (key, value) => {        
+        const update = { ...inputs};
+        if(value !== '' && key !== "gear" && key !== "method")
+            update[key] = parseFloat(value);
+        else 
+            update[key] = value;        
+        console.log(update);
+        setInputs(update);
+        setOutputs({...outputs, show: false});
     };
 
-    const updateGear = value => {
-        if(value !== ""){
-            model.gear = value;
-            setInputs({...inputs, gear: value});
-            setResults(false); // Ocultar bloque de resultados
-        }
+    const handleChange = e => {        
+        setInputValue(e.target.name, e.target.value);        
     };
 
-    const submit = () => {                
-        // Calculo de outputs                
-        const res = api.computeDose({method:method, ...inputs});
-        console.log(res);        
+    const handleClear = e => {        
+        setInputValue(e.target.name, '');
+    };
+
+    const submit = () => {        
+        const res = api.computeDose(inputs);
+        console.log(res);
         if(res.status === "error")
             Toast("error", error_messages[res.wrong_keys[0]], 2000, "center");
         else{
-            model.computed_dose = res.dose;
-            setOutputs(res);
-            setResults(true);
+            setOutputs({...res, show: true});            
         }
     };
 
-    const clearForm = () => {
-        model.clearLocalStorage();        
+    const clearForm = () => {  
         const temp = {};
-        for(let key in inputs){
-            model[key] = null;
-            temp[key] = null;
-        }           
+        for(let key in inputs)
+            temp[key] = '';
+        temp.method = 'direct';
         setInputs(temp);
-        setResults(false); // Ocultar bloque de resultados
+        setOutputs({...outputs, show: false});
     };
 
     return (
         <div>
-            <MethodSelector method={method} onChange={v => {setMethod(v); model.method = v; setResults(false);}}/>
+            <MethodSelector value={inputs.method} onChange={handleChange}/>
             <Block style={{marginBottom:"0px"}}>
                 <BlockTitle>Dosis</BlockTitle>
                 <List form noHairlinesMd style={{marginBottom:"10px"}}>
                     <CustomInput                    
                         slot="list"
+                        name="expected_dose"
                         icon={iconDose}
                         label="Dosis prevista"
                         type="number"                
                         unit="Kg/ha"
-                        value={inputs.expected_dose || ''}                        
-                        onInputClear={() => updateInput('expected_dose', null)}
-                        onChange={v=>updateInput("expected_dose", v.target.value)}
+                        value={inputs.expected_dose}
+                        onInputClear={handleClear}
+                        onChange={handleChange}
                         ></CustomInput>
                     <CustomInput
                         slot="list"
+                        name="gear"
                         icon={iconGear}
                         label="Cambio"
-                        type="text"                        
-                        value={inputs.gear || ''}
-                        onInputClear={() => updateGear(null)}
-                        onChange={v=>updateGear(v.target.value)}
+                        type="text"
+                        value={inputs.gear}
+                        onInputClear={handleClear}
+                        onChange={handleChange}
                         ></CustomInput>
                     <CustomInput                    
                         slot="list"
+                        name="work_width"
                         icon={iconWorkWidth}
                         label="Ancho de labor"
                         type="number"
                         unit="m"
-                        value={inputs.work_width || ''}
-                        onChange={v=>updateInput("work_width", v.target.value)}
+                        value={inputs.work_width}
+                        onInputClear={handleClear}
+                        onChange={handleChange}
                         ></CustomInput>
-                    {method==="direct" ?
+                    {inputs.method==="direct" ?
                         <CustomInput                        
                             slot="list"
+                            name="distance"
                             icon={iconDistance}
                             label="Distancia"
                             type="number"
                             unit="m"
-                            value={inputs.distance || ''}
-                            onInputClear={() => updateInput('distance', null)}
-                            onChange={v=>updateInput("distance", v.target.value)}       
+                            value={inputs.distance}
+                            onInputClear={handleClear}
+                            onChange={handleChange}      
                             ></CustomInput>
                         :
                         <div slot="list">
                             <CustomInput                            
                                 label="Tiempo"
+                                name="time"
                                 icon={iconTime}
                                 type="number"
                                 unit="seg"
-                                value={inputs.time || ''}
-                                onInputClear={() => updateInput('time', null)}
-                                onChange={v=>updateInput("time", v.target.value)}       
+                                value={inputs.time}
+                                onInputClear={handleClear}
+                                onChange={handleChange}      
                                 ></CustomInput>
                             <Row>
                                 <Col width="80">
                                     <CustomInput                                                                                          
                                         label="Velocidad"
+                                        name="work_velocity"
                                         icon={iconVelocity}
                                         type="number"
                                         unit="Km/h"
-                                        value={inputs.work_velocity || ''}
-                                        onInputClear={() => updateInput('work_velocity', null)}
-                                        onChange={v=>updateInput("work_velocity", v.target.value)}       
+                                        value={inputs.work_velocity}
+                                        onInputClear={handleClear}
+                                        onChange={handleChange}
                                         ></CustomInput>
                                 </Col>
                                 <Col width="20" style={{paddingTop:"12px", marginRight:"10px"}}>
@@ -160,13 +161,14 @@ const SectionDosif = () => {
                     }
                     <CustomInput                    
                         slot="list"
+                        name="recolected"
                         icon={iconCollected}
                         label="Peso recolectado"
                         type="number"
                         unit="Kg"    
-                        value={inputs.recolected || ''}  
-                        onInputClear={() => updateInput('recolected', null)}              
-                        onChange={v=>updateInput("recolected", v.target.value)}       
+                        value={inputs.recolected}  
+                        onInputClear={handleClear}             
+                        onChange={handleChange}
                         ></CustomInput>
                 </List>
                 <Row>
@@ -183,7 +185,7 @@ const SectionDosif = () => {
                     </Col>
                     <Col width={20}></Col>
                 </Row>
-                {results ?
+                {outputs.show ?
                     <ResultsDose results={outputs}/>
                 :
                     null
