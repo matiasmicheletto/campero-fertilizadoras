@@ -25,11 +25,20 @@
     - [ ] Exportar reportes a pdf.  
 
 
-#### Insumos
-  - Inputs con valor 0.  
+#### Actual
+  - Corregir estructura y funcionamiento formulario dosificacion.  
+  - Replicar estructura para el formulario de perfil de fertilizacion.  
+  - Combinar inputs de selector de metodo y selector de patron de trabajo en un solo componente.  
   - Mover slider ancho de labor hacia abajo del gráfico.  
   - Tipo de presentacion: envase/granel.  
   - Segerir densidad calculada para el primer (o cada?) producto agregado.  
 
-#### Próximo sprint
-  - Reportes.  
+#### Siguiente
+  - Plantear e implementar modelo de reportes.  
+  - Vistas de listado y presentacion de reportes.  
+  - Generacion de pdf con contenido del reporte.   
+
+#### Siguiente
+  - Compilar app con Capacitor.  
+  - Guardar datos en almacenamiento persistente.  
+  - Exportar contenido para compartir.  
