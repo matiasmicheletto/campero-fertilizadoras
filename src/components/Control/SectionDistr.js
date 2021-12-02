@@ -12,37 +12,18 @@ import iconTrayArea from '../../img/icons/sup_bandeja.png';
 import iconPassNumber from '../../img/icons/cant_pasadas.png';
 import api from '../../Api';
 
-const SectionDistr = props => {
+const SectionDistr = () => {
 
     const model = useContext(ModelCtx);
 
-    // Campos del formulario de muestreo
-    const [inputs, setInputs] = useState({
-        tray_area: model.tray_area || 0,
-        tray_distance: model.tray_distance || 0,
-        pass_number: model.pass_number || 0,
-        tray_data: model.tray_data || [],
-        tray_number: model.tray_number || 0
-    });
+    const [tray_area, setTrayArea] = useState(model.tray_area || '');
+    const [tray_distance, setTrayDistance] = useState(model.tray_distance || '');
+    const [pass_number, setPassNumber] = useState(model.pass_number || '');
+    const [tray_data, setTrayData] = useState(model.tray_data || []);
+    const [tray_number, setTrayNumber] = useState(model.tray_number || '');
+    const [outputs, showOutputs] = useState(false);
 
-    // Mostrar/ocultar bloque de resultados de perfil medido
-    const [results, setResults] = useState(false);
-
-    const updateInput = (name, value) => {        
-        // Parseo input
-        const update = {};
-        update[name] = parseFloat(value);
-        if( isNaN(update[name]) )
-            update[name] = 0;
-        model[name] = update[name];
-        model.saveToLocalStorage();
-        console.log(update);
-        setInputs({...inputs, ...update});        
-        setResults(false);
-    };
-
-    const setNumTrays = n => { 
-        // Configurar cantidad de bandejas y actualizar tabla
+    const setNumTrays = n => { // Configurar cantidad de bandejas y actualizar tabla
         if(n >= 0 && n < 100){
             let tempArr = [];
             for(let idx = 0; idx < n; idx++){
@@ -53,46 +34,75 @@ const SectionDistr = props => {
                     collected: 0,
                 });
             }
-            model.tray_number = n;
-            model.tray_data = tempArr;
-            model.saveToLocalStorage();
-            setInputs({...inputs, tray_data: tempArr, tray_number: n});
-            setResults(false);
+            setTrayData(tempArr);
+            setTrayNumber(n);            
         }
     };
 
     const addCollected = (row, value) => { 
         // Callback prompt
-        let tempArr = [...inputs.tray_data];
-        tempArr[row].collected = value;
-        model.tray_data = tempArr;
-        model.saveToLocalStorage();
-        setInputs({...inputs, tray_data: tempArr});
-        setResults(false);
-    };
-
-    const clearForm = () => {
-        model.clearLocalStorage();
-        const temp = {};
-        for(let key in inputs){
-            model[key] = null;
-            temp[key] = null;
-        }           
-        setInputs(temp);
-        setResults(false); // Ocultar bloque de resultados
+        let tempArr = [...tray_data];
+        tempArr[row].collected = value;                        
+        setTrayData(tempArr);
+        showOutputs(false);
     };
 
     const submit = () => { 
         // Pasar datos al modelo y habilitar resultados
         // TODO: hacer barrido de bandejas
-        setResults(true);
+        showOutputs(true);
+    };
+
+    const updateValue = (name, value) => {
+        let f = parseFloat(value);
+        let n = parseInt(value);
+        if(isNaN(f) || f < 0)
+            f = '';
+        if(isNaN(n) || n < 0)
+            n = '';
+        switch(name){
+            case "tray_area":
+                setTrayArea(f);
+                break;
+            case "tray_distance":
+                setTrayDistance(f);
+                break;
+            case "pass_number":
+                setPassNumber(n);
+                break;
+            case "tray_number":
+                setNumTrays(n);
+                break;
+            default:
+                break;
+        }
+        showOutputs(false);
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        updateValue(name, value);  
+    };
+
+    const handleInputClear = (e) => {
+        const { name } = e.target;
+        updateValue(name, '');
+    };
+
+    const clearForm = () => {        
+        setTrayArea('');
+        setTrayDistance('');
+        setPassNumber('');
+        setTrayData([]);
+        setTrayNumber('');
+        showOutputs(false);        
     };
 
     const densityFromRecolected = value => {
         const res = api.computeDensityFromRecolected({
             recolected: value,
-            pass_number: model.pass_number,
-            tray_area: model.tray_area
+            pass_number: pass_number,
+            tray_area: tray_area
         });
         return res.density;
     };
@@ -104,11 +114,11 @@ const SectionDistr = props => {
         tooltip_prepend: "Bandeja ",
         tooltip_append: " gr",
         label_formatter: densityFromRecolected,
-        categories: inputs.tray_data?.map(v=>parseFloat(v.collected)+1),
+        categories: tray_data?.map(v=>parseFloat(v.collected)+1),
         series:[{           
             name: "Peso recolectado",
             showInLegend: false, 
-            data: inputs.tray_data?.map(v=>v.collected),
+            data: tray_data?.map(v=>v.collected),
             color: "rgb(50,50,250)"
         }]
     };
@@ -119,46 +129,50 @@ const SectionDistr = props => {
             <List form noHairlinesMd style={{marginBottom:"10px"}}>
                 <CustomInput
                     slot="list"
+                    name="tray_area"
                     icon={iconTrayArea}
                     label="Superf. de bandeja"
                     type="number"
                     unit="m²"                    
-                    value={inputs.tray_area || ''}
-                    onInputClear={()=>updateInput('tray_area', null)}
-                    onChange={v=>updateInput("tray_area", v.target.value)}
+                    value={tray_area}
+                    onInputClear={handleInputClear}
+                    onChange={handleInputChange}
                     ></CustomInput>
                 <CustomInput
                     slot="list"
+                    name="tray_distance"
                     icon={iconTrayDist}
                     label="Dist. entre bandejas"
                     type="number"
                     unit="m"
-                    value={inputs.tray_distance || ''}
-                    onInputClear={()=>updateInput('tray_distance', null)}
-                    onChange={v=>updateInput("tray_distance", v.target.value)}
+                    value={tray_distance}
+                    onInputClear={handleInputClear}
+                    onChange={handleInputChange}
                     ></CustomInput>
                 <CustomInput
-                    slot="list"
+                    slot="list"        
+                    name="tray_number"            
                     icon={iconTrayNum}
                     label="Cantidad de bandejas"
                     type="number"       
-                    value={inputs.tray_number || ''}   
-                    onInputClear={()=>setNumTrays(0)}          
-                    onChange={v=>setNumTrays(parseInt(v.target.value))}
+                    value={tray_number}   
+                    onInputClear={handleInputClear}
+                    onChange={handleInputChange}
                     ></CustomInput>
                 <CustomInput
                     slot="list"
+                    name="pass_number"
                     icon={iconPassNumber}
                     label="Cantidad de pasadas"
                     min={0}
                     type="number"
-                    value={inputs.pass_number || ''}
-                    onInputClear={()=>updateInput('pass_number', null)}
-                    onChange={v=>updateInput("pass_number", v.target.value)}
+                    value={pass_number}
+                    onInputClear={handleInputClear}
+                    onChange={handleInputChange}
                     ></CustomInput>
             </List>
             {
-                inputs.tray_data?.length > 0 ?
+                tray_data?.length > 0 ?
                 <Card>
                     <div>
                         <table className="data-table" style={{textAlign:"center", minWidth:"0px", tableLayout:"fixed"}} >
@@ -175,7 +189,7 @@ const SectionDistr = props => {
                         <table className="data-table" style={{textAlign:"center", minWidth:"0px", tableLayout:"fixed"}} >                        
                             <tbody style={{maxHeight:"300px",overflow: "auto"}}>
                                 {
-                                    inputs.tray_data.map((tr,idx) => (
+                                    tray_data.map((tr,idx) => (
                                         <tr key={idx} onClick={()=>openCollectedPrompt(idx, tr.side, addCollected)}>
                                             <td>{idx+1}</td>
                                             <td className="label-cell">
@@ -202,7 +216,7 @@ const SectionDistr = props => {
                     <p>Ingrese la cantidad de bandejas</p>
                 </div>
             }
-            { inputs.tray_data.length > 0 && !results ?
+            { tray_data.length > 0 && !outputs ?
                 <>
                     <Row>
                         <Col>
@@ -227,8 +241,8 @@ const SectionDistr = props => {
             :
                 null
             }
-            {results ?
-                <SectionProfile hideResults={()=>setResults(false)}/>
+            {outputs ?
+                <SectionProfile />
             :
                 null
             }

@@ -21,16 +21,14 @@ const SectionDosif = () => {
     const model = useContext(ModelCtx);
     
     // Campos del formulario
-    const [inputs, setInputs] = useState({
-        method: model.method || 'direct',
-        expected_dose: model.expected_dose || '', // Dosis real (medida)
-        gear: model.gear || '', // Cambio de la maquinaria
-        work_width: model.work_width || '', // Ancho de labor
-        distance: model.distance || '', // Distancia recorrida
-        time: model.time || '', // Tiempo de medicion
-        work_velocity: parseFloat(model.work_velocity) || '', // Velocidad de labor
-        recolected: model.recolected || '' // Peso recolectado
-    });
+    const [method, setMethod] = useState(model.method || 'direct');
+    const [expected_dose, setExpectedDose] = useState(model.expected_dose || '');
+    const [gear, setGear] = useState(model.gear || '');
+    const [work_width, setWorkWidth] = useState(model.work_width || '');
+    const [distance, setDistance] = useState(model.distance || '');
+    const [time, setTime] = useState(model.time || '');
+    const [work_velocity, setWorkVelocity] = useState(model.work_velocity || '');
+    const [recolected, setRecolected] = useState(model.recolected || '');
     
     // Resultados
     const [outputs, setOutputs] = useState({
@@ -40,27 +38,17 @@ const SectionDosif = () => {
         diffp: ''
     });
 
-    const setInputValue = (key, value) => {        
-        const update = { ...inputs};
-        if(value !== '' && key !== "gear" && key !== "method")
-            update[key] = parseFloat(value);
-        else 
-            update[key] = value;        
-        console.log(update);
-        setInputs(update);
-        setOutputs({...outputs, show: false});
-    };
-
-    const handleChange = e => {        
-        setInputValue(e.target.name, e.target.value);        
-    };
-
-    const handleClear = e => {        
-        setInputValue(e.target.name, '');
-    };
-
     const submit = () => {        
-        const res = api.computeDose(inputs);
+        const params = {
+            method,
+            expected_dose,
+            work_width,
+            distance,
+            time,
+            work_velocity,
+            recolected
+        };
+        const res = api.computeDose(params);
         console.log(res);
         if(res.status === "error")
             Toast("error", error_messages[res.wrong_keys[0]], 2000, "center");
@@ -69,18 +57,66 @@ const SectionDosif = () => {
         }
     };
 
+    const updateValue = (name, value) => {
+        let f = parseFloat(value);
+        if(isNaN(f) || f < 0)
+            f = '';
+        switch(name){
+            case 'method':
+                setMethod(value);
+                break;
+            case 'expected_dose':
+                setExpectedDose(f);
+                break;
+            case 'gear':
+                setGear(value);
+                break;
+            case 'work_width':
+                setWorkWidth(f);
+                break;
+            case 'distance':
+                setDistance(f);
+                break;
+            case 'time':
+                setTime(f);
+                break;
+            case 'work_velocity':
+                setWorkVelocity(f);
+                break;
+            case 'recolected':
+                setRecolected(f);
+                break;
+            default:
+                break;
+        }
+        setOutputs({...outputs, show: false});
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        updateValue(name, value);  
+    };
+
+    const handleInputClear = (e) => {
+        const { name } = e.target;
+        updateValue(name, '');
+    };
+
     const clearForm = () => {  
-        const temp = {};
-        for(let key in inputs)
-            temp[key] = '';
-        temp.method = 'direct';
-        setInputs(temp);
+        setMethod('direct');
+        setExpectedDose('');
+        setGear('');
+        setWorkWidth('');
+        setDistance('');
+        setTime('');
+        setWorkVelocity('');
+        setRecolected('');
         setOutputs({...outputs, show: false});
     };
 
     return (
         <div>
-            <MethodSelector value={inputs.method} onChange={handleChange}/>
+            <MethodSelector value={method} onChange={handleInputChange} />
             <Block style={{marginBottom:"0px"}}>
                 <BlockTitle>Dosis</BlockTitle>
                 <List form noHairlinesMd style={{marginBottom:"10px"}}>
@@ -91,9 +127,9 @@ const SectionDosif = () => {
                         label="Dosis prevista"
                         type="number"                
                         unit="Kg/ha"
-                        value={inputs.expected_dose}
-                        onInputClear={handleClear}
-                        onChange={handleChange}
+                        value={expected_dose}
+                        onInputClear={handleInputClear}
+                        onChange={handleInputChange}
                         ></CustomInput>
                     <CustomInput
                         slot="list"
@@ -101,9 +137,9 @@ const SectionDosif = () => {
                         icon={iconGear}
                         label="Cambio"
                         type="text"
-                        value={inputs.gear}
-                        onInputClear={handleClear}
-                        onChange={handleChange}
+                        value={gear}
+                        onInputClear={handleInputClear}
+                        onChange={handleInputChange}
                         ></CustomInput>
                     <CustomInput                    
                         slot="list"
@@ -112,11 +148,11 @@ const SectionDosif = () => {
                         label="Ancho de labor"
                         type="number"
                         unit="m"
-                        value={inputs.work_width}
-                        onInputClear={handleClear}
-                        onChange={handleChange}
+                        value={work_width}
+                        onInputClear={handleInputClear}
+                        onChange={handleInputChange}
                         ></CustomInput>
-                    {inputs.method==="direct" ?
+                    {method==="direct" ?
                         <CustomInput                        
                             slot="list"
                             name="distance"
@@ -124,9 +160,9 @@ const SectionDosif = () => {
                             label="Distancia"
                             type="number"
                             unit="m"
-                            value={inputs.distance}
-                            onInputClear={handleClear}
-                            onChange={handleChange}      
+                            value={distance}
+                            onInputClear={handleInputClear}
+                            onChange={handleInputChange}
                             ></CustomInput>
                         :
                         <div slot="list">
@@ -136,9 +172,9 @@ const SectionDosif = () => {
                                 icon={iconTime}
                                 type="number"
                                 unit="seg"
-                                value={inputs.time}
-                                onInputClear={handleClear}
-                                onChange={handleChange}      
+                                value={time}
+                                onInputClear={handleInputClear}
+                                onChange={handleInputChange}
                                 ></CustomInput>
                             <Row>
                                 <Col width="80">
@@ -148,9 +184,9 @@ const SectionDosif = () => {
                                         icon={iconVelocity}
                                         type="number"
                                         unit="Km/h"
-                                        value={inputs.work_velocity}
-                                        onInputClear={handleClear}
-                                        onChange={handleChange}
+                                        value={work_velocity}
+                                        onInputClear={handleInputClear}
+                                        onChange={handleInputChange}
                                         ></CustomInput>
                                 </Col>
                                 <Col width="20" style={{paddingTop:"12px", marginRight:"10px"}}>
@@ -166,9 +202,9 @@ const SectionDosif = () => {
                         label="Peso recolectado"
                         type="number"
                         unit="Kg"    
-                        value={inputs.recolected}  
-                        onInputClear={handleClear}             
-                        onChange={handleChange}
+                        value={recolected}  
+                        onInputClear={handleInputClear}
+                        onChange={handleInputChange}
                         ></CustomInput>
                 </List>
                 <Row>
