@@ -11,17 +11,27 @@ import iconTrayNum from '../../img/icons/cant_bandejas.png';
 import iconTrayArea from '../../img/icons/sup_bandeja.png';
 import iconPassNumber from '../../img/icons/cant_pasadas.png';
 import api from '../../Api';
+import Toast from '../Toast';
+import { error_messages } from '../../Utils';
 
 const SectionDistr = () => {
 
     const model = useContext(ModelCtx);
 
+    // Campos del formulario
     const [tray_area, setTrayArea] = useState(model.tray_area || '');
     const [tray_distance, setTrayDistance] = useState(model.tray_distance || '');
-    const [pass_number, setPassNumber] = useState(model.pass_number || '');
     const [tray_data, setTrayData] = useState(model.tray_data || []);
     const [tray_number, setTrayNumber] = useState(model.tray_number || '');
-    const [outputs, showOutputs] = useState(false);
+    const [pass_number, setPassNumber] = useState(model.pass_number || '');
+    
+    // Resultados
+    const [outputs, setOutputs] = useState({
+        show: false,
+        linear: {},
+        circular: {},
+        ww_range: {}
+    });
 
     const setNumTrays = n => { // Configurar cantidad de bandejas y actualizar tabla
         if(n >= 0 && n < 100){
@@ -44,13 +54,7 @@ const SectionDistr = () => {
         let tempArr = [...tray_data];
         tempArr[row].collected = value;                        
         setTrayData(tempArr);
-        showOutputs(false);
-    };
-
-    const submit = () => { 
-        // Pasar datos al modelo y habilitar resultados
-        // TODO: hacer barrido de bandejas
-        showOutputs(true);
+        setOutputs(false);
     };
 
     const updateValue = (name, value) => {
@@ -76,7 +80,7 @@ const SectionDistr = () => {
             default:
                 break;
         }
-        showOutputs(false);
+        setOutputs(false);
     };
 
     const handleInputChange = (e) => {
@@ -95,7 +99,25 @@ const SectionDistr = () => {
         setPassNumber('');
         setTrayData([]);
         setTrayNumber('');
-        showOutputs(false);        
+        setOutputs(false);        
+    };
+
+    const submit = () => { 
+        const params = {
+            tray_data,
+            tray_distance
+        };
+        const res = api.sweepForProfile(params);
+        console.log(res);
+        if(res.status === "error")
+            Toast("error", error_messages[res.wrong_keys[0]], 2000, "center");
+        else
+            setOutputs({
+                show: true,
+                linear: res.linear,
+                circular: res.circular,
+                ww_range: res.ww_range
+            });
     };
 
     const densityFromRecolected = value => {
@@ -216,7 +238,7 @@ const SectionDistr = () => {
                     <p>Ingrese la cantidad de bandejas</p>
                 </div>
             }
-            { tray_data.length > 0 && !outputs ?
+            { tray_data.length > 0 && !outputs.show ?
                 <>
                     <Row>
                         <Col>
@@ -241,8 +263,8 @@ const SectionDistr = () => {
             :
                 null
             }
-            {outputs ?
-                <SectionProfile />
+            {outputs.show ?
+                <SectionProfile outputs={outputs}/>
             :
                 null
             }

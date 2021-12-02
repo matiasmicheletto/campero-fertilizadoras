@@ -1,50 +1,22 @@
 import { Row, Col, Button, Range, BlockTitle } from 'framework7-react';
 import { useState, useContext } from 'react';
 import { ModelCtx } from '../../Context';
-import Toast from '../Toast';
 import SimpleChart from '../SimpleChart';
 import PatternSelector from './PatternSelector';
 import ResultsProfile from './ResultsProfile';
-import api from '../../Api';
-import { error_messages } from '../../Utils';
 
 
 const SectionProfile = props => {
 
     const model = useContext(ModelCtx);
 
-    const [inputs, setInputs] = useState({
-        tray_area: model.tray_area,
-        tray_data: model.tray_data.map(x=>x.collected),
-        tray_number: model.tray_number,
-        tray_distance: model.tray_distance,
-        work_width: model.work_width,
-        pass_number: model.pass_number,
-        work_pattern: model.work_pattern
-    });
+    const [work_width, setWorkWidth] = useState(model.work_width || 1);
+    const [work_pattern, setWorkPattern] = useState(model.pattern || "circular");
 
-    const updateWW = (value) => {        
-        model.work_width = parseFloat(value);
-        setInputs({...inputs, work_width: model.work_width});
-    };
+    console.log(props);
 
-    const updatePattern = (value) => {
-        model.work_pattern = value;
-        setInputs({...inputs, work_pattern: value});
-    };
-
-    // Resultado del perfil        
-    const results = api.computeDistributionProfile(inputs);    
-    if(results.status === 'error'){
-        Toast("error", error_messages[results.wrong_keys[0]], 2000, "center");
-        props.hideResults();
-        return null;
-    }    
-
-    // Rango del deslizador de ancho de labor
-    const ww_min = 1;
-    const ww_max = model.tray_number*model.tray_distance;
-    const ww_steps = ww_max; // Cantidad de pasos == valor maximo --> paso = 1mt.
+    const index = props.outputs[work_pattern].findIndex(v => Math.abs(v.work_width-work_width) < 0.01);
+    const results = props.outputs[work_pattern][index];
 
     // Configuracion del grafico del perfil
     const profile_chart_config = { 
@@ -65,25 +37,25 @@ const SectionProfile = props => {
 
     return (
         <>
-            <PatternSelector pattern={inputs.work_pattern} onChange={v => updatePattern(v)}/>
-            <Row style={{marginTop:10, marginBottom:30}}>
-                <BlockTitle>Ancho de labor: {inputs.work_width} mts.</BlockTitle>
-                <Range
-                    min={ww_min}
-                    max={ww_max}
-                    label={true}
-                    step={1}
-                    defaultValue={inputs.work_width}
-                    scaleSteps={ww_steps}
-                    scaleSubSteps={3}
-                    onRangeChange={v=>updateWW(v)}
-                />
-            </Row>
+            <PatternSelector pattern={work_pattern} onChange={v => setWorkPattern(v)}/>
             <ResultsProfile results={results} expected_dose={model.expected_dose} computed_dose={model.computed_dose}/>
             <Row>
                 <Col>
                     <SimpleChart id="profile_plot" config={profile_chart_config} />
                 </Col>
+            </Row>
+            <Row style={{marginTop:10, marginBottom:30}}>
+                <BlockTitle>Ancho de labor: {work_width} mts.</BlockTitle>
+                <Range
+                    min={props.outputs.ww_range.min}
+                    max={props.outputs.ww_range.max}
+                    label={true}
+                    step={1}
+                    defaultValue={work_width}
+                    scaleSteps={props.outputs.ww_range.steps}
+                    scaleSubSteps={3}                    
+                    onRangeChange={v=>setWorkWidth(v)}
+                />
             </Row>
             <Row style={{marginTop:20}}>
                 <Col width={20}></Col>

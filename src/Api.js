@@ -23,12 +23,13 @@ const schemas = {
         recolected: v => isPositiveFloat(v),
         pass_number: v => isPositiveInteger(v)
     },
-    computeDistributionProfile: {
+    sweepForProfile: {
         tray_distance: v => isPositiveFloat(v),
-        tray_number: v => isPositiveInteger(v),
-        tray_data: v => v?.length > 0 && v.every(x => isFloat(x)),
-        tray_area: v => isPositiveFloat(v),
-        pass_number: v => isPositiveInteger(v),
+        tray_data: v => v?.length > 0 && v.every(x => isFloat(x.collected))
+    },
+    computeDistributionProfile: {
+        tray_distance: v => isPositiveFloat(v),        
+        tray_data: v => v?.length > 0 && v.every(x => isFloat(x.collected)),
         work_width: v => isPositiveFloat(v),
         work_pattern: v => isString(v) && (v === "circular" || v === "linear")
     },
@@ -79,11 +80,65 @@ const computeDensityFromRecolected = params => {
     return {status: "success", density};
 };
 
-const computeDistributionProfile = params => {
+const sweepForProfile = params => {
+    console.log(params);
     if(DEBUG) console.log(params);
-    const wrong_keys = validate(schemas.computeDistributionProfile, params);
-    if(wrong_keys.length > 0) return {status: "error", wrong_keys};    
-    const {tray_data, tray_number, tray_distance, work_width, work_pattern} = params;
+    const wrong_keys = validate(schemas.sweepForProfile, params);
+    if(wrong_keys.length > 0) return {status: "error", wrong_keys};
+    const {tray_data, tray_distance} = params;    
+    const res = {
+        linear: [],
+        circular: []
+    };
+    const ww_min = 1;
+    const ww_max = tray_data.length*tray_distance;
+    const ww_step = 1;
+    for(let work_width = ww_min; work_width < ww_max; work_width+=ww_step) {
+        const linear_res = computeDistributionProfile({
+            tray_data,
+            tray_distance,
+            work_width,
+            work_pattern: "linear"
+        });
+        res.linear.push({
+            work_width,
+            profile: linear_res.profile,
+            avg: linear_res.avg,
+            cv: linear_res.cv,
+            dst: linear_res.dst
+        });
+        const circular_res = computeDistributionProfile({
+            tray_data,
+            tray_distance,
+            work_width,
+            work_pattern: "circular"
+        });
+        res.circular.push({
+            work_width,
+            profile: circular_res.profile,
+            avg: circular_res.avg,
+            cv: circular_res.cv,
+            dst: circular_res.dst
+        });
+    }
+    return {
+        status: "success", 
+        linear: res.linear,
+        circular: res.circular,
+        ww_range: {
+            min:ww_min, 
+            max:ww_max, 
+            steps:ww_step
+        }
+    };
+};
+
+const computeDistributionProfile = params => {
+    //if(DEBUG) console.log(params);
+    //const wrong_keys = validate(schemas.computeDistributionProfile, params);
+    //if(wrong_keys.length > 0) return {status: "error", wrong_keys};    
+    const {tray_data, tray_distance, work_width, work_pattern} = params;
+    const tray_number = tray_data.length;
     const profile = [...tray_data];
     const tw = tray_distance * tray_number; 
     const get_s = r => Math.floor((tw - r * work_width) / tray_distance);
@@ -108,7 +163,8 @@ const computeDistributionProfile = params => {
     const sqdiff = profile.map(x => Math.pow(x - avg, 2));
     const dst = Math.sqrt(sqdiff.reduce((a, b) => a + b, 0) / (profile.length-1));    
     const cv = avg === 0 ? 0 : dst/avg*100;
-    return {status: "success", profile, avg, dst, cv};
+    //return {status: "success", profile, avg, dst, cv};
+    return {profile, avg, dst, cv};
 };
 
 const computeSuppliesList = params => {
@@ -125,7 +181,8 @@ const computeSuppliesList = params => {
 const exported = {
     computeDose,
     computeDensityFromRecolected,
-    computeDistributionProfile,
+    //computeDistributionProfile,
+    sweepForProfile,
     computeSuppliesList
 };
 

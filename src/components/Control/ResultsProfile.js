@@ -1,7 +1,7 @@
 import { Block } from 'framework7-react';
 
 const ResultsProfile = props => {
-    const {expected_dose, computed_dose} = props;
+    const {expected_dose, computed_dose, results} = props;
     const diffp = (expected_dose - computed_dose)/expected_dose*100;
 
     return(
@@ -19,11 +19,11 @@ const ResultsProfile = props => {
                     </tr>
                     <tr>
                         <td><b>Promedio:</b></td>
-                        <td style={{textAlign:"right"}}>{props.results.avg.toFixed(2)} gr</td>
+                        <td style={{textAlign:"right"}}>{results.avg.toFixed(2)} gr</td>
                     </tr>                        
                     <tr>
                         <td><b>Coef. variac.:</b></td>
-                        <td style={{textAlign:"right"}}>{props.results.cv.toFixed(2)} %</td>
+                        <td style={{textAlign:"right"}}>{results.cv.toFixed(2)} %</td>
                     </tr>
                     {/*
                     <tr>

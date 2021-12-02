@@ -25,11 +25,11 @@
     - [ ] Exportar reportes a pdf.  
 
 
-#### Actual
-  - Corregir estructura y funcionamiento formulario dosificacion.  
-  - Replicar estructura para el formulario de perfil de fertilizacion.  
-  - Combinar inputs de selector de metodo y selector de patron de trabajo en un solo componente.  
-  - Mover slider ancho de labor hacia abajo del gráfico.  
+#### Actual    
+  - Incorporar persistencia de inputs formularios mediante el context model.  
+  - Compartir valor del ancho de labor entre los dos formularios.  
+  - Test completo seccion dosis y perfil.  
+  - Combinar inputs de selector de metodo y selector de patron de trabajo en un solo componente.    
   - Tipo de presentacion: envase/granel.  
   - Segerir densidad calculada para el primer (o cada?) producto agregado.  
 

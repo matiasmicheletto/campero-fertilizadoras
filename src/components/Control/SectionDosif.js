@@ -38,25 +38,6 @@ const SectionDosif = () => {
         diffp: ''
     });
 
-    const submit = () => {        
-        const params = {
-            method,
-            expected_dose,
-            work_width,
-            distance,
-            time,
-            work_velocity,
-            recolected
-        };
-        const res = api.computeDose(params);
-        console.log(res);
-        if(res.status === "error")
-            Toast("error", error_messages[res.wrong_keys[0]], 2000, "center");
-        else{
-            setOutputs({...res, show: true});            
-        }
-    };
-
     const updateValue = (name, value) => {
         let f = parseFloat(value);
         if(isNaN(f) || f < 0)
@@ -112,6 +93,25 @@ const SectionDosif = () => {
         setWorkVelocity('');
         setRecolected('');
         setOutputs({...outputs, show: false});
+    };
+
+    const submit = () => {        
+        const params = {
+            method,
+            expected_dose,
+            work_width,
+            distance,
+            time,
+            work_velocity,
+            recolected
+        };
+        const res = api.computeDose(params);
+        console.log(res);
+        if(res.status === "error")
+            Toast("error", error_messages[res.wrong_keys[0]], 2000, "center");
+        else{
+            setOutputs({...res, show: true});            
+        }
     };
 
     return (
