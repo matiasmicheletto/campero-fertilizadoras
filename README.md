@@ -26,10 +26,8 @@
 
 
 #### Actual    
-  - Incorporar persistencia de inputs formularios mediante el context model.  
-  - Compartir valor del ancho de labor entre los dos formularios.  
-  - Test completo seccion dosis y perfil.  
-  - Combinar inputs de selector de metodo y selector de patron de trabajo en un solo componente.    
+  - Compartir valor del ancho de labor entre los dos formularios.  --> ver useEffect para consultar cambios en model.
+  - Test funcional completo seccion dosis y perfil.  
   - Tipo de presentacion: envase/granel.  
   - Segerir densidad calculada para el primer (o cada?) producto agregado.  
 
@@ -42,3 +40,7 @@
   - Compilar app con Capacitor.  
   - Guardar datos en almacenamiento persistente.  
   - Exportar contenido para compartir.  
+
+
+#### Refactor
+  - Combinar inputs de selector de metodo y selector de patron de trabajo en un solo componente.    

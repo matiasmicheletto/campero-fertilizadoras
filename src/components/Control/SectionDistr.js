@@ -44,7 +44,8 @@ const SectionDistr = () => {
                     collected: 0,
                 });
             }
-            setTrayData(tempArr);
+            model.update("tray_data", tempArr);
+            setTrayData(tempArr);            
             setTrayNumber(n);            
         }
     };
@@ -52,7 +53,8 @@ const SectionDistr = () => {
     const addCollected = (row, value) => { 
         // Callback prompt
         let tempArr = [...tray_data];
-        tempArr[row].collected = value;                        
+        tempArr[row].collected = value;
+        model.update("tray_data", tempArr);
         setTrayData(tempArr);
         setOutputs(false);
     };
@@ -80,6 +82,7 @@ const SectionDistr = () => {
             default:
                 break;
         }
+        model.update(name, value);
         setOutputs(false);
     };
 
@@ -99,7 +102,8 @@ const SectionDistr = () => {
         setPassNumber('');
         setTrayData([]);
         setTrayNumber('');
-        setOutputs(false);        
+        setOutputs(false); 
+        model.clear(["tray_area", "tray_distance", "pass_number", "tray_data", "tray_number"]);
     };
 
     const submit = () => { 

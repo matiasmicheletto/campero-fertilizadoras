@@ -27,6 +27,21 @@ export default class CamperoModel {
         this.getFromLocalStorage();
     }
 
+    update(param, value){ // Actualizar un parametro
+        this[param] = value;
+        this.saveToLocalStorage();
+    }
+
+    clear(params){ // Borrar lista de parametros
+        for(let i = 0; i < params.length; i++)
+            this[params[i]] = null;
+        if(params.includes("method"))
+            this.method = "direct";
+        if(params.includes("work_pattern"))
+            this.work_pattern = "linear";
+        this.saveToLocalStorage();
+    }
+
     saveToLocalStorage(){ // Guardar datos en localStorage
         localStorage.setItem("campero_model"+version, JSON.stringify(this));
     }

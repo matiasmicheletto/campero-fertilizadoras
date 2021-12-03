@@ -70,6 +70,7 @@ const SectionDosif = () => {
             default:
                 break;
         }
+        model.update(name, value);
         setOutputs({...outputs, show: false});
     };
 
@@ -93,6 +94,7 @@ const SectionDosif = () => {
         setWorkVelocity('');
         setRecolected('');
         setOutputs({...outputs, show: false});
+        model.clear(["method", "expected_dose", "gear", "work_width", "distance", "time", "work_velocity", "recolected"]);
     };
 
     const submit = () => {        
