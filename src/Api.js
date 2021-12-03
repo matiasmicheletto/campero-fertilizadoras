@@ -81,7 +81,6 @@ const computeDensityFromRecolected = params => {
 };
 
 const sweepForProfile = params => {
-    console.log(params);
     if(DEBUG) console.log(params);
     const wrong_keys = validate(schemas.sweepForProfile, params);
     if(wrong_keys.length > 0) return {status: "error", wrong_keys};
@@ -181,7 +180,7 @@ const computeSuppliesList = params => {
 const exported = {
     computeDose,
     computeDensityFromRecolected,
-    //computeDistributionProfile,
+    computeDistributionProfile,
     sweepForProfile,
     computeSuppliesList
 };

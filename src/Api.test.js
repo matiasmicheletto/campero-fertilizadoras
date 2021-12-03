@@ -97,85 +97,32 @@ describe('Validación de formulario de perfil', ()=>{
     
     test('Formulario vacio', ()=>{
         const params = {};
-        const res = api.computeDistributionProfile(params);
-        expect(res).toMatchObject({status:"error", wrong_keys:['tray_distance', 'tray_number', 'tray_data', 'tray_area', 'pass_number', 'work_width', 'work_pattern']});
+        const res = api.sweepForProfile(params);
+        expect(res).toMatchObject({status:"error", wrong_keys:['tray_distance', 'tray_data']});
     });
 
     test('Distancia entre bandejas no especificada', ()=>{
         const params = {
-            tray_area: 0.4
+            tray_data:[0,1,1,0]
         };
-        const res = api.computeDistributionProfile(params);
-        expect(res).toMatchObject({status:"error", wrong_keys:['tray_distance', 'tray_number', 'tray_data', 'pass_number', 'work_width', 'work_pattern']});
+        const res = api.sweepForProfile(params);
+        expect(res).toMatchObject({status:"error", wrong_keys:['tray_distance']});
     });
 
-    test('Cantidad de bandejas no especificada', ()=>{
+    test('Datos recolectados no indicados', ()=>{
         const params = {
-            tray_area: 0.4,
             tray_distance: 1
         };        
-        const res = api.computeDistributionProfile(params);
-        expect(res).toMatchObject({status:"error", wrong_keys:['tray_number', 'tray_data', 'pass_number', 'work_width', 'work_pattern']});
-    });
-
-    test('Cantidad de pasadas no especificada', ()=>{        
-        const params = {
-            tray_area: 0.4,
-            tray_distance: 1,
-            tray_number: 12
-        };
-        const res = api.computeDistributionProfile(params);
-        expect(res).toMatchObject({status:"error", wrong_keys:['tray_data', 'pass_number', 'work_width', 'work_pattern']});
-    });
-
-    test('Ancho de labor no indicado', ()=>{        
-        const params = {
-            tray_area: 0.4,
-            tray_distance: 1,
-            tray_number: 12,
-            pass_number: 2
-        };
-        const res = api.computeDistributionProfile(params);
-        expect(res).toMatchObject({status:"error", wrong_keys:['tray_data', 'work_width', 'work_pattern']});
-    });
-
-    test('Patrón de trabajo incorrecto', ()=>{                
-        const params = {
-            tray_area: 0.4,
-            tray_distance: 1,
-            tray_number: 12,
-            pass_number: 2,
-            work_width: 18,
-            work_pattern: ""
-        };
-        const res = api.computeDistributionProfile(params);
-        expect(res).toMatchObject({status:"error", wrong_keys:['tray_data', 'work_pattern']});
-    });
-
-    test('Error en valores de peso recolectado', ()=>{               
-        const params = {
-            tray_area: 0.4,
-            tray_distance: 1,
-            tray_number: 12,
-            pass_number: 2,
-            work_width: 18,
-            work_pattern: "linear"
-        };
-        const res = api.computeDistributionProfile(params);
+        const res = api.sweepForProfile(params);
         expect(res).toMatchObject({status:"error", wrong_keys:['tray_data']});
     });
 
     test('Formulario correcto', ()=>{                
         const params = {
-            tray_area: 0.4,
             tray_distance: 1,
-            tray_number: 12,
-            pass_number: 2,
-            work_width: 18,
-            work_pattern: "linear",
             tray_data: [1,2,3,5,5,6,5,4,3,3,2,1]
         };
-        const res = api.computeDistributionProfile(params);
+        const res = api.sweepForProfile(params);
         expect(res).toMatchObject({status:"success"});
     });
 });
@@ -331,10 +278,8 @@ describe('Cálculo de perfil de fertilización', ()=>{
             work_pattern: "linear",
             work_width: 14
         };
-        const expected = {
-            status: "success", 
-            profile: [4,4,4,5,7,7,5,4,4,4],
-            //dose: 60, 
+        const expected = {            
+            profile: [4,4,4,5,7,7,5,4,4,4],            
             avg: 4.8, 
             dst: 1.23, 
             cv: 25.61
@@ -353,7 +298,6 @@ describe('Cálculo de perfil de fertilización', ()=>{
             work_width: 14
         };
         const expected = {
-            status: "success",
             profile: [5,4,3,5,7,7,5,5,4,3],
             //dose: 60,
             avg: 4.8,
@@ -374,7 +318,6 @@ describe('Cálculo de perfil de fertilización', ()=>{
             work_width: 8
         };
         const expected = {
-            status: "success",
             profile: [10,9,8,8,9,10,9,9,10,9],
             //dose: 113.75,
             avg: 9.1,
@@ -395,7 +338,6 @@ describe('Cálculo de perfil de fertilización', ()=>{
             work_width: 8
         };
         const expected = {
-            status: "success",
             profile: [10,9,8,9,10,9,8,9,10,9],
             //dose: 113.75,
             avg: 9.1,
@@ -416,7 +358,6 @@ describe('Cálculo de perfil de fertilización', ()=>{
             work_width: 12
         };
         const expected = {
-            status: "success",
             profile: [3,4,3,4,6,6,7,9,7,6,5,5,3,4,3],
             //dose: 62.5,
             avg: 5.0,
@@ -437,7 +378,6 @@ describe('Cálculo de perfil de fertilización', ()=>{
             work_width: 12
         };
         const expected = {
-            status: "success",
             profile: [4,4,2,4,6,6,7,9,7,6,5,5,4,4,2],
             //dose: 62.5,
             avg: 5.0,
@@ -458,7 +398,6 @@ describe('Cálculo de perfil de fertilización', ()=>{
             work_width: 6
         };        
         const expected = {
-            status: "success",
             profile: [11,13,9,10,12,10,9,13,11,11,10,11,11,13,9],
             //dose: 135.83,
             avg: 10.87,
@@ -479,7 +418,6 @@ describe('Cálculo de perfil de fertilización', ()=>{
             work_width: 6
         };
         const expected = {
-            status: "success",
             profile: [11,13,9,10,11,11,11,13,9,10,11,11,11,13,9],
             //dose: 135.83,
             avg: 10.87,
@@ -500,7 +438,6 @@ describe('Cálculo de perfil de fertilización', ()=>{
             work_width: 13
         };        
         const expected = {
-            status: "success", 
             profile: [5,5,6,5,5,6,7,7,9,8,8,7,5,7,6,6,6,7],
             //dose: 79.86, 
             avg: 6.39, 
@@ -521,7 +458,6 @@ describe('Cálculo de perfil de fertilización', ()=>{
             work_width: 13
         };
         const expected = {
-            status: "success",
             profile: [5,6,6,5,7,6,7,7,9,8,8,7,5,5,6,6,5,7],
             //dose: 79.86,
             avg: 6.39,
@@ -542,7 +478,6 @@ describe('Cálculo de perfil de fertilización', ()=>{
             work_width: 8
         };
         const expected = {
-            status: "success",
             profile: [10,13,10,10,11,11,10,10,13,10,11,11,10,10,11,11,10,13],
             //dose: 135.42,
             avg: 10.83,
@@ -563,7 +498,6 @@ describe('Cálculo de perfil de fertilización', ()=>{
             work_width: 8
         };
         const expected = {
-            status: "success",
             profile: [11,12,11,10,10,11,11,10,11,12,11,10,10,11,11,10,11,12],
             //dose: 135.42,
             avg: 10.83,

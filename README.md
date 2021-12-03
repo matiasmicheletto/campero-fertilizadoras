@@ -25,8 +25,7 @@
     - [ ] Exportar reportes a pdf.  
 
 
-#### Actual    
-  - Compartir valor del ancho de labor entre los dos formularios.  --> ver useEffect para consultar cambios en model.
+#### Actual      
   - Test funcional completo seccion dosis y perfil.  
   - Tipo de presentacion: envase/granel.  
   - Segerir densidad calculada para el primer (o cada?) producto agregado.  
