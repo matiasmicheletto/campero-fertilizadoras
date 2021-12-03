@@ -1,5 +1,5 @@
 import { Block, BlockTitle, Row, Col, List, Button } from 'framework7-react';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import CustomInput from '../Inputs';
 import { CalculatorButton } from '../Buttons';
 import MethodSelector from './MethodSelector';
@@ -70,7 +70,7 @@ const SectionDosif = () => {
             default:
                 break;
         }
-        model.update(name, value);
+        model.update(name, name === 'method' || name === 'gear' ? value : f);
         setOutputs({...outputs, show: false});
     };
 
@@ -107,6 +107,7 @@ const SectionDosif = () => {
             work_velocity,
             recolected
         };
+        console.log(params);
         const res = api.computeDose(params);
         console.log(res);
         if(res.status === "error")

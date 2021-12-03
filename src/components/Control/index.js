@@ -1,6 +1,6 @@
 import { Navbar, Page } from 'framework7-react';
 import SectionDosif from './SectionDosif';
-import TestForm from './TestForm';
+//import TestForm from './TestForm';
 import SectionDistr from './SectionDistr';
 import { BackButton } from '../Buttons';
 

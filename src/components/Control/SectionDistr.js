@@ -38,7 +38,7 @@ const SectionDistr = () => {
             let tempArr = [];
             for(let idx = 0; idx < n; idx++){
                 // Posiciones de las bandejas Izquierda - Centro - Derecha
-                const side = idx === (n-1)/2 ? "middle" : (idx < n/2 ? "left" : "right");                
+                const side = idx === (n-1)/2 ? "middle" : (idx < n/2 ? "left" : "right");
                 tempArr.push({                    
                     side: side,
                     collected: 0,
@@ -82,7 +82,7 @@ const SectionDistr = () => {
             default:
                 break;
         }
-        model.update(name, value);
+        model.update(name, name === "tray_area" || name === "tray_distance" ? f : n);
         setOutputs(false);
     };
 
@@ -216,7 +216,7 @@ const SectionDistr = () => {
                             <tbody style={{maxHeight:"300px",overflow: "auto"}}>
                                 {
                                     tray_data.map((tr,idx) => (
-                                        <tr key={idx} onClick={()=>openCollectedPrompt(idx, tr.side, addCollected)}>
+                                        <tr key={idx} onClick={()=>openCollectedPrompt(idx, tr.side, tray_data.length, addCollected)}>
                                             <td>{idx+1}</td>
                                             <td className="label-cell">
                                             {

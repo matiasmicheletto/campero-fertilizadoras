@@ -13,8 +13,6 @@ const SectionProfile = props => {
     const [work_width, setWorkWidth] = useState(model.work_width || 1);
     const [work_pattern, setWorkPattern] = useState(model.pattern || "circular");
 
-    console.log(props);
-
     const index = props.outputs[work_pattern].findIndex(v => Math.abs(v.work_width-work_width) < 0.01);
     const results = props.outputs[work_pattern][index];
 

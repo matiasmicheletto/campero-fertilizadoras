@@ -92,7 +92,7 @@ const sweepForProfile = params => {
     };
     const ww_min = 1;
     const ww_max = tray_data.length*tray_distance;
-    const ww_step = 1;
+    const ww_step = tray_distance;
     for(let work_width = ww_min; work_width < ww_max; work_width+=ww_step) {
         const linear_res = computeDistributionProfile({
             tray_data,

@@ -4,10 +4,16 @@ import IconCollected from '../img/icons/peso_recolectado.png';
 import CustomInput from './Inputs';
 import React from 'react';
 
-const openCollectedPrompt = (row, side, callback) => { 
+const openCollectedPrompt = (row, side, n, callback) => { 
     // Modal ingreso de peso recolectado de la bandeja
 
-    //React.useLayoutEffect = React.useEffect;
+    const elId = "collectedweightinput"; // Id del input
+
+    const labels = { // Lado de la bandeja
+        left: "izquierda",
+        middle: "centro",
+        right: "derecha"
+    };
     
     const content = ReactDOMServer.renderToStaticMarkup(
         <List form noHairlinesMd style={{marginBottom:"0px"}}>
@@ -20,34 +26,44 @@ const openCollectedPrompt = (row, side, callback) => {
                         label="Peso recolectado"
                         type="number"
                         unit="gr"
-                        inputId="collectedweightinput"
+                        inputId={elId}
                     ></CustomInput>
                 </Col>
             </Row>
         </List>
     );
 
-    const labels = { // Lado de la bandeja
-        left: "izquierda",
-        middle: "centro",
-        right: "derecha"
+    const returnValue = () => { // Capturar valor ingresado y retornar
+        const inputEl = document.getElementById(elId);                    
+        callback(row, parseFloat(inputEl.value) || 0);
     };
+
+    const buttons = [ // Botones del modal
+        {
+            text: "Cancelar"
+        },
+        {
+            text: "Aceptar",
+            onClick: returnValue
+        }
+    ];
+
+    if(row+1 < n) // Si no es la ultima bandeja, agregar boton de siguiente
+        buttons.push({
+            text: "Siguiente",
+            onClick: ()=>{
+                returnValue();
+                f7.dialog.close();
+                const nextrow = row+1;
+                const nextside = nextrow === (n-1)/2 ? "middle" : (nextrow+1 < n/2 ? "left" : "right");
+                openCollectedPrompt(row+1, nextside, n, callback);
+            }
+        });
 
     f7.dialog.create({
         title: "Bandeja "+(row+1)+" ("+labels[side]+")",
         content: content,
-        buttons:[
-            {
-                text: "Cancelar"
-            },
-            {
-                text: "Aceptar",
-                onClick: ()=>{
-                    const inputEl = document.getElementById("collectedweightinput");                    
-                    callback(row, parseFloat(inputEl.value) || 0);
-                }
-            }
-        ],
+        buttons: buttons,
         destroyOnClose: true        
     }).open();
 };
