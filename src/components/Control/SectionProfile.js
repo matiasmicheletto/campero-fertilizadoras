@@ -13,8 +13,15 @@ const SectionProfile = props => {
     const [work_width, setWorkWidth] = useState(model.work_width || 1);
     const [work_pattern, setWorkPattern] = useState(model.pattern || "circular");
 
+    let results = {
+        profile:[],
+        avg: 0,
+        dst: 0,
+        cv: 0
+    };
     const index = props.outputs[work_pattern].findIndex(v => Math.abs(v.work_width-work_width) < 0.01);
-    const results = props.outputs[work_pattern][index];
+    if(index > 0)
+        results = props.outputs[work_pattern][index];
 
     // Configuracion del grafico del perfil
     const profile_chart_config = { 
@@ -24,7 +31,7 @@ const SectionProfile = props => {
         yaxis: "Peso (gr.)",
         tooltip_prepend: "",
         tooltip_append: " gr",
-        categories: Object.keys(results.profile).map(v=>parseInt(v)+1),
+        categories: Object.keys(results.profile).map((v,i)=>i+1),
         series:[{
             name: "Peso aplicado",
             showInLegend: false, 
@@ -35,13 +42,13 @@ const SectionProfile = props => {
 
     return (
         <>
-            <PatternSelector pattern={work_pattern} onChange={v => setWorkPattern(v)}/>
             <ResultsProfile results={results} expected_dose={model.expected_dose} computed_dose={model.computed_dose}/>
-            <Row>
+            <Row style={{marginBottom: 20}}>
                 <Col>
                     <SimpleChart id="profile_plot" config={profile_chart_config} />
                 </Col>
             </Row>
+            <PatternSelector pattern={work_pattern} onChange={v => setWorkPattern(v)}/>
             <Row style={{marginTop:10, marginBottom:30}}>
                 <BlockTitle>Ancho de labor: {work_width} mts.</BlockTitle>
                 <Range
@@ -52,7 +59,7 @@ const SectionProfile = props => {
                     defaultValue={work_width}
                     scaleSteps={props.outputs.ww_range.steps}
                     scaleSubSteps={3}                    
-                    onRangeChange={v=>setWorkWidth(v)}
+                    onRangeChange={v=>{setWorkWidth(v); props.setWorkWidth(v)}}
                 />
             </Row>
             <Row style={{marginTop:20}}>

@@ -25,11 +25,11 @@ const schemas = {
     },
     sweepForProfile: {
         tray_distance: v => isPositiveFloat(v),
-        tray_data: v => v?.length > 0 && v.every(x => isFloat(x.collected))
+        tray_data: v => v?.length > 0 && v.every(x => isFloat(x))
     },
     computeDistributionProfile: {
         tray_distance: v => isPositiveFloat(v),        
-        tray_data: v => v?.length > 0 && v.every(x => isFloat(x.collected)),
+        tray_data: v => v?.length > 0 && v.every(x => isFloat(x)),
         work_width: v => isPositiveFloat(v),
         work_pattern: v => isString(v) && (v === "circular" || v === "linear")
     },

@@ -14,7 +14,7 @@ import api from '../../Api';
 import Toast from '../Toast';
 import { error_messages } from '../../Utils';
 
-const SectionDistr = () => {
+const SectionDistr = props => {
 
     const model = useContext(ModelCtx);
 
@@ -108,8 +108,8 @@ const SectionDistr = () => {
 
     const submit = () => { 
         const params = {
-            tray_data,
-            tray_distance
+            tray_distance,
+            tray_data: tray_data.map(v => v.collected),
         };
         const res = api.sweepForProfile(params);
         console.log(res);
@@ -140,7 +140,7 @@ const SectionDistr = () => {
         tooltip_prepend: "Bandeja ",
         tooltip_append: " gr",
         label_formatter: densityFromRecolected,
-        categories: tray_data?.map(v=>parseFloat(v.collected)+1),
+        categories: tray_data?.map((v,i)=>i+1),
         series:[{           
             name: "Peso recolectado",
             showInLegend: false, 
@@ -202,17 +202,29 @@ const SectionDistr = () => {
                 <Card>
                     <div>
                         <table className="data-table" style={{textAlign:"center", minWidth:"0px", tableLayout:"fixed"}} >
+                            <colgroup>
+                                <col span={1} style={{width: "30%"}} />
+                                <col span={1} style={{width: "30%"}} />
+                                <col span={1} style={{width: "40%"}} />
+                            </colgroup>
                             <thead style={{backgroundColor:"rgb(200,200,200)"}}>
                                 <tr style={{maxHeight:"40px!important"}}>
-                                    <th className="label-cell">Bandeja</th>
-                                    <th className="label-cell">Lado</th>
-                                    <th className="label-cell"><div>Peso</div><div>recolectado</div></th>
+                                    <th className="label-cell" style={{margin:0, padding:0}}>Bandeja</th>
+                                    <th className="label-cell" style={{margin:0, padding:0}}>Lado</th>
+                                    <th className="label-cell" style={{margin:0, padding:0}}>
+                                        <div>Peso</div><div>recolectado</div>
+                                    </th>
                                 </tr>
                             </thead>
                         </table>
                     </div>
                     <div style={{maxHeight:"300px",overflow: "auto"}}>
                         <table className="data-table" style={{textAlign:"center", minWidth:"0px", tableLayout:"fixed"}} >                        
+                            <colgroup>
+                                <col span={1} style={{width: "30%"}} />
+                                <col span={1} style={{width: "30%"}} />
+                                <col span={1} style={{width: "40%"}} />
+                            </colgroup>
                             <tbody style={{maxHeight:"300px",overflow: "auto"}}>
                                 {
                                     tray_data.map((tr,idx) => (
@@ -268,7 +280,7 @@ const SectionDistr = () => {
                 null
             }
             {outputs.show ?
-                <SectionProfile outputs={outputs}/>
+                <SectionProfile outputs={outputs} setWorkWidth={props.setWorkWidth}/>
             :
                 null
             }

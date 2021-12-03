@@ -16,18 +16,17 @@ import iconCollected from '../../img/icons/peso_recolectado.png';
 import api from '../../Api';
 import { error_messages } from '../../Utils';
 
-const SectionDosif = () => {
+const SectionDosif = props => {
 
     const model = useContext(ModelCtx);
     
     // Campos del formulario
     const [method, setMethod] = useState(model.method || 'direct');
     const [expected_dose, setExpectedDose] = useState(model.expected_dose || '');
-    const [gear, setGear] = useState(model.gear || '');
-    const [work_width, setWorkWidth] = useState(model.work_width || '');
+    const [gear, setGear] = useState(model.gear || '');    
     const [distance, setDistance] = useState(model.distance || '');
     const [time, setTime] = useState(model.time || '');
-    const [work_velocity, setWorkVelocity] = useState(model.work_velocity || '');
+    let [work_velocity, setWorkVelocity] = useState(model.work_velocity || '');
     const [recolected, setRecolected] = useState(model.recolected || '');
     
     // Resultados
@@ -37,6 +36,13 @@ const SectionDosif = () => {
         diffkg: '',
         diffp: ''
     });
+
+    useEffect(() => {
+        setOutputs(outputs => {return{...outputs, show: false}});
+    }, [props.work_width]);
+
+    // Para que actualice al volver de la vista de cronometro
+    work_velocity = model.work_velocity;
 
     const updateValue = (name, value) => {
         let f = parseFloat(value);
@@ -53,7 +59,7 @@ const SectionDosif = () => {
                 setGear(value);
                 break;
             case 'work_width':
-                setWorkWidth(f);
+                props.setWorkWidth(f);
                 break;
             case 'distance':
                 setDistance(f);
@@ -88,7 +94,7 @@ const SectionDosif = () => {
         setMethod('direct');
         setExpectedDose('');
         setGear('');
-        setWorkWidth('');
+        props.setWorkWidth('');
         setDistance('');
         setTime('');
         setWorkVelocity('');
@@ -99,21 +105,21 @@ const SectionDosif = () => {
 
     const submit = () => {        
         const params = {
+            work_width:props.work_width,
             method,
             expected_dose,
-            work_width,
             distance,
             time,
             work_velocity,
             recolected
-        };
-        console.log(params);
+        };        
         const res = api.computeDose(params);
         console.log(res);
         if(res.status === "error")
             Toast("error", error_messages[res.wrong_keys[0]], 2000, "center");
         else{
             setOutputs({...res, show: true});            
+            model.computed_dose = res.dose;
         }
     };
 
@@ -151,7 +157,7 @@ const SectionDosif = () => {
                         label="Ancho de labor"
                         type="number"
                         unit="m"
-                        value={work_width}
+                        value={props.work_width}
                         onInputClear={handleInputClear}
                         onChange={handleInputChange}
                         ></CustomInput>

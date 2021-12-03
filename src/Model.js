@@ -24,8 +24,26 @@ export default class CamperoModel {
         this.field_name = null; // Nombre del lote
         this.products = []; // Lista de prductos
 
+        //this.subscribed_callbacks = {};
+
         this.getFromLocalStorage();
     }
+
+    /*
+    subscribe(name, callback){
+        if(!(name in this.subscribed_callbacks))
+            this.subscribed_callbacks[name] = callback;
+    }
+
+    unsubscribe(name){
+        delete this.subscribed_callbacks[name];
+    }
+
+    notify(name){
+        if(this.subscribed_callbacks[name])
+            this.subscribed_callbacks[name]();
+    }
+    */
 
     update(param, value){ // Actualizar un parametro
         this[param] = value;

@@ -150,8 +150,8 @@ const Velocity = ({f7router}) => { // View
     const dataAvg = () => data.length > 0 ? data.reduce((r, a) => a.vel + r, 0)/data.length : 0;
 
     const exportData = () => {           
-        model.work_velocity = dataAvg();
-        f7router.back();
+        model.work_velocity = Math.round( dataAvg()*100 )/100;
+        f7router.back();        
     }
 
     return (
