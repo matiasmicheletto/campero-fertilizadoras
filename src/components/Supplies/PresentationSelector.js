@@ -1,4 +1,4 @@
-import { Block, Radio, Row, Col } from 'framework7-react';
+import { Radio, Row, Col } from 'framework7-react';
 import { openRecipientSizePrompt } from '../Prompts';
 
 const PresentationSelector = props => {    

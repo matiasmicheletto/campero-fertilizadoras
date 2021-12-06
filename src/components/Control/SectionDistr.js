@@ -280,7 +280,7 @@ const SectionDistr = props => {
                 null
             }
             {outputs.show ?
-                <SectionProfile outputs={outputs} setWorkWidth={props.setWorkWidth}/>
+                <SectionProfile outputs={outputs} {...props}/>
             :
                 null
             }

@@ -25,9 +25,6 @@
     - [ ] Exportar reportes a pdf.  
 
 
-#### Actual        
-  - Tipo de presentacion: envase/granel.  
-  - Segerir densidad calculada para el primer (o cada?) producto agregado.  
 
 #### Siguiente
   - Plantear e implementar modelo de reportes.  

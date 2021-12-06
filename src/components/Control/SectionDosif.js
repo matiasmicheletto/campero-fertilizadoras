@@ -100,7 +100,7 @@ const SectionDosif = props => {
         setWorkVelocity('');
         setRecolected('');
         setOutputs({...outputs, show: false});
-        model.clear(["method", "expected_dose", "gear", "work_width", "distance", "time", "work_velocity", "recolected"]);
+        model.clear(["method", "expected_dose","computed_dose", "gear", "work_width", "distance", "time", "work_velocity", "recolected"]);
     };
 
     const submit = () => {        

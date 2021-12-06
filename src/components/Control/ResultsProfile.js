@@ -1,21 +1,21 @@
-import { Block } from 'framework7-react';
+import { Block, BlockTitle } from 'framework7-react';
 
 const ResultsProfile = props => {
     const {expected_dose, computed_dose, results} = props;
-    const diffp = (expected_dose - computed_dose)/expected_dose*100;
+    const diffp = expected_dose > 0 ? ((expected_dose - computed_dose)/expected_dose*100).toFixed(2) : '';
 
     return(
         <Block style={{margin:"25px 0px 25px 0px"}}>
-            <h4>Perfil de fertilización</h4>
-            <table style={{padding:"0px!important", margin:"0 auto", width:"90%"}}>
+            <BlockTitle style={{marginBottom:10}}>Perfil de fertilización</BlockTitle>
+            <table style={{padding:"0px!important", margin:"0 auto", width:"100%"}}>
                 <tbody>
                     <tr>
                         <td><b>Dosis prevista:</b></td>
-                        <td style={{textAlign:"right"}}>{expected_dose.toFixed(2)} Kg/ha</td>
+                        <td style={{textAlign:"right"}}>{expected_dose?.toFixed(2)} Kg/ha</td>
                     </tr>
                     <tr>
                         <td><b>Dosis calculada:</b></td>
-                        <td style={{textAlign:"right"}}>{computed_dose?.toFixed(2) || ''} Kg/ha ({diffp.toFixed(2)} %)</td>
+                        <td style={{textAlign:"right"}}>{computed_dose?.toFixed(2) || ''} Kg/ha ({diffp} %)</td>
                     </tr>
                     <tr>
                         <td><b>Promedio:</b></td>

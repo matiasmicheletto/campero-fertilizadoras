@@ -1,27 +1,23 @@
-import { Row, Col, Button, Range, BlockTitle } from 'framework7-react';
+import { Row, Col, Button } from 'framework7-react';
+import Picker from './Picker';
 import { useState, useContext } from 'react';
 import { ModelCtx } from '../../Context';
 import SimpleChart from '../SimpleChart';
 import PatternSelector from './PatternSelector';
 import ResultsProfile from './ResultsProfile';
+import iconWorkWidth from '../../img/icons/ancho_labor.png';
 
 
 const SectionProfile = props => {
 
     const model = useContext(ModelCtx);
 
-    const [work_width, setWorkWidth] = useState(model.work_width || 1);
     const [work_pattern, setWorkPattern] = useState(model.pattern || "circular");
 
-    let results = {
-        profile:[],
-        avg: 0,
-        dst: 0,
-        cv: 0
-    };
-    const index = props.outputs[work_pattern].findIndex(v => Math.abs(v.work_width-work_width) < 0.01);
-    if(index > 0)
-        results = props.outputs[work_pattern][index];
+    const diffArr = props.outputs[work_pattern].map(v => Math.abs(props.work_width - v.work_width));
+    const closestWorkWidth = Math.min(...diffArr);
+    const index = diffArr.findIndex(v => v === closestWorkWidth);
+    const results = index > 0 ? props.outputs[work_pattern][index] : {profile:[],avg: 0,dst: 0,cv: 0};
 
     // Configuracion del grafico del perfil
     const profile_chart_config = { 
@@ -40,6 +36,19 @@ const SectionProfile = props => {
         }]
     };
 
+    const pickerCols = [
+        {
+            values: props.outputs[work_pattern].map(v => v.work_width),
+            displayValues: props.outputs[work_pattern].map(v => v.work_width+"m - ("+v.cv.toFixed(2)+"%)"),
+            textAlign: 'left'
+        }
+    ];
+
+    const handlePickerChange = v => {        
+        //console.log("Picker value: ", parseFloat(v.value[0]));
+        props.setWorkWidth(parseFloat(v.value[0]));
+    };
+
     return (
         <>
             <ResultsProfile results={results} expected_dose={model.expected_dose} computed_dose={model.computed_dose}/>
@@ -49,19 +58,13 @@ const SectionProfile = props => {
                 </Col>
             </Row>
             <PatternSelector pattern={work_pattern} onChange={v => setWorkPattern(v)}/>
-            <Row style={{marginTop:10, marginBottom:30}}>
-                <BlockTitle>Ancho de labor: {work_width} mts.</BlockTitle>
-                <Range
-                    min={props.outputs.ww_range.min}
-                    max={props.outputs.ww_range.max}
-                    label={true}
-                    step={1}
-                    defaultValue={work_width}
-                    scaleSteps={props.outputs.ww_range.steps}
-                    scaleSubSteps={3}                    
-                    onRangeChange={v=>{setWorkWidth(v); props.setWorkWidth(v)}}
+            <Picker 
+                title={"Ancho de labor"} 
+                cols={pickerCols} 
+                value={[props.outputs[work_pattern][index].work_width]}
+                onChange={handlePickerChange}
+                icon={iconWorkWidth}
                 />
-            </Row>
             <Row style={{marginTop:20}}>
                 <Col width={20}></Col>
                 <Col width={60}>
