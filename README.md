@@ -25,8 +25,7 @@
     - [ ] Exportar reportes a pdf.  
 
 
-#### Actual      
-  - Test funcional completo seccion dosis y perfil.  
+#### Actual        
   - Tipo de presentacion: envase/granel.  
   - Segerir densidad calculada para el primer (o cada?) producto agregado.  
 

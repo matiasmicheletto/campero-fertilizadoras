@@ -17,6 +17,7 @@ import { ModelCtx } from '../../Context';
 import Toast from '../Toast';
 import api from '../../Api';
 import { error_messages } from '../../Utils';
+import PresentationSelector from './PresentationSelector';
 
 const generate_id = () => "_" + Math.random().toString(36).substr(2) + Date.now();
 
@@ -36,9 +37,10 @@ const Supplies = props => {
         temp.push({
             key: generate_id(),
             name: "",
-            density: 0
+            density: model.computed_dose || model.expected_dose || 0,
+            presentation: 0 // 0->granel, x->envase de x kg
         });
-        model.products = temp;
+        model.update("products", temp);
         setProducts(temp);
     };
 
@@ -46,20 +48,21 @@ const Supplies = props => {
         const temp = [...products];
         temp.splice(index, 1);
         model.products = temp;
+        model.update("products", temp);
         setProducts(temp);
     };
 
     const setFieldParams = (attr, value) => {
         const temp = { ...inputs };
-        model[attr] = value;
         temp[attr] = value;
+        model.update(attr, value);
         setInputs(temp);
     };
 
     const setProductParams = (index, attr, value) => {
         const temp = [...products];
         temp[index][attr] = value;
-        model.products = temp;
+        model.update("products", temp);
         setProducts(temp);
     };
 
@@ -76,7 +79,7 @@ const Supplies = props => {
 
     return (
         <Page>            
-            <Navbar title="Cálculador de insumos" style={{maxHeight:"40px", marginBottom:"0px"}}/>      
+            <Navbar title="Calculador de insumos" style={{maxHeight:"40px", marginBottom:"0px"}}/>      
             <Row style={{marginBottom:"0px", marginTop: "0px"}}>
                 <BlockTitle style={{marginBottom:"0px", marginTop: "0px"}}>Área de trabajo</BlockTitle>
                 <List form noHairlinesMd style={{marginBottom:"10px"}}>
@@ -84,6 +87,7 @@ const Supplies = props => {
                         <Col width={50} style={{width:"50%"}}>
                             <CustomInput
                                 label="Lote"
+                                name="field_name"
                                 type="text"
                                 defaultValue={inputs.field_name || ''}
                                 onChange={v=>setFieldParams('field_name', v.target.value)}
@@ -92,6 +96,7 @@ const Supplies = props => {
                         <Col width={50} style={{width:"50%"}}>
                             <CustomInput                    
                                 label="Superficie"
+                                name="work_area"
                                 type="number"
                                 unit="ha"
                                 defaultValue={inputs.work_area || ''}
@@ -113,18 +118,21 @@ const Supplies = props => {
                                         slot="list"
                                         label="Nombre"
                                         type="text"                                        
-                                        defaultValue={p.name || ''}
+                                        value={p.name || ''}
+                                        onInputClear={()=>setProductParams(index, "name", "")}
                                         onChange={v=>setProductParams(index, "name", v.target.value)}
                                         ></CustomInput>
                                     <CustomInput
                                         slot="list"
                                         label="Densidad"
-                                        type="number"   
+                                        type="number"
                                         unit="kg/ha"
-                                        defaultValue={p.density || ''}
+                                        value={p.density || ''}
+                                        onInputClear={()=>setProductParams(index, "density", "")}
                                         onChange={v=>setProductParams(index, "density", parseInt(v.target.value))}
-                                        ></CustomInput>    
+                                        ></CustomInput>
                                 </List>
+                                <PresentationSelector value={p.presentation} onChange={v=>{setProductParams(index, "presentation", v.target.value)}}/>
                             </CardContent>                    
                         </Card>
                     ))

@@ -15,15 +15,15 @@ const ResultsProfile = props => {
                     </tr>
                     <tr>
                         <td><b>Dosis calculada:</b></td>
-                        <td style={{textAlign:"right"}}>{computed_dose.toFixed(2)} Kg/ha ({diffp.toFixed(2)} %)</td>
+                        <td style={{textAlign:"right"}}>{computed_dose?.toFixed(2) || ''} Kg/ha ({diffp.toFixed(2)} %)</td>
                     </tr>
                     <tr>
                         <td><b>Promedio:</b></td>
-                        <td style={{textAlign:"right"}}>{results.avg.toFixed(2)} gr</td>
+                        <td style={{textAlign:"right"}}>{results?.avg?.toFixed(2) || ''} gr</td>
                     </tr>                        
                     <tr>
                         <td><b>Coef. variac.:</b></td>
-                        <td style={{textAlign:"right"}}>{results.cv.toFixed(2)} %</td>
+                        <td style={{textAlign:"right"}}>{results?.cv?.toFixed(2) || ''} %</td>
                     </tr>
                     {/*
                     <tr>

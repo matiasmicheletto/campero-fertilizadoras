@@ -8,9 +8,11 @@ const Info = props => (
     <Page name="info" className={classes.InfoPage}>
         <PageContent>
             <Block className={classes.ButtonContainer}>
+                {/*
                 <Link className={classes.MenuButton}>
                     <p>Iniciar ayuda</p>
                 </Link>
+                 */}
                 <Link external rel="noopener noreferrer" target="_blank" href="https://www.facebook.com/intaascasubi" className={[classes.MenuButton]}>
                     <p>Info técnica y novedades</p>
                 </Link>

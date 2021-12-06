@@ -2,7 +2,7 @@ import { List, Block, BlockTitle, Card, Row, Col, Button } from 'framework7-reac
 import { FaArrowCircleLeft, FaArrowCircleRight, FaStopCircle } from 'react-icons/fa';
 import { useState, useContext } from 'react';
 import CustomInput from '../Inputs';
-import openCollectedPrompt from '../Prompts';
+import { openCollectedPrompt } from '../Prompts';
 import { ModelCtx } from '../../Context';
 import SimpleChart from '../SimpleChart';
 import SectionProfile from './SectionProfile';

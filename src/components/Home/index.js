@@ -1,6 +1,6 @@
 import { Page, Link, PageContent, Block } from 'framework7-react';
 import classes from '../Menus.module.css';
-import control from '../../img/icons/control.png';
+import control from '../../img/icons/parametros_fert.png';
 import supplies from '../../img/icons/calculador.png';
 import reports from '../../img/icons/reportes.png';
 import info from '../../img/icons/info.png';
@@ -14,9 +14,9 @@ const Home = () => (
             <Block style={{textAlign: "center", marginBottom: "0px"}}>
                 <img className="app-logo" src={logo} height="120px" width="120px" alt="logo"/>
             </Block>
-            <Block style={{textAlign: "center", marginTop:"1px"}}>
+            <Block style={{textAlign: "center", marginTop:"10px"}}>
                 <h2 className={classes.Title}>CAMPERO</h2>
-                <h3 className={classes.Subtitle}>Fertilizadoras</h3>
+                <h3 className={classes.Title}>Fertilizadoras</h3>
             </Block>
             <Block className={classes.ButtonContainer}>
                 <Link href="/control/" className={classes.MenuButton}>

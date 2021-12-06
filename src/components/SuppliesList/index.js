@@ -38,7 +38,12 @@ const SuppliesList = props => {
                                     </tr>               
                                     <tr>
                                         <td><b>Total:</b></td>
-                                        <td style={{textAlign:"left"}}>{props.quantities[index]} kg</td>
+                                        {
+                                            prod.presentation === 0 ?
+                                                <td style={{textAlign:"left"}}> {props.quantities[index]} kg</td>
+                                            :
+                                                <td style={{textAlign:"left"}}> {Math.ceil(props.quantities[index])} envases de {prod.presentation} kg</td>
+                                        } 
                                     </tr>         
                                 </React.Fragment>
                             ))

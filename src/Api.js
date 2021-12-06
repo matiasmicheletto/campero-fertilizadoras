@@ -36,7 +36,7 @@ const schemas = {
     computeSuppliesList: {
         field_name: v => isString(v),
         work_area: v => isPositiveFloat(v),
-        products: v => v?.length > 0 && v.every(x => isPositiveFloat(x.density) && isString(x.name))
+        products: v => v?.length > 0 && v.every(x => isPositiveFloat(x.density) && isString(x.name) && isFloat(x.presentation))
     }
 };
 
@@ -173,7 +173,10 @@ const computeSuppliesList = params => {
     const {products, work_area} = params;
     const quantities = [];
     for(let p in products)
-        quantities.push(products[p].density*work_area);
+        if(products[p].presentation === 0)
+            quantities.push(products[p].density*work_area);
+        else
+            quantities.push(products[p].density*work_area/products[p].presentation); 
     return {status: "success", quantities};
 };
 

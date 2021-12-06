@@ -118,8 +118,8 @@ const SectionDosif = props => {
         if(res.status === "error")
             Toast("error", error_messages[res.wrong_keys[0]], 2000, "center");
         else{
-            setOutputs({...res, show: true});            
-            model.computed_dose = res.dose;
+            setOutputs({...res, show: true});
+            model.update("computed_dose", res.dose);
         }
     };
 

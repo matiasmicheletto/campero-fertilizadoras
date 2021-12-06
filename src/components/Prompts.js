@@ -68,4 +68,45 @@ const openCollectedPrompt = (row, side, n, callback) => {
     }).open();
 };
 
-export default openCollectedPrompt;
+const openRecipientSizePrompt = callback => { 
+    // Modal ingreso de tamanio de recipiente
+
+    const elId = "recipientsizeinput"; // Id del input
+    
+    const content = ReactDOMServer.renderToStaticMarkup(
+        <List form noHairlinesMd style={{marginBottom:"0px"}}>
+            <Row slot="list">                
+                <CustomInput
+                    label="Capacidad"
+                    type="number"
+                    unit="kg"
+                    inputId={elId}
+                ></CustomInput>
+            </Row>
+        </List>
+    );
+
+    const buttons = [ // Botones del modal
+        {
+            text: "Cancelar"
+        },
+        {
+            text: "Aceptar",
+            onClick: () => { // Capturar valor ingresado y retornar
+                const inputEl = document.getElementById(elId);                    
+                callback(parseFloat(inputEl.value) || 0);
+            }
+        }
+    ];
+
+    f7.dialog.create({
+        title: "Capacidad del envase",
+        content: content,
+        buttons: buttons,
+        destroyOnClose: true        
+    }).open();
+};
+
+
+export { openCollectedPrompt, openRecipientSizePrompt };
+

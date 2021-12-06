@@ -1,6 +1,6 @@
 .HomePage::after {
 	content: "";	
-	background: url(../img/backgrounds/fondo_menu.jpg);
+	background: url(../img/backgrounds/fondo3.png) no-repeat center center fixed;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -14,15 +14,17 @@
 }
 
 .InfoPage {
-	background: url(../img/backgrounds/fondo_ayuda.jpg);
+	background: url(../img/backgrounds/fondo5.png) no-repeat center center fixed;;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;	
 }
 
 .Title {
+	margin-top: 0px;
 	margin-bottom: 0px;
 	color:white;
+	line-height: 120%;
 }
 
 .Subtitle {	
