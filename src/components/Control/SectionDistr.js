@@ -109,9 +109,26 @@ const SectionDistr = props => {
     const submit = () => { 
         const params = {
             tray_distance,
+            pass_number,
             tray_data: tray_data.map(v => v.collected),
         };
-        const res = api.sweepForProfile(params);
+        const get_optionals = ({
+            expected_dose,
+            recolected,
+            distance,
+            time,
+            work_velocity,
+            method
+        })=>({
+            expected_dose,
+            recolected,
+            distance,
+            time,
+            work_velocity,
+            method
+        });
+        
+        const res = api.sweepForProfile(params, get_optionals(model));
         console.log(res);
         if(res.status === "error")
             Toast("error", error_messages[res.wrong_keys[0]], 2000, "center");
@@ -126,17 +143,17 @@ const SectionDistr = props => {
 
     const densityFromRecolected = value => {
         const res = api.computeDensityFromRecolected({
-            recolected: value,
-            pass_number: pass_number,
-            tray_area: tray_area
-        });
+            recolected: parseFloat(value),
+            pass_number,
+            tray_area
+        });        
         return res.density;
     };
 
     const collected_chart_config = { // Configuracion del grafico de datos medidos
         type: "line",
         title: "Distribución medida",
-        yaxis: "Peso (Kg/ha.)",
+        yaxis: "Densidad (Kg/ha.)",
         tooltip_prepend: "Bandeja ",
         tooltip_append: " gr",
         label_formatter: densityFromRecolected,
@@ -280,7 +297,7 @@ const SectionDistr = props => {
                 null
             }
             {outputs.show ?
-                <SectionProfile outputs={outputs} {...props}/>
+                <SectionProfile outputs={outputs} {...props} lblFormatter={densityFromRecolected}/>
             :
                 null
             }

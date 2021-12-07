@@ -25,6 +25,8 @@
     - [ ] Exportar reportes a pdf.  
 
 
+#### Actual
+  - Agregar parámetros de densidad que se actualizan al correr el ancho de labor.  
 
 #### Siguiente
   - Plantear e implementar modelo de reportes.  

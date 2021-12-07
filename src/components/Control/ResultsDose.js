@@ -7,7 +7,7 @@ const ResultsDose = props => (
             <table style={{padding:"0px!important", margin:"0 auto", width:"90%"}}>
                 <tbody>
                     <tr>
-                        <td><b>Dosis:</b></td>
+                        <td><b>Dosis efectiva:</b></td>
                         <td style={{textAlign:"right"}}>{props.results.dose.toFixed(2)} Kg/ha</td>
                     </tr>
                     <tr>

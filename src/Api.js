@@ -1,13 +1,13 @@
 // Ecuaciones CAMPERO Fertilizadoras
 
+const DEBUG = false;
+
 const isString = value => (typeof value === 'string' || value instanceof String) && value !== "";
 const isPositiveInteger = value => Number.isInteger(value) && value > 0;
 const isFloat = value => Number.isFinite(value);
 const isPositiveFloat = value => Number.isFinite(value) && value > 0;
 
-const DEBUG = false;
-
-const schemas = { 
+const schemas = { // Esquema de validación de inputs
     computeDoseDirect:{        
         expected_dose: v => isPositiveFloat(v),
         work_width: v => isPositiveFloat(v),
@@ -25,13 +25,15 @@ const schemas = {
     },
     sweepForProfile: {
         tray_distance: v => isPositiveFloat(v),
-        tray_data: v => v?.length > 0 && v.every(x => isFloat(x))
+        tray_data: v => v?.length > 0 && v.every(x => isFloat(x)),
+        pass_number: v => isPositiveInteger(v)
     },
     computeDistributionProfile: {
         tray_distance: v => isPositiveFloat(v),        
         tray_data: v => v?.length > 0 && v.every(x => isFloat(x)),
         work_width: v => isPositiveFloat(v),
-        work_pattern: v => isString(v) && (v === "circular" || v === "linear")
+        work_pattern: v => isString(v) && (v === "circular" || v === "linear"),
+        pass_number: v => isPositiveInteger(v)
     },
     computeSuppliesList: {
         field_name: v => isString(v),
@@ -40,9 +42,15 @@ const schemas = {
     }
 };
 
-const validate = (schema, object) => Object.keys(schema).filter(key => !schema[key](object[key])).map(key => key);
+const validate = (schema, object) => Object.keys(schema)
+    .filter(key => object ? !schema[key](object[key]) : false)
+    .map(key => key);
 
-const computeDoseDirect = params => {    
+
+/// Metodos exportados
+
+const computeDoseDirect = params => { 
+    // Dosis a partir de distancia    
     const wrong_keys = validate(schemas.computeDoseDirect, params);
     if(wrong_keys.length > 0) return {status: "error", wrong_keys};
     const { recolected, distance, work_width, expected_dose } = params;    
@@ -52,16 +60,18 @@ const computeDoseDirect = params => {
     return { status: "success", dose, diffkg, diffp };
 };
 
-const computeDoseIndirect = params => {
+const computeDoseIndirect = params => { 
+    // Dosis a partir de tiempo y velocidad de avance
     if(DEBUG) console.log(params);
     const wrong_keys = validate(schemas.computeDoseIndirect, params);
     if(wrong_keys.length > 0) return {status: "error", wrong_keys};
     const { recolected, work_velocity, time, work_width, expected_dose } = params;
-    const distance = work_velocity*10/36*time;    
+    const distance = work_velocity*time*10/36;
     return computeDoseDirect({ recolected, distance, work_width, expected_dose });
 };
 
-const computeDose = params => {
+const computeDose = params => { 
+    // Selector de metodo
     if(DEBUG) console.log(params);
     if(params.method === "direct")
         return computeDoseDirect(params);
@@ -69,9 +79,10 @@ const computeDose = params => {
         return computeDoseIndirect(params);
     else
         return {status: "error", wrong_keys: ["method"]};
-}
+};
 
-const computeDensityFromRecolected = params => {
+const computeDensityFromRecolected = params => { 
+    // Densidad a partir de lo recolectado en bandeja
     if(DEBUG) console.log(params);
     const wrong_keys = validate(schemas.computeDensityFromRecolected, params);
     if(wrong_keys.length > 0) return {status: "error", wrong_keys};
@@ -80,51 +91,42 @@ const computeDensityFromRecolected = params => {
     return {status: "success", density};
 };
 
-const sweepForProfile = params => {
+const sweepForProfile = (params, optionals) => { 
+    // Barrido para obtener perfil de distribución variando ancho de labor y patron
     if(DEBUG) console.log(params);
+    
     const wrong_keys = validate(schemas.sweepForProfile, params);
     if(wrong_keys.length > 0) return {status: "error", wrong_keys};
     const {tray_data, tray_distance} = params;    
-    const res = {
-        linear: [],
-        circular: []
-    };
+    
+    // El barrido de ancho de labor, se realiza sobre el sgte rango
     const ww_min = 1;
     const ww_max = tray_data.length*tray_distance;
     const ww_step = tray_distance;
-    for(let work_width = ww_min; work_width < ww_max; work_width+=ww_step) {
-        const linear_res = computeDistributionProfile({
-            tray_data,
-            tray_distance,
-            work_width,
-            work_pattern: "linear"
-        });
+
+    // El resultado se retorna discriminando para cada patron de trabajo
+    const res = {linear: [],circular: []}; 
+    // Realizar barrido variando el ancho de labor
+    for(let work_width = ww_min; work_width < ww_max; work_width += ww_step) {
+        // Si se pasaron los argumentos opcionales, calcular como cambia la dosis en función del ancho de labor
+        const dose_res = computeDose({...optionals, work_width});
+        const fitted_dose = dose_res.status === "success" ? dose_res.dose : null;
         res.linear.push({
+            ...computeDistributionProfile({...params, work_width, work_pattern: "linear"}), 
             work_width,
-            profile: linear_res.profile,
-            avg: linear_res.avg,
-            cv: linear_res.cv,
-            dst: linear_res.dst
-        });
-        const circular_res = computeDistributionProfile({
-            tray_data,
-            tray_distance,
-            work_width,
-            work_pattern: "circular"
+            fitted_dose,
         });
         res.circular.push({
+            ...computeDistributionProfile({...params, work_width, work_pattern: "circular"}), 
             work_width,
-            profile: circular_res.profile,
-            avg: circular_res.avg,
-            cv: circular_res.cv,
-            dst: circular_res.dst
+            fitted_dose,
         });
     }
+
     return {
+        ...res, // linear, circular
         status: "success", 
-        linear: res.linear,
-        circular: res.circular,
-        ww_range: {
+        ww_range: { // Rango de trabajo
             min:ww_min, 
             max:ww_max, 
             steps:ww_step
@@ -136,9 +138,10 @@ const computeDistributionProfile = params => {
     //if(DEBUG) console.log(params);
     //const wrong_keys = validate(schemas.computeDistributionProfile, params);
     //if(wrong_keys.length > 0) return {status: "error", wrong_keys};    
-    const {tray_data, tray_distance, work_width, work_pattern} = params;
+    const {tray_data, tray_distance, pass_number, work_width, work_pattern} = params;
     const tray_number = tray_data.length;
-    const profile = [...tray_data];
+    //const profile = [...tray_data];
+    const profile = tray_data.map(x => x/pass_number);
     const tw = tray_distance * tray_number; 
     const get_s = r => Math.floor((tw - r * work_width) / tray_distance);
     let r = 1;
@@ -167,6 +170,7 @@ const computeDistributionProfile = params => {
 };
 
 const computeSuppliesList = params => {
+    // Lista de insumos a partir de densidad y superficie
     if(DEBUG) console.log(params);
     const wrong_keys = validate(schemas.computeSuppliesList, params);
     if(wrong_keys.length > 0) return {status: "error", wrong_keys};

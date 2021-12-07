@@ -4,7 +4,8 @@ export default class CamperoModel {
     constructor(){
         // Variables de dosificacion
         this.expected_dose = null; // Dosis prevista
-        this.computed_dose = null; // Dosis a calcular
+        this.computed_dose = null; // Dosis efectiva
+        //this.fitted_dose = null; // Dosis ajustada
         this.gear = null; // Cambio de la maquina
         this.recolected = null; // Peso total recolectado
         this.time = null;  // Tiempo de muestreo      
