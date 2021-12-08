@@ -1,22 +1,21 @@
-import { Block, Row, Col, Button } from 'framework7-react';
+import { Block, Row, Col, Button, BlockTitle } from 'framework7-react';
+import classes from './Results.module.css';
 
 const ResultsDose = props => (
-    <Block style={{margin:"10px 0px 0px 0px"}}>
-        <Row>
-            <h4>Resultados</h4>
-            <table style={{padding:"0px!important", margin:"0 auto", width:"90%"}}>
-                <tbody>
-                    <tr>
-                        <td><b>Dosis efectiva:</b></td>
-                        <td style={{textAlign:"right"}}>{props.results.dose.toFixed(2)} Kg/ha</td>
-                    </tr>
-                    <tr>
-                        <td><b>Diferencia</b></td>
-                        <td style={{textAlign:"right"}}>{props.results.diffkg.toFixed(2)} Kg ({props.results.diffp.toFixed(2)} %)</td>
-                    </tr>                        
-                </tbody>
-            </table>
-        </Row>
+    <Block className={classes.Container}>            
+        <BlockTitle className={classes.Title}>Resultados</BlockTitle>
+        <table className={classes.Table}>
+            <tbody>
+                <tr>
+                    <td><b>Dosis efectiva:</b></td>
+                    <td className={classes.DataCell}>{props.results.dose.toFixed(2)} kg/ha</td>
+                </tr>
+                <tr>
+                    <td><b>Diferencia:</b></td>
+                    <td className={classes.DataCell}>{props.results.diffkg.toFixed(2)} kg ({props.results.diffp.toFixed(2)} %)</td>
+                </tr>                        
+            </tbody>
+        </table>
         <Row style={{marginTop:20}}>
             <Col width={20}></Col>
             <Col width={60}>

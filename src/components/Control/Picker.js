@@ -55,7 +55,7 @@ class Picker extends React.Component {
                     <input type="text" readOnly ref={this.inputRef} style={{display:"none"}}/>
                     <List form style={{margin:0}} noHairlines>
                         <CustomInput                     
-                            readOnly
+                            readonly
                             clearButton={false}
                             slot="list"
                             icon={this.props.icon}

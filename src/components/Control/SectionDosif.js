@@ -100,7 +100,7 @@ const SectionDosif = props => {
         setWorkVelocity('');
         setRecolected('');
         setOutputs({...outputs, show: false});
-        model.clear(["method", "expected_dose","computed_dose", "gear", "work_width", "distance", "time", "work_velocity", "recolected"]);
+        model.clear(["method", "expected_dose","effective_dose", "gear", "work_width", "distance", "time", "work_velocity", "recolected"]);
     };
 
     const submit = () => {        
@@ -114,12 +114,15 @@ const SectionDosif = props => {
             recolected
         };        
         const res = api.computeDose(params);
-        console.log(res);
-        if(res.status === "error")
+        if(res.status === "error"){
             Toast("error", error_messages[res.wrong_keys[0]], 2000, "center");
-        else{
+            console.log(res);
+        }else{
             setOutputs({...res, show: true});
-            model.update("computed_dose", res.dose);
+            model.update({
+                effective_dose: res.dose, 
+                initial_work_width: props.work_width
+            });
         }
     };
 
@@ -135,7 +138,7 @@ const SectionDosif = props => {
                         icon={iconDose}
                         label="Dosis prevista"
                         type="number"                
-                        unit="Kg/ha"
+                        unit="kg/ha"
                         value={expected_dose}
                         onInputClear={handleInputClear}
                         onChange={handleInputChange}
@@ -210,7 +213,7 @@ const SectionDosif = props => {
                         icon={iconCollected}
                         label="Peso recolectado"
                         type="number"
-                        unit="Kg"    
+                        unit="kg"    
                         value={recolected}  
                         onInputClear={handleInputClear}
                         onChange={handleInputChange}

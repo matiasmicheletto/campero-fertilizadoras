@@ -129,10 +129,10 @@ const SectionDistr = props => {
         });
         
         const res = api.sweepForProfile(params, get_optionals(model));
-        console.log(res);
-        if(res.status === "error")
+        if(res.status === "error"){
             Toast("error", error_messages[res.wrong_keys[0]], 2000, "center");
-        else
+            console.log(res);
+        }else
             setOutputs({
                 show: true,
                 linear: res.linear,
@@ -153,7 +153,7 @@ const SectionDistr = props => {
     const collected_chart_config = { // Configuracion del grafico de datos medidos
         type: "line",
         title: "Distribución medida",
-        yaxis: "Densidad (Kg/ha.)",
+        yaxis: "Densidad (kg/ha.)",
         tooltip_prepend: "Bandeja ",
         tooltip_append: " gr",
         label_formatter: densityFromRecolected,

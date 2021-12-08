@@ -6,6 +6,7 @@ import {
     Button, 
 } from 'framework7-react';
 import React from 'react';
+import { BackButton } from '../Buttons';
 
 const SuppliesList = props => {
 
@@ -51,20 +52,14 @@ const SuppliesList = props => {
                     </tbody>
                 </table>                
             </Row>
-            <Row style={{marginTop:"20px"}}>
-                <Col width={20}></Col>
-                <Col width={60}>
-                    <Button fill onClick={() => props.f7router.back()} style={{textTransform:"none", backgroundColor:"red"}}>Borrar</Button>
-                </Col>
-                <Col width={20}></Col>
-            </Row>
-            <Row style={{marginTop:"10px"}}>
+            <Row style={{marginTop:"20px", marginBottom: "25px"}}>
                 <Col width={20}></Col>
                 <Col width={60}>
                     <Button fill onClick={()=>{}} style={{textTransform:"none", backgroundColor:"#009688"}}>Agregar a reporte</Button>
                 </Col>
                 <Col width={20}></Col>
             </Row>
+            <BackButton {...props} />
         </Page>
     );
 };

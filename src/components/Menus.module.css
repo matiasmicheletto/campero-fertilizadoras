@@ -1,6 +1,6 @@
 .HomePage::after {
 	content: "";	
-	background: url(../img/backgrounds/fondo3.png) no-repeat center center fixed;
+	background: url(../img/backgrounds/fondo3.png);
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -14,7 +14,7 @@
 }
 
 .InfoPage {
-	background: url(../img/backgrounds/fondo5.png) no-repeat center center fixed;;
+	background: url(../img/backgrounds/fondo5.png);
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;	
@@ -58,7 +58,7 @@
 }
 
 .MenuButton{
-	background-color: rgba(200, 200, 200, .7);	
+	background-color: rgba(200, 200, 200, .75);	
 	color:black;
 	margin: 10px auto;
 	height: 60px;

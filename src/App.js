@@ -38,7 +38,7 @@ const f7params = {
             component: About,
             on:{pageInit: ()=>pushState("about")}
         },
-        { // Seccion de control
+        { // Seccion de parametros
             path: '/control/',
             component: Control,
             on:{pageInit: ()=>pushState("control")}

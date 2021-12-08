@@ -26,9 +26,7 @@
 
 
 #### Actual
-  - Agregar parámetros de densidad que se actualizan al correr el ancho de labor.  
-
-#### Siguiente
+  - Agregar readonly al picker para que no muestre teclado android.  
   - Plantear e implementar modelo de reportes.  
   - Vistas de listado y presentacion de reportes.  
   - Generacion de pdf con contenido del reporte.   

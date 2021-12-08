@@ -4,7 +4,8 @@ export default class CamperoModel {
     constructor(){
         // Variables de dosificacion
         this.expected_dose = null; // Dosis prevista
-        this.computed_dose = null; // Dosis efectiva
+        this.effective_dose = null; // Dosis efectiva
+        this.initial_work_width = null; // Ancho de labor inicial
         //this.fitted_dose = null; // Dosis ajustada
         this.gear = null; // Cambio de la maquina
         this.recolected = null; // Peso total recolectado
@@ -46,9 +47,20 @@ export default class CamperoModel {
     }
     */
 
-    update(param, value){ // Actualizar un parametro
-        this[param] = value;
-        this.saveToLocalStorage();
+    update(param, value){ // Actualizar uno o mas parametros
+        let updated = false;
+        if(typeof param === "string"){
+            this[param] = value;
+            updated = true;
+        }
+        if(typeof param === "object" && typeof value === "undefined"){
+            Object.assign(this, param);
+            updated = true;
+        }
+        if(updated)
+            this.saveToLocalStorage();
+        else 
+            console.log("Error: no se pudo actualizar el modelo");
     }
 
     clear(params){ // Borrar lista de parametros
@@ -68,7 +80,7 @@ export default class CamperoModel {
     getFromLocalStorage(){ // Recuperar datos de localStorage
         const content = localStorage.getItem("campero_model"+version);
         if(content !== ""){
-            let model = JSON.parse(content);
+            const model = JSON.parse(content);
             if(model)
                 Object.assign(this, model);
         }else{ 

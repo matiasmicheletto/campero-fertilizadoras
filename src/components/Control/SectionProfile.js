@@ -24,7 +24,7 @@ const SectionProfile = props => {
         type: "line",
         title: "",
         height: "60%",
-        yaxis: "Dosis (Kg/ha)",
+        yaxis: "Dosis (kg/ha)",
         tooltip_prepend: "Bandeja ",
         tooltip_append: " gr",
         label_formatter: props.lblFormatter,

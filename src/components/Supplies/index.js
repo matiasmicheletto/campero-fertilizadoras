@@ -20,13 +20,14 @@ import { error_messages } from '../../Utils';
 import PresentationSelector from './PresentationSelector';
 
 const generate_id = () => "_" + Math.random().toString(36).substr(2) + Date.now();
+const set_2_decimals = value => parseFloat(value.toFixed(2));
 
 const Supplies = props => {
 
     const model = useContext(ModelCtx);
 
     const [inputs, setInputs] = useState({
-        field_name: "", // Nombre de lote
+        field_name: model.field_name || "", // Nombre de lote
         work_area: model.work_area || 0 // Superficie
     });
 
@@ -37,7 +38,7 @@ const Supplies = props => {
         temp.push({
             key: generate_id(),
             name: "",
-            density: model.computed_dose || model.expected_dose || 0,
+            density: set_2_decimals(model.effective_dose || model.expected_dose || 0),
             presentation: 0 // 0->granel, x->envase de x kg
         });
         model.update("products", temp);
@@ -68,9 +69,10 @@ const Supplies = props => {
 
     const submit = () => {
         const res = api.computeSuppliesList({...inputs, products});        
-        if(res.status === "error")        
+        if(res.status === "error"){
             Toast("error", error_messages[res.wrong_keys[0]], 2000, "center");
-        else{
+            console.log(res);
+        }else{
             const quantities = res.quantities;
             const {products, field_name, work_area} = model;
             props.f7router.navigate("/suppliesList/", { props: { quantities, products, work_area, field_name } });
@@ -129,7 +131,7 @@ const Supplies = props => {
                                         unit="kg/ha"
                                         value={p.density || ''}
                                         onInputClear={()=>setProductParams(index, "density", "")}
-                                        onChange={v=>setProductParams(index, "density", parseInt(v.target.value))}
+                                        onChange={v=>setProductParams(index, "density", parseFloat(v.target.value))}
                                         ></CustomInput>
                                 </List>
                                 <PresentationSelector value={p.presentation} onChange={v=>{setProductParams(index, "presentation", v.target.value)}}/>
