@@ -126,7 +126,7 @@ const Supplies = props => {
                                         ></CustomInput>
                                     <CustomInput
                                         slot="list"
-                                        label="Densidad"
+                                        label="Dosis"
                                         type="number"
                                         unit="kg/ha"
                                         value={p.density || ''}

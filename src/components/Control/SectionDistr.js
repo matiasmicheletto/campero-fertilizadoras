@@ -153,7 +153,7 @@ const SectionDistr = props => {
     const collected_chart_config = { // Configuracion del grafico de datos medidos
         type: "line",
         title: "Distribución medida",
-        yaxis: "Densidad (kg/ha.)",
+        yaxis: "Dosis (kg/ha.)",
         tooltip_prepend: "Bandeja ",
         tooltip_append: " gr",
         label_formatter: densityFromRecolected,

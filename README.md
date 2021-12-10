@@ -25,17 +25,13 @@
     - [ ] Exportar reportes a pdf.  
 
 
-#### Actual
-  - Agregar readonly al picker para que no muestre teclado android.  
+#### Semana 13-17 de diciembre
   - Plantear e implementar modelo de reportes.  
   - Vistas de listado y presentacion de reportes.  
   - Generacion de pdf con contenido del reporte.   
 
-#### Siguiente
+#### Semana del 20 al 24 de diciembre
   - Compilar app con Capacitor.  
   - Guardar datos en almacenamiento persistente.  
   - Exportar contenido para compartir.  
 
-
-#### Refactor
-  - Combinar inputs de selector de metodo y selector de patron de trabajo en un solo componente.    

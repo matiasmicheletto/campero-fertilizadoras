@@ -34,7 +34,7 @@ const SuppliesList = props => {
                                         <td style={{textAlign:"left"}}>{prod.name}</td>
                                     </tr>
                                     <tr>
-                                        <td><b>Densidad:</b></td>
+                                        <td><b>Dosis:</b></td>
                                         <td style={{textAlign:"left"}}>{prod.density} kg/ha</td>
                                     </tr>               
                                     <tr>

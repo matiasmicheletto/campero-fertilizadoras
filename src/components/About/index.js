@@ -51,8 +51,7 @@ const About = props => (
                 <ListItem accordionItem title="Fuente de información">
                     <AccordionContent>
                         <Block>
-                        <p style={{textAlign:"justify"}}>Las ecuaciones de cálculos se realizaron en base a los criterios de las normas ISO 7256/1 7256/2.
-                                Los criterios de bondad de las determinaciones fueron adaptados de diferentes publicaciones del
+                        <p style={{textAlign:"justify"}}>Los criterios de bondad de las determinaciones fueron adaptados de diferentes publicaciones del
                                 Instituto Nacional de Tecnología Agropecuaria. Ediciones, INTA.</p>
                         </Block>
                     </AccordionContent>
