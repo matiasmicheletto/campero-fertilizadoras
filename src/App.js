@@ -6,6 +6,8 @@ import Info from './components/Info/index';
 import About from './components/About/index';
 import Supplies from './components/Supplies/index';
 import SuppliesList from './components/SuppliesList/index';
+import Reports from './components/Reports/index';
+import ReportDetails from './components/ReportDetails';
 import ModelProvider from './Context';
 import './index.css';
 
@@ -57,6 +59,16 @@ const f7params = {
             path: '/suppliesList/',
             component: SuppliesList,
             on:{pageInit: ()=>pushState("suppliesList")}
+        },
+        {
+            path: '/reports/',
+            component: Reports,
+            on:{pageInit: ()=>pushState("reports")}
+        },
+        {
+            path: '/reportDetails/:id',
+            component: ReportDetails,
+            on:{pageInit: ()=>pushState("reportDetails")}
         }
     ]
 };

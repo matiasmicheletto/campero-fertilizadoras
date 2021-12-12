@@ -14,6 +14,7 @@ export default class CamperoModel {
         this.work_width = null; // Ancho de labor
         this.distance = null; // Distancia recorrida
         this.method = "direct"; // Uso de velocidad (directa/indirecta)
+        
         // Variables de distribucion
         this.tray_data = []; // Peso recolectado de bandejas
         this.tray_distance = null; // Distancia entre bandejas
@@ -21,14 +22,18 @@ export default class CamperoModel {
         this.tray_area = null; // Area de bandeja
         this.pass_number = null; // Cantidad de pasadas
         this.work_pattern = "linear"; // Patron de trabajo, "circular" o "linear"        
+        
         // Variables de insumos
         this.work_area = null; // Superficie de lote
         this.field_name = null; // Nombre del lote
         this.products = []; // Lista de prductos
 
-        //this.subscribed_callbacks = {};
+        // Reportes
+        this.reports = [];
 
         this.getFromLocalStorage();
+
+        //this.subscribed_callbacks = {};
     }
 
     /*

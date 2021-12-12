@@ -87,7 +87,7 @@ const computeDensityFromRecolected = params => {
     const wrong_keys = validate(schemas.computeDensityFromRecolected, params);
     if(wrong_keys.length > 0) return {status: "error", wrong_keys};
     const {recolected, pass_number, tray_area} = params;
-    const density = recolected/pass_number/tray_area/10;
+    const density = recolected/pass_number/tray_area*10;
     return {status: "success", density};
 };
 

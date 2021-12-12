@@ -1,8 +1,11 @@
-import { Page } from 'framework7-react';
+import { Navbar, Page } from 'framework7-react';
+import { BackButton } from '../Buttons';
 
-const UndefinedComponent = () => (
+const ReportDetails = props => (
     <Page>            
+        <Navbar title={"Reporte "+props.report?.name} style={{maxHeight:"40px", marginBottom:"0px"}}/>
+        <BackButton {...props} />
     </Page>
 );
 
-export default UndefinedComponent;
+export default ReportDetails;
