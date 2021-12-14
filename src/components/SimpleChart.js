@@ -4,6 +4,8 @@ import Highcharts from 'highcharts';
 
 const SimpleChart = props => {
 
+    console.log(props.config.plotLines);
+
     const config = {
         chart: {
             type: props.config.type,
@@ -29,7 +31,8 @@ const SimpleChart = props => {
             },
             title: {
                 text: props.config.yaxis
-            }
+            },
+            plotLines: props.config.plotLines
         },        
         tooltip: {
             headerFormat: '<span style="font-size:10px">'+props.config.tooltip_prepend+'{point.key}</span><table>',

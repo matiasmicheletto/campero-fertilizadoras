@@ -26,7 +26,6 @@
 
 
 #### Semana 13-17 de diciembre
-  - Dibujar linea horizontal en grafico de perfil que indique la dosis ajustada.  
   - Plantear e implementar modelo de reportes.  
   - Vistas de listado y presentacion de reportes.  
   - Generacion de pdf con contenido del reporte.   

@@ -23,18 +23,33 @@ const SectionProfile = props => {
     const profile_chart_config = { 
         type: "line",
         title: "",
-        height: "60%",
+        height: "80%",
         yaxis: "Dosis (kg/ha)",
         tooltip_prepend: "Bandeja ",
         tooltip_append: " gr",
         label_formatter: props.lblFormatter,
         categories: Object.keys(results.profile).map((v,i)=>i+1),
-        series:[{
-            name: "Peso aplicado",
-            showInLegend: false, 
-            data: results.profile,
-            color: "rgb(50,250,50)"
-        }]
+        plotLines: [{
+            color: '#FF0000',
+            width: 2,
+            value: results.avg 
+        }],
+        series:[
+            {
+                name: "Peso aplicado",
+                //showInLegend: true, 
+                data: results.profile,
+                color: "rgb(50,250,50)"
+            },
+            {
+                name: "Promedio",
+                color: '#FF0000',
+                width: 2,
+                marker: {
+                    enabled: false
+                }
+            }
+        ]
     };
 
     const pickerCols = [

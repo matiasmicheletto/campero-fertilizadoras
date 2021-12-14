@@ -110,7 +110,7 @@ const Reports = props => {
                     <div style={{marginTop: "50%"}}>
                         <center>
                             <h2>No hay reportes guardados</h2>
-                            <img src={iconEmpty} height="100px" />
+                            <img src={iconEmpty} height="100px" alt="Sin reportes" />
                         </center>
                     </div>
                 </Block>
