@@ -126,6 +126,11 @@ const SectionDosif = props => {
         }
     };
 
+    const addResultsToReport = () => {
+        model.addDoseToReport(outputs);
+        // TODO: abrir side panel de reportes y menu
+    };
+
     return (
         <div>
             <MethodSelector value={method} onChange={handleInputChange} />
@@ -234,7 +239,7 @@ const SectionDosif = props => {
                     <Col width={20}></Col>
                 </Row>
                 {outputs.show ?
-                    <ResultsDose results={outputs}/>
+                    <ResultsDose results={outputs} onClick={addResultsToReport}/>
                 :
                     null
                 }

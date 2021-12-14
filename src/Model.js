@@ -1,4 +1,18 @@
+import { generate_id } from "./Utils";
+
 const version = '0.0.1'; // Ante cualquier cambio en el modelo, se debe incrementar la version
+
+const get_blank_report = () => {
+    return {
+        id: generate_id(),
+        name: "Sin nombre",
+        completed: {
+            dose: false,
+            distribution: false,
+            supplies: false
+        }
+    };
+};
 
 export default class CamperoModel {
     constructor(){
@@ -30,6 +44,7 @@ export default class CamperoModel {
 
         // Reportes
         this.reports = [];
+        this.currentReport = get_blank_report();
 
         this.getFromLocalStorage();
 
@@ -51,6 +66,8 @@ export default class CamperoModel {
             this.subscribed_callbacks[name]();
     }
     */
+
+    /// Control de parametros 
 
     update(param, value){ // Actualizar uno o mas parametros
         let updated = false;
@@ -78,6 +95,9 @@ export default class CamperoModel {
         this.saveToLocalStorage();
     }
 
+
+    /// Persistencia de parametros
+
     saveToLocalStorage(){ // Guardar datos en localStorage
         localStorage.setItem("campero_model"+version, JSON.stringify(this));
     }
@@ -96,5 +116,95 @@ export default class CamperoModel {
 
     clearLocalStorage(){ // Limpiar datos de localStorage
         localStorage.removeItem("campero_model"+version);
+    }
+
+
+    /// Reportes
+
+    addDoseToReport(results) {
+        this.currentReport.dose = {
+            expected: this.expected_dose,
+            gear: this.gear,
+            work_width: this.work_width,
+            distance: this.distance,
+            recolected: this.recolected,
+            time: this.time,
+            work_velocity: this.work_velocity,
+            effective_dose: results.effective_dose,
+            diffkg: results.diffkg,
+            diffp: results.diffp
+        };
+        this.currentReport.completed.dose = true;
+        console.log(this.currentReport);
+    }
+
+    addDistributionToreport(results) {
+        this.currentReport.distr = {
+            tray_area: this.tray_area,
+            tray_distance: this.tray_distance,
+            tray_number: this.tray_number,
+            pass_number: this.pass_number,
+            work_pattern: this.work_pattern,
+            work_width: this.work_width,
+            fitted_dose: results.fitted_dose,
+            avg: results.avg,
+            cv: results.cv
+        };
+        this.currentReport.completed.distribution = true;
+        console.log(this.currentReport);
+    }
+
+    addSuppliesToReport(results) {
+        this.currentReport.supplies = results;
+        this.currentReport.completed.supplies = true;
+        console.log(this.currentReport);
+    }
+
+    getReport(id){
+        const index = this.reports.findIndex(report => report.id === id);
+        return index !== -1 ? this.reports[index] : null;
+    }
+
+    saveReport(){ // Guardar (finalizar) reporte
+        this.currentReport.timestamp = Date.now();
+        this.reports.push(this.currentReport);
+        this.clearReport();
+    }
+
+    clearReport(){ // Limpiar reporte actual
+        this.currentReport = get_blank_report();
+        this.saveToLocalStorage();
+    }
+
+    renameReport(id, name){
+        const index = this.reports.findIndex(report => report.id === id);
+        if(index !== -1){
+            this.reports[index].name = name;
+            this.saveToLocalStorage();
+            return {
+                status: "success"
+            };
+        }else{
+            return {
+                status: "error",
+                message: "No se encontró el reporte"
+            };
+        }
+    }
+
+    deleteReport(id){
+        const index = this.reports.findIndex(report => report.id === id);
+        if(index !== -1){
+            this.reports.splice(index, 1);
+            this.saveToLocalStorage();
+            return {
+                status: "success"
+            };
+        }else{
+            return {
+                status: "error",
+                message: "No se encontró el reporte"
+            };
+        }
     }
 }

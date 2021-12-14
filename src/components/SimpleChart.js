@@ -4,8 +4,6 @@ import Highcharts from 'highcharts';
 
 const SimpleChart = props => {
 
-    console.log(props.config.plotLines);
-
     const config = {
         chart: {
             type: props.config.type,

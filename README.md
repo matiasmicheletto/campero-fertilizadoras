@@ -19,7 +19,7 @@
   - Sección reportes:  
     - [ ] Implementar modelo de reportes (basado en campero siembra).  
     - [ ] Agregar datos a reportes (mostrar en sidepanel).  
-    - [ ] Listar reportes guardados.  
+    - [x] Listar reportes guardados.  
     - [ ] Abrir reportes.  
     - [ ] Editar/borrar reportes.  
     - [ ] Exportar reportes a pdf.  

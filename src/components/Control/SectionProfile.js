@@ -6,6 +6,7 @@ import SimpleChart from '../SimpleChart';
 import PatternSelector from './PatternSelector';
 import ResultsProfile from './ResultsProfile';
 import iconWorkWidth from '../../img/icons/ancho_labor.png';
+import { get_closest } from '../../Utils';
 
 
 const SectionProfile = props => {
@@ -14,10 +15,10 @@ const SectionProfile = props => {
 
     const [work_pattern, setWorkPattern] = useState(model.work_pattern || "circular");
 
-    const diffArr = props.outputs[work_pattern].map(v => Math.abs(props.work_width - v.work_width));
-    const closestWorkWidth = Math.min(...diffArr);
-    const index = diffArr.findIndex(v => v === closestWorkWidth);
-    const results = index > 0 ? props.outputs[work_pattern][index] : {profile:[],avg: 0,dst: 0,cv: 0, fitted_dose: null};    
+    // El ancho de labor se configura en esta vista (Picker), pero se actualiza en todo el formulario,
+    // por eso viene de props y se debe determinar los resultados de acuerdo al valor de ancho de labor mas cercano.
+    const closest = get_closest(props.outputs[work_pattern], "work_width", props.work_width);
+    const results = closest ? closest : {profile:[], avg: 0, dst: 0, cv: 0, fitted_dose: null};
 
     // Configuracion del grafico del perfil
     const profile_chart_config = { 
@@ -29,7 +30,7 @@ const SectionProfile = props => {
         tooltip_append: " gr",
         label_formatter: props.lblFormatter,
         categories: Object.keys(results.profile).map((v,i)=>i+1),
-        plotLines: [{
+        plotLines: [{ // Linea horizontal del promedio
             color: '#FF0000',
             width: 2,
             value: results.avg 
@@ -52,7 +53,7 @@ const SectionProfile = props => {
         ]
     };
 
-    const pickerCols = [
+    const pickerCols = [ // Valores del picker (ancho de labor - cv)
         {
             values: props.outputs[work_pattern].map(v => v.work_width),
             displayValues: props.outputs[work_pattern].map(v => v.work_width+" m - ("+v.cv.toFixed(2)+"%)"),
@@ -70,6 +71,11 @@ const SectionProfile = props => {
         props.setWorkWidth(parseFloat(v.value[0]));
     };
 
+    const addResultsToReport = () => {
+        model.addDistributionToreport(results);
+        // TODO: abrir side panel de reportes y menu
+    };
+
     return (
         <>
             <ResultsProfile results={results} />
@@ -82,14 +88,20 @@ const SectionProfile = props => {
             <Picker 
                 title={"Ancho de labor"} 
                 cols={pickerCols} 
-                value={[props.outputs[work_pattern][index].work_width]}
+                value={[closest?.work_width]}
                 onChange={handlePickerChange}
                 icon={iconWorkWidth}
                 />
             <Row style={{marginTop:20}}>
                 <Col width={20}></Col>
                 <Col width={60}>
-                    <Button fill style={{textTransform:"none"}}>Agregar a reporte</Button>
+                    <Button 
+                        fill 
+                        style={{textTransform:"none"}}
+                        onClick={addResultsToReport}
+                        >
+                            Agregar a reporte
+                    </Button>
                 </Col>
                 <Col width={20}></Col>
             </Row>

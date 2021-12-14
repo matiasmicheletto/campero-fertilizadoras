@@ -16,11 +16,9 @@ import { BackButton, DeleteButton, AddButton } from '../Buttons';
 import { ModelCtx } from '../../Context';
 import Toast from '../Toast';
 import api from '../../Api';
-import { error_messages } from '../../Utils';
+import { error_messages, generate_id, set_2_decimals } from '../../Utils';
 import PresentationSelector from './PresentationSelector';
 
-const generate_id = () => "_" + Math.random().toString(36).substr(2) + Date.now();
-const set_2_decimals = value => parseFloat(value.toFixed(2));
 
 const Supplies = props => {
 

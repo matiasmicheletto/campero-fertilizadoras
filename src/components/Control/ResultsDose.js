@@ -19,7 +19,7 @@ const ResultsDose = props => (
         <Row style={{marginTop:20}}>
             <Col width={20}></Col>
             <Col width={60}>
-                <Button fill style={{textTransform:"none"}}>Agregar a reporte</Button>
+                <Button fill style={{textTransform:"none"}} onClick={props.onClick}>Agregar a reporte</Button>
             </Col>
             <Col width={20}></Col>
         </Row>
