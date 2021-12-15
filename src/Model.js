@@ -1,16 +1,20 @@
 import { generate_id } from "./Utils";
 
-const version = '0.0.1'; // Ante cualquier cambio en el modelo, se debe incrementar la version
+const version = '0.0.2'; // Ante cualquier cambio en el modelo, se debe incrementar la version
 
 const get_blank_report = () => {
     return {
         id: generate_id(),
         name: "Sin nombre",
+        dose:{},
+        distr: {},
+        supplies: {},
         completed: {
             dose: false,
             distribution: false,
             supplies: false
-        }
+        },
+        selected: false
     };
 };
 

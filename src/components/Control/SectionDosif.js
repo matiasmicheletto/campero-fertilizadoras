@@ -1,4 +1,4 @@
-import { Block, BlockTitle, Row, Col, List, Button } from 'framework7-react';
+import { f7, Block, BlockTitle, Row, Col, List, Button } from 'framework7-react';
 import { useContext, useEffect, useState } from 'react';
 import CustomInput from '../Inputs';
 import { CalculatorButton } from '../Buttons';
@@ -128,7 +128,7 @@ const SectionDosif = props => {
 
     const addResultsToReport = () => {
         model.addDoseToReport(outputs);
-        // TODO: abrir side panel de reportes y menu
+        f7.panel.open();
     };
 
     return (

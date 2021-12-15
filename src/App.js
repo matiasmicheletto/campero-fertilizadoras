@@ -8,6 +8,7 @@ import Supplies from './components/Supplies/index';
 import SuppliesList from './components/SuppliesList/index';
 import Reports from './components/Reports/index';
 import ReportDetails from './components/ReportDetails';
+import ReportsPanel from './components/ReportsPanel';
 import ModelProvider from './Context';
 import './index.css';
 
@@ -82,6 +83,7 @@ const Campero = () => (
     <App {...f7params}>
         <ModelProvider>
             <View main url="/" className="app"/>
+            <ReportsPanel />
         </ModelProvider>
     </App>
 );

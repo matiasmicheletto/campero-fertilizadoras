@@ -8,6 +8,11 @@
 	background-color: #636363;
 }
 
+.panel {
+	min-width: 100px;
+	max-width: 90vw;
+}
+
 .app {	
 	outline: 1px solid lightgray;
 	max-width: 650px;

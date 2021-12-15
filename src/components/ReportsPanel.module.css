@@ -1,0 +1,23 @@
+.Table {
+    padding: 0px;
+	height: 15px;
+}
+
+.SectionStatus {
+    text-align: right;
+}
+
+.ButtonSave {
+    text-transform: none;
+    margin-top: 20px;
+}
+
+.ButtonDelete {
+    text-transform: none;    
+    margin-top: 5px;
+}
+
+.ButtonContinue {
+    text-transform: none;
+    margin-top: 5px;
+}

@@ -1,7 +1,8 @@
 import { Navbar, Page, Block, Checkbox, Row } from 'framework7-react';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { BackButton } from '../Buttons';
 import iconEmpty from '../../img/icons/empty_folder.png';
+import { ModelCtx } from '../../Context';
 
 const formatTime = time => {
     const date = new Date(time);
@@ -10,20 +11,9 @@ const formatTime = time => {
 
 const Reports = props => {
 
-    const [reports, setReports] = useState([ // TODO: get reports from model
-        {
-            id: 1,
-            name: 'Reporte 1',
-            timestamp: 1639284775974,
-            selected: false
-        },
-        {
-            id: 2,
-            name: 'Lote 2',
-            timestamp: 1639284799088,
-            selected: false
-        }
-    ]);
+    const model = useContext(ModelCtx);
+
+    const [reports, setReports] = useState(model.reports || []);
 
     const countSelected = () => {
         let count = 0;

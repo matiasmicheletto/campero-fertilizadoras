@@ -31,7 +31,7 @@
   - Generacion de pdf con contenido del reporte.   
 
 #### Semana del 20 al 24 de diciembre
+  - Actualizar módulos de pruebas (api y model).
   - Compilar app con Capacitor.  
   - Guardar datos en almacenamiento persistente.  
   - Exportar contenido para compartir.  
-

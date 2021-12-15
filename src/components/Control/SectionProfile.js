@@ -1,4 +1,4 @@
-import { Row, Col, Button } from 'framework7-react';
+import { f7, Row, Col, Button } from 'framework7-react';
 import Picker from './Picker';
 import { useState, useContext } from 'react';
 import { ModelCtx } from '../../Context';
@@ -73,7 +73,7 @@ const SectionProfile = props => {
 
     const addResultsToReport = () => {
         model.addDistributionToreport(results);
-        // TODO: abrir side panel de reportes y menu
+        f7.panel.open();
     };
 
     return (
@@ -95,12 +95,8 @@ const SectionProfile = props => {
             <Row style={{marginTop:20}}>
                 <Col width={20}></Col>
                 <Col width={60}>
-                    <Button 
-                        fill 
-                        style={{textTransform:"none"}}
-                        onClick={addResultsToReport}
-                        >
-                            Agregar a reporte
+                    <Button fill style={{textTransform:"none"}} onClick={addResultsToReport}>
+                        Agregar a reporte
                     </Button>
                 </Col>
                 <Col width={20}></Col>

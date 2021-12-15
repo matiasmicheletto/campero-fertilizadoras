@@ -1,4 +1,4 @@
-import {Navbar,Page,Row, Col,Button} from 'framework7-react';
+import { f7, Navbar, Page, Row, Col, Button} from 'framework7-react';
 import React, { useContext } from 'react';
 import { BackButton } from '../Buttons';
 import { ModelCtx } from '../../Context';
@@ -9,7 +9,7 @@ const SuppliesList = props => {
 
     const addSuppliesToReport = () => {
         model.addSuppliesToReport(props);
-        // TODO: abrir side panel de reportes y menu
+        f7.panel.open();
     };
 
     return (
@@ -57,12 +57,8 @@ const SuppliesList = props => {
             <Row style={{marginTop:"20px", marginBottom: "25px"}}>
                 <Col width={20}></Col>
                 <Col width={60}>
-                    <Button 
-                        fill 
-                        onClick={addSuppliesToReport}
-                        style={{textTransform:"none"}}
-                    >
-                            Agregar a reporte
+                    <Button fill onClick={addSuppliesToReport} style={{textTransform:"none"}}>
+                        Agregar a reporte
                     </Button>
                 </Col>
                 <Col width={20}></Col>
