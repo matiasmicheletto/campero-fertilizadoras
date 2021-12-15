@@ -61,12 +61,12 @@ const f7params = {
             component: SuppliesList,
             on:{pageInit: ()=>pushState("suppliesList")}
         },
-        {
+        { // Lista de reportes
             path: '/reports/',
             component: Reports,
             on:{pageInit: ()=>pushState("reports")}
         },
-        {
+        { // Detalle de reporte
             path: '/reportDetails/:id',
             component: ReportDetails,
             on:{pageInit: ()=>pushState("reportDetails")}

@@ -1,5 +1,5 @@
 import { f7, View, Panel, Page, Block, BlockTitle, Button, Row } from 'framework7-react';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { ModelCtx } from '../Context';
 import classes from './ReportsPanel.module.css';
 import { FaCheck, FaTimes } from 'react-icons/fa';
@@ -12,7 +12,7 @@ const ReportsPanel = () => {
  
     const onOpened = () => {
         setCompletedSections({...model.currentReport.completed});
-    }
+    };
 
     const saveReport = () => {
         f7.dialog.create({

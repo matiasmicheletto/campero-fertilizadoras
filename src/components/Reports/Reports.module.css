@@ -1,0 +1,34 @@
+.Container {
+    width: 100%;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.Table {
+    table-layout: fixed;    
+    text-align: left;
+    overflow-x: auto;
+    border: none;           
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.TableRow {
+    cursor: pointer;    
+    height: 35px;
+}
+
+.CheckboxCell {
+    padding-left: 10px;
+    padding-right: 20px;
+}
+
+.NameCell {
+    white-space:nowrap; 
+    overflow:hidden;   
+}
+
+.DateCell {
+    white-space:nowrap; 
+    overflow:hidden;   
+}

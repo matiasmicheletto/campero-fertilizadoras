@@ -1,9 +1,11 @@
 .toast-success {
 	background-color: darkgreen;
 }
+
 .toast-error {
 	background-color: darkred;
 }
+
 .toast-info {
 	background-color: #636363;
 }

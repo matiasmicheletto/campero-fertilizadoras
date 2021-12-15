@@ -25,8 +25,7 @@
     - [ ] Exportar reportes a pdf.  
 
 
-#### Semana 13-17 de diciembre
-  - Plantear e implementar modelo de reportes.  
+#### Semana 13-17 de diciembre  
   - Vistas de listado y presentacion de reportes.  
   - Generacion de pdf con contenido del reporte.   
 

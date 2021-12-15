@@ -14,7 +14,7 @@ const get_blank_report = () => {
             distribution: false,
             supplies: false
         },
-        selected: false
+        selected: false // Esto se usa en la vista de listado
     };
 };
 
