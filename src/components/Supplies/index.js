@@ -36,10 +36,10 @@ const Supplies = props => {
         temp.push({
             key: generate_id(),
             name: "",
-            density: set_2_decimals(model.effective_dose || model.expected_dose || 0),
+            density: set_2_decimals(model.fitted_dose || model.effective_dose || model.expected_dose || 0),
             presentation: 0 // 0->granel, x->envase de x kg
         });
-        model.update("products", temp);
+        model.update("products", temp);        
         setProducts(temp);
     };
 

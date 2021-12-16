@@ -183,7 +183,7 @@ const PDFExport = report => {
                     style: "tableHeader"
                 },
                 {
-                    text: "Densidad",
+                    text: "Dosis",
                     style: "tableHeader"
                 },
                 {
@@ -196,7 +196,7 @@ const PDFExport = report => {
         report.supplies.products.forEach((prod, index) => {
             rows.push([
                 prod.name,
-                prod.density.toFixed(2),
+                prod.density.toFixed(2) + " kg/ha",
                 prod.presentation === 0 ?
                     report.supplies.quantities[index].toFixed(2) + " kg" :
                     Math.ceil(report.supplies.quantities[index]) + " envases de " + prod.presentation + " kg"

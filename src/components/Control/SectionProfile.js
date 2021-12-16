@@ -19,6 +19,7 @@ const SectionProfile = props => {
     // por eso viene de props y se debe determinar los resultados de acuerdo al valor de ancho de labor mas cercano.
     const closest = get_closest(props.outputs[work_pattern], "work_width", props.work_width);
     const results = closest ? closest : {profile:[], avg: 0, dst: 0, cv: 0, fitted_dose: null};
+    model.update("fitted_dose", results.fitted_dose); // Actualizar dosis ajustada para usar en calculo de insumos
 
     // Configuracion del grafico del perfil
     const profile_chart_config = { 
@@ -62,12 +63,12 @@ const SectionProfile = props => {
     ];
 
     const handlePatternChange = v => {
+        model.update("work_pattern", v);        
         setWorkPattern(v);
-        model.update("work_pattern", v);
     };
 
     const handlePickerChange = v => {        
-        //console.log("Picker value: ", parseFloat(v.value[0]));
+        //console.log("Picker value: ", parseFloat(v.value[0]));                
         props.setWorkWidth(parseFloat(v.value[0]));
     };
 

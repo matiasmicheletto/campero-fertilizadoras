@@ -24,7 +24,6 @@ export default class CamperoModel {
         this.expected_dose = null; // Dosis prevista
         this.effective_dose = null; // Dosis efectiva
         this.initial_work_width = null; // Ancho de labor inicial
-        //this.fitted_dose = null; // Dosis ajustada
         this.gear = null; // Cambio de la maquina
         this.recolected = null; // Peso total recolectado
         this.time = null;  // Tiempo de muestreo      
@@ -34,6 +33,7 @@ export default class CamperoModel {
         this.method = "direct"; // Uso de velocidad (directa/indirecta)
         
         // Variables de distribucion
+        this.fitted_dose = null; // Dosis ajustada
         this.tray_data = []; // Peso recolectado de bandejas
         this.tray_distance = null; // Distancia entre bandejas
         this.tray_number = null; // Cantidad de bandejas (= a tray_data.length)
