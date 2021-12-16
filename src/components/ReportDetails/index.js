@@ -2,9 +2,9 @@ import { Navbar, Page, Block, Row, Col, Button } from 'framework7-react';
 import { useContext } from 'react';
 import { BackButton } from '../Buttons';
 import { ModelCtx } from '../../Context';
-import Toast from '../Toast';
 import classes from './ReportDetails.module.css';
-import { formatTime } from '../../Utils';
+import moment from 'moment';
+import PDFExport from '../../PDFExport';
 
 const workPattern = {
     linear: "Ida y vuelta",
@@ -16,9 +16,8 @@ const ReportDetails = props => {
     const model = useContext(ModelCtx);
     const report = model.getReport(props.id);
 
-    const exportPDF = () => {
-        // TODO: exportar a pdf
-        Toast("info", "Funcionalidad aún no disponible", 2000, "center");
+    const exportReport = () => {
+        PDFExport(report);
     };
 
     return (
@@ -26,7 +25,7 @@ const ReportDetails = props => {
             <Navbar title={"Reporte de la labor"} style={{maxHeight:"40px", marginBottom:"0px"}}/>
             <Block className={classes.HeaderBlock}>
                 <p><b>Nombre: </b>{report.name}</p>
-                <p><b>Fecha y hora: </b>{formatTime(report.timestamp)}</p>
+                <p><b>Fecha y hora: </b>{moment(report.timestamp).format("DD/MM/YYYY - HH:mm")}</p>
             </Block>
             {
                 report.completed.dose &&
@@ -94,11 +93,11 @@ const ReportDetails = props => {
                             </tr>
                             <tr>
                                 <td><b>Cantidad de bandejas:</b></td>
-                                <td className={classes.DataCell}>{report.distr.tray_number} m</td>
+                                <td className={classes.DataCell}>{report.distr.tray_number}</td>
                             </tr>
                             <tr>
                                 <td><b>Distancia entre bandejas:</b></td>
-                                <td className={classes.DataCell}>{report.distr.tray_distance} m</td>
+                                <td className={classes.DataCell}>{report.distr.tray_distance?.toFixed(2)} m</td>
                             </tr>                
                             <tr>
                                 <td><b>Cantidad de pasadas:</b></td>
@@ -171,7 +170,7 @@ const ReportDetails = props => {
             <Row style={{marginTop:10, marginBottom:15}}>
                 <Col width={20}></Col>
                 <Col width={60}>
-                    <Button fill onClick={exportPDF} style={{textTransform:"none"}}>Guardar como  PDF</Button>
+                    <Button fill onClick={exportReport} style={{textTransform:"none"}}>Guardar como  PDF</Button>
                 </Col>
                 <Col width={20}></Col>
             </Row>

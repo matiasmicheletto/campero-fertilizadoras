@@ -26,9 +26,3 @@ export const get_closest = (array, attr, value) => {
     const index = diffArr.findIndex(v => v === closestValue);
     return array[index];
 };
-
-export const formatTime = time => {
-    const date = new Date(time);
-    return date.toLocaleDateString("es-AR", { day: 'numeric', month: 'numeric' }) + 
-        " " + date.toLocaleTimeString("es-AR", {hour: 'numeric', minute: 'numeric'});
-};

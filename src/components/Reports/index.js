@@ -5,7 +5,7 @@ import iconEmpty from '../../img/icons/empty_folder.png';
 import { ModelCtx } from '../../Context';
 import Toast from '../Toast';
 import classes from './Reports.module.css';
-import { formatTime } from '../../Utils';
+import moment from 'moment';
 
 const countSelected = array => {
     return array.filter(el => el.selected).length;
@@ -73,8 +73,22 @@ const Reports = props => {
     };
 
     const deleteSelected = () => {
-        // TODO: borrar reportes
-        Toast("info", "Funcionalidad aún no disponible", 2000, "center");
+        f7.dialog.confirm('¿Está seguro que desea eliminar los reportes seleccionados?', 'Eliminar reportes', () => {
+            const selectedIds = getSelected().map(el => el.id);
+            if (selectedIds.length > 0) {
+                for(let i = 0; i < selectedIds.length; i++){
+                    const res = model.deleteReport(selectedIds[i]);
+                    if(res.status === "error"){
+                        Toast("error", res.message, 2000, "center");
+                        break;
+                    }
+                }
+                Toast("success", "Reportes eliminados exitosamente", 2000, "center");
+                setSelectedAll(false); // Deseleccionar todos y actualizar vista
+            }else{
+                Toast("info", "Seleccione al menos un reporte", 2000, "center");
+            }
+        });
     };
 
     return (
@@ -113,7 +127,7 @@ const Reports = props => {
                                             />
                                         </td>
                                         <td className={classes.NameCell}>{r.name}</td>
-                                        <td className={classes.DateCell}>{formatTime(r.timestamp)}</td>
+                                        <td className={classes.DateCell}>{moment(r.timestamp).format("DD/MM - HH:mm")}</td>
                                     </tr>
                                 ))
                             }
