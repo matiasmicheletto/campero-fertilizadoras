@@ -141,7 +141,6 @@ export default class CamperoModel {
             diffp: results.diffp
         };
         this.currentReport.completed.dose = true;
-        console.log(this.currentReport);
     }
 
     addDistributionToreport(results) {
@@ -156,16 +155,14 @@ export default class CamperoModel {
             avg: results.avg,
             cv: results.cv
         };
-        this.currentReport.completed.distribution = true;
-        console.log(this.currentReport);
+        this.currentReport.completed.distribution = true;        
     }
 
     addSuppliesToReport(results) {
         if(results.field_name.length > 1)
             this.currentReport.name = results.field_name;
         this.currentReport.supplies = results;
-        this.currentReport.completed.supplies = true;
-        console.log(this.currentReport);
+        this.currentReport.completed.supplies = true;        
     }
 
     getReport(id){

@@ -5,9 +5,12 @@ import CustomInput from '../Inputs';
 class Picker extends React.Component {
     
         constructor(props) {
-            super(props);
+            super(props);            
             this.inputRef = React.createRef();
             this.handleClick = this.handleClick.bind(this);
+            this.state = {
+                pattern: props.pattern
+            };
         }
 
         componentDidMount(){
@@ -37,8 +40,15 @@ class Picker extends React.Component {
             }); 
         }
 
+        componentDidUpdate(prevProps){
+            if(prevProps.pattern !== this.props.pattern){
+                this.picker.cols = this.props.cols;
+                this.setState({pattern: this.props.pattern});
+            }
+        }
+
         componentWillUnmount(){
-            this.picker.destroy();
+            this.picker.destroy();            
         }
 
         handleClick(e) {        

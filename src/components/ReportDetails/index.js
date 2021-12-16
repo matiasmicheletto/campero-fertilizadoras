@@ -168,7 +168,7 @@ const ReportDetails = props => {
                     </table>
                 </Block>
             }
-            <Row style={{marginTop:10}}>
+            <Row style={{marginTop:10, marginBottom:15}}>
                 <Col width={20}></Col>
                 <Col width={60}>
                     <Button fill onClick={exportPDF} style={{textTransform:"none"}}>Guardar como  PDF</Button>

@@ -133,7 +133,7 @@ const Reports = props => {
             {
                 selectedCount === 1 ?
                 <>
-                    <Row style={{marginTop:10}}>
+                    <Row style={{marginTop:20}}>
                         <Col width={20}></Col>
                         <Col width={60}>
                             <Button fill onClick={renameSelected} color="teal" style={{textTransform:"none"}}>Cambiar nombre</Button>

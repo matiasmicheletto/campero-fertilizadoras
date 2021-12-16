@@ -33,7 +33,7 @@ const SuppliesList = props => {
                             <td style={{textAlign:"left"}}>{props.work_area} ha</td>
                         </tr>                        
                         {
-                            props.products.map((prod, index) => (                    
+                            props.products?.map((prod, index) => (                    
                                 <React.Fragment key={index}>
                                     <tr style={{height:"15px"}}>                                        
                                     </tr>
