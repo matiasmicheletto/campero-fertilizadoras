@@ -16,7 +16,7 @@ const Info = props => (
                 <Link external rel="noopener noreferrer" target="_blank" href="https://www.facebook.com/intaascasubi" className={[classes.MenuButton]}>
                     <p>Info técnica y novedades</p>
                 </Link>
-                <Link href="/about/" className={classes.MenuButton} style={{marginBottom:"30px"}}>
+                <Link href="/about/" className={classes.MenuButton} style={{marginBottom:"20px"}}>
                     <p>Acerca de</p>
                 </Link>                                
                 <BackButton {...props} gray/>

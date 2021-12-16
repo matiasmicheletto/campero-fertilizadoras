@@ -149,7 +149,7 @@ const Supplies = props => {
             <Block style={{margin:0}}>
                 <AddButton onClick={()=>addProduct()}/>
             </Block>
-            <Row style={{marginBottom:"25px"}}>
+            <Row style={{marginBottom:"15px"}}>
                 <Col width={20}></Col>
                 <Col width={60}>
                     <Button fill onClick={submit} style={{textTransform:"none"}}>Calcular insumos</Button>

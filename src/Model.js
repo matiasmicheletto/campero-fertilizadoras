@@ -1,6 +1,6 @@
 import { generate_id } from "./Utils";
 
-const version = '0.0.2'; // Ante cualquier cambio en el modelo, se debe incrementar la version
+const version = '0.0.3'; // Ante cualquier cambio en el modelo, se debe incrementar la version
 
 const get_blank_report = () => {
     return {
@@ -107,13 +107,14 @@ export default class CamperoModel {
     }
 
     getFromLocalStorage(){ // Recuperar datos de localStorage
-        const content = localStorage.getItem("campero_model"+version);
-        if(content !== ""){
+        const content = localStorage.getItem("campero_model"+version);        
+        if(content){
             const model = JSON.parse(content);
             if(model)
                 Object.assign(this, model);
         }else{ 
             // Si no hay datos en localStorage, puede ser por cambio de version, entonces borrar todo
+            console.log("Nueva version de CamperoModel, bienvenido!");
             localStorage.clear();
         }
     }
@@ -127,14 +128,15 @@ export default class CamperoModel {
 
     addDoseToReport(results) {
         this.currentReport.dose = {
-            expected: this.expected_dose,
             gear: this.gear,
             work_width: this.work_width,
-            distance: this.distance,
             recolected: this.recolected,
+            method: this.method,
+            distance: this.distance,
             time: this.time,
             work_velocity: this.work_velocity,
-            effective_dose: results.effective_dose,
+            expected_dose: this.expected_dose,
+            effective_dose: results.dose,
             diffkg: results.diffkg,
             diffp: results.diffp
         };
@@ -159,6 +161,8 @@ export default class CamperoModel {
     }
 
     addSuppliesToReport(results) {
+        if(results.field_name.length > 1)
+            this.currentReport.name = results.field_name;
         this.currentReport.supplies = results;
         this.currentReport.completed.supplies = true;
         console.log(this.currentReport);
@@ -191,7 +195,7 @@ export default class CamperoModel {
         }else{
             return {
                 status: "error",
-                message: "No se encontró el reporte"
+                message: "Problema al renombrar reporte"
             };
         }
     }

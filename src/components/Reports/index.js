@@ -1,16 +1,11 @@
-import { Navbar, Page, Block, Checkbox, Row, Col, Button } from 'framework7-react';
+import { f7, Navbar, Page, Block, Checkbox, Row, Col, Button } from 'framework7-react';
 import { useState, useContext } from 'react';
 import { BackButton } from '../Buttons';
 import iconEmpty from '../../img/icons/empty_folder.png';
 import { ModelCtx } from '../../Context';
 import Toast from '../Toast';
 import classes from './Reports.module.css';
-
-const formatTime = time => {
-    const date = new Date(time);
-    return date.toLocaleDateString("es-AR", { day: 'numeric', month: 'numeric' }) + 
-        " " + date.toLocaleTimeString("es-AR", {hour: 'numeric', minute: 'numeric'});
-};
+import { formatTime } from '../../Utils';
 
 const countSelected = array => {
     return array.filter(el => el.selected).length;
@@ -24,7 +19,8 @@ const Reports = props => {
     const [selectedCount, setSelectedCount] = useState(countSelected(model.reports));
 
     const setSelectedAll = v => {
-        const temp = [...reports];
+        //const temp = [...reports];
+        const temp = [...model.reports]; 
         temp.forEach(report => {
             report.selected = v;
         });
@@ -42,24 +38,51 @@ const Reports = props => {
         setReports(temp);
     };
 
+    const getSelected = () => {
+        return reports.filter(report => report.selected);
+    };
+
+    const getSingleSelected = () => {
+        const selectedIds = getSelected().map(el => el.id);
+        if (selectedIds.length === 0) {
+            Toast("info", "Seleccione al menos un reporte", 2000, "center");
+            return;
+        }
+        if (selectedIds.length > 1) {
+            Toast("info", "Solo puede renombrar un reporte a la vez", 2000, "center");
+            return;
+        }
+        return model.getReport(selectedIds[0]);
+    };
+
     const openSelected = () => {
-        Toast("info", "Funcionalidad no disponible", 2000, "center");
+        const selectedReport = getSingleSelected();
+        props.f7router.navigate("/reportDetails/" + selectedReport.id);
     };
 
     const renameSelected = () => {
-        Toast("info", "Funcionalidad no disponible", 2000, "center");
+        const selectedReport = getSingleSelected();
+        f7.dialog.prompt('Indique el nuevo nombre para el reporte seleccionado', 'Editar nombre', newName => {
+            const res = model.renameReport(selectedReport.id, newName);
+            if(res.status === "success"){
+                Toast("success", "Reporte renombrado exitosamente", 2000, "center");
+                setSelectedAll(false); // Deseleccionar todos y actualizar vista
+            }else
+                Toast("error", res.message, 2000, "center");
+        }, null, selectedReport.name);
     };
 
     const deleteSelected = () => {
-        Toast("info", "Funcionalidad no disponible", 2000, "center");
+        // TODO: borrar reportes
+        Toast("info", "Funcionalidad aún no disponible", 2000, "center");
     };
 
     return (
-        <Page>            
-            <Navbar title="Reportes guardados" style={{maxHeight:"40px", marginBottom:"0px"}}/>            
+        <Page>
+            <Navbar title="Reportes guardados" style={{maxHeight:"40px", marginBottom:"0px"}}/>
             {
             reports.length > 0 ?
-                <Row className={classes.Container}>                    
+                <Row className={classes.Container}>
                     <table className={classes.Table}>
                         <colgroup>
                             <col span={1} style={{width: "15%"}} />
@@ -130,7 +153,7 @@ const Reports = props => {
             }
             {
                 selectedCount > 0 ?
-                <Row style={{marginTop:10, marginBottom:20}}>
+                <Row style={{marginTop:10}}>
                     <Col width={20}></Col>
                     <Col width={60}>
                         <Button fill onClick={deleteSelected} color="red" style={{textTransform:"none"}}>Borrar</Button>
@@ -140,7 +163,7 @@ const Reports = props => {
                 :
                 null
             }
-            <BackButton {...props} />
+            <BackButton {...props}/>
         </Page>
     );
 };

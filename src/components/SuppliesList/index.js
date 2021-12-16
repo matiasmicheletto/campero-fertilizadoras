@@ -8,7 +8,13 @@ const SuppliesList = props => {
     const model = useContext(ModelCtx);
 
     const addSuppliesToReport = () => {
-        model.addSuppliesToReport(props);
+        const results = {
+            field_name: props.field_name,
+            work_area: props.work_area,
+            products: props.products,
+            quantities: props.quantities
+        };
+        model.addSuppliesToReport(results);
         f7.panel.open();
     };
 
@@ -43,7 +49,7 @@ const SuppliesList = props => {
                                         <td><b>Total:</b></td>
                                         {
                                             prod.presentation === 0 ?
-                                                <td style={{textAlign:"left"}}> {props.quantities[index]} kg</td>
+                                                <td style={{textAlign:"left"}}> {props.quantities[index]?.toFixed(2)} kg</td>
                                             :
                                                 <td style={{textAlign:"left"}}> {Math.ceil(props.quantities[index])} envases de {prod.presentation} kg</td>
                                         } 
@@ -52,9 +58,9 @@ const SuppliesList = props => {
                             ))
                         }
                     </tbody>
-                </table>                
+                </table>
             </Row>
-            <Row style={{marginTop:"20px", marginBottom: "25px"}}>
+            <Row style={{marginTop:"20px", marginBottom: "15px"}}>
                 <Col width={20}></Col>
                 <Col width={60}>
                     <Button fill onClick={addSuppliesToReport} style={{textTransform:"none"}}>

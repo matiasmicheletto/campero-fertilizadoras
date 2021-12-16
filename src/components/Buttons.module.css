@@ -6,7 +6,8 @@
 	background-color: rgba(10, 10, 250, .7);	
 	color:white;	
 	z-index: 9999;
-	display: inline-block;		
+	display: inline-block;
+	margin-top: 10px;
 }
 
 .Container {

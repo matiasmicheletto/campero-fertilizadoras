@@ -26,7 +26,9 @@
 
 
 #### Semana 13-17 de diciembre  
-  - Vistas de listado y presentacion de reportes.  
+  - Refrescar contenido del picker al cambiar patron de trabajo.  
+  - Vista de listado --> eliminar reportes.  
+  - Vista de detalles reporte --> Tabla distribucion, tabla insumos
   - Generacion de pdf con contenido del reporte.   
 
 #### Semana del 20 al 24 de diciembre

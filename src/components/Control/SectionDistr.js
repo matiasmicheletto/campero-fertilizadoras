@@ -167,7 +167,7 @@ const SectionDistr = props => {
     };
 
     return (
-        <Block>
+        <Block style={{marginBottom:15}}>
             <BlockTitle>Distribución y ancho de labor</BlockTitle>
             <List form noHairlinesMd style={{marginBottom:"10px"}}>
                 <CustomInput

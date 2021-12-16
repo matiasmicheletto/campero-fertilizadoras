@@ -1,11 +1,10 @@
 .Container {
-    width: 100%;
     margin-left: 20px;
     margin-right: 20px;
 }
 
 .Table {
-    table-layout: fixed;    
+    table-layout: fixed;
     text-align: left;
     overflow-x: auto;
     border: none;           
@@ -25,10 +24,10 @@
 
 .NameCell {
     white-space:nowrap; 
-    overflow:hidden;   
+    overflow:hidden;       
 }
 
 .DateCell {
-    white-space:nowrap; 
-    overflow:hidden;   
+    white-space:nowrap;
+    overflow:hidden;    
 }
