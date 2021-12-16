@@ -31,7 +31,7 @@ const ReportsPanel = () => {
                         model.saveReport();                        
                         setTimeout(function () {
                             f7.panel.close();
-                            setTimeout(function () {
+                            setTimeout(function () { // Dar tiempo a que se cierre el panel
                                 f7.views.main.router.navigate('/reports/');
                                 setCompletedSections(model.currentReport);
                             }, 500);
@@ -57,7 +57,10 @@ const ReportsPanel = () => {
                         f7.panel.close();
                         model.clearReport();
                         Toast("success", "Reporte restablecido", 2000, "center");
-                        setCompletedSections(model.currentReport);
+                        setTimeout(function(){ // Dar tiempo a que se cierre el panel
+                            f7.dialog.close();
+                            setCompletedSections(model.currentReport);
+                        }, 500);
                     }
                 }
             ],
