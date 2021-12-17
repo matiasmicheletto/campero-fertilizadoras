@@ -94,7 +94,7 @@ const SectionProfile = props => {
                 onChange={handlePickerChange}
                 icon={iconWorkWidth}
                 />
-            <Row style={{marginTop:20}}>
+            <Row style={{marginTop:10}}>
                 <Col width={20}></Col>
                 <Col width={60}>
                     <Button fill style={{textTransform:"none"}} onClick={addResultsToReport}>

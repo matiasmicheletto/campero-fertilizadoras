@@ -133,6 +133,18 @@ const PDFExport = report => {
                 widths: ['*', '*'],
                 body: [
                     [{
+                        text: "Dosis ajustada",
+                        style: "tableHeader"
+                    }, report.distr.fitted_dose.toFixed(2) + " kg/ha"],
+                    [{
+                        text: "Coeficiente de variación",
+                        style: "tableHeader"
+                    }, report.distr.cv.toFixed(2) + " %"],
+                    [{
+                        text: "Patrón de trabajo",
+                        style: "tableHeader"
+                    }, workPattern[report.distr.work_pattern]],
+                    [{
                         text: "Superficie de bandeja",
                         style: "tableHeader"
                     }, report.distr.tray_area.toFixed(2) + " m²"],
@@ -147,23 +159,11 @@ const PDFExport = report => {
                     [{
                         text: "Cantidad de pasadas",
                         style: "tableHeader"
-                    }, report.distr.pass_number],
-                    [{
-                        text: "Patrón de trabajo",
-                        style: "tableHeader"
-                    }, workPattern[report.distr.work_pattern]],
-                    [{
-                        text: "Dosis ajustada",
-                        style: "tableHeader"
-                    }, report.distr.fitted_dose.toFixed(2) + " kg/ha"],
-                    [{
+                    }, report.distr.pass_number]
+                    /*[{
                         text: "Promedio peso recolectado",
                         style: "tableHeader"
-                    }, report.distr.avg.toFixed(2) + " gr"],
-                    [{
-                        text: "Coeficiente de variación",
-                        style: "tableHeader"
-                    }, report.distr.cv.toFixed(2) + " %"]
+                    }, report.distr.avg.toFixed(2) + " gr"],*/
                 ]
             },
             margin: [0, 0, 0, 15]

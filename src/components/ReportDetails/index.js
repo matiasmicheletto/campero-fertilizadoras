@@ -88,6 +88,18 @@ const ReportDetails = props => {
                     <table className={classes.Table}>
                         <tbody>
                             <tr>
+                                <td><b>Dosis ajustada:</b></td>
+                                <td className={classes.DataCell}>{report.distr.fitted_dose?.toFixed(2)} kg/ha</td>
+                            </tr>
+                            <tr>
+                                <td><b>Coeficiente de variación:</b></td>
+                                <td className={classes.DataCell}>{report.distr.cv?.toFixed(2)} %</td>
+                            </tr>
+                            <tr>
+                                <td><b>Patrón de trabajo:</b></td>
+                                <td className={classes.DataCell}>{workPattern[report.distr.work_pattern]}</td>
+                            </tr>
+                            <tr>
                                 <td><b>Superficie de bandeja:</b></td>
                                 <td className={classes.DataCell}>{report.distr.tray_area?.toFixed(2)} m²</td>
                             </tr>
@@ -103,22 +115,12 @@ const ReportDetails = props => {
                                 <td><b>Cantidad de pasadas:</b></td>
                                 <td className={classes.DataCell}>{report.distr.pass_number}</td>
                             </tr>
-                            <tr>
-                                <td><b>Patrón de trabajo:</b></td>
-                                <td className={classes.DataCell}>{workPattern[report.distr.work_pattern]}</td>
-                            </tr>
-                            <tr>
-                                <td><b>Dosis ajustada:</b></td>
-                                <td className={classes.DataCell}>{report.distr.fitted_dose?.toFixed(2)} kg/ha</td>
-                            </tr>
+                            {/*
                             <tr>
                                 <td><b>Promedio peso recolectado:</b></td>
                                 <td className={classes.DataCell}>{report.distr.avg?.toFixed(2)} gr</td>
                             </tr>
-                            <tr>
-                                <td><b>Coeficiente de variación:</b></td>
-                                <td className={classes.DataCell}>{report.distr.cv?.toFixed(2)} %</td>
-                            </tr>
+                            */}
                         </tbody>
                     </table>
                 </Block>

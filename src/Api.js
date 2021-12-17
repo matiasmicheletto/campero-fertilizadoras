@@ -107,7 +107,7 @@ const sweepForProfile = (params, optionals) => {
     // El resultado se retorna discriminando para cada patron de trabajo
     const res = {linear: [],circular: []}; 
     // Realizar barrido variando el ancho de labor
-    for(let work_width = ww_min; work_width < ww_max; work_width += ww_step) {
+    for(let work_width = ww_min; work_width <= ww_max; work_width += ww_step) {
         // Si se pasaron los argumentos opcionales, calcular como cambia la dosis en función del ancho de labor
         const dose_res = computeDose({...optionals, work_width});
         const fitted_dose = dose_res.status === "success" ? dose_res.dose : null;
@@ -141,25 +141,32 @@ const computeDistributionProfile = params => {
     const {tray_data, tray_distance, pass_number, work_width, work_pattern} = params;
     const tray_number = tray_data.length;
     //const profile = [...tray_data];
-    const profile = tray_data.map(x => x/pass_number);
-    const tw = tray_distance * tray_number; 
+    const profile = tray_data.map(x => x/pass_number); // Perfil resultante
+    const tw = tray_distance * tray_number; // Ancho maximo (hasta donde llegan las bandejas)
+
+    // Solapamiento
+    let r = 1; // Numero de pasada hacia los laterales
     const get_s = r => Math.floor((tw - r * work_width) / tray_distance);
-    let r = 1;
     let s = get_s(r);   
-    while(s > 0) {                        
+    while(s > 0) { // Mientras haya solapamiento                       
+        // Si es patron circular, siempre se solapa en el mismo sentido
+        // si el patron es ida y vuelta, se suma una vez de cada lado
         const side = work_pattern === "circular" ? "left" : r%2===0 ? "left" : "right";
-        for(let i = 0; i < s; i++){
-            if(side === "left"){
-                profile[i] += tray_data[tray_number - s + i];
-                profile[tray_number - 1 - i] += tray_data[s - i - 1];                    
-            }else{
-                profile[i] += tray_data[s - i - 1];
-                profile[tray_number - 1 - i] += tray_data[tray_number - s + i];
+        if(side === "left"){
+            for(let i = 0; i < s; i++) {
+                profile[i] += tray_data[tray_number - s + i]/pass_number;
+                profile[tray_number - 1 - i] += tray_data[s - i - 1]/pass_number;                    
             }
-        }
-        r++;
-        s = get_s(r);
+        }else{
+            for(let i = 0; i < s; i++) {
+                profile[i] += tray_data[s - i - 1]/pass_number;
+                profile[tray_number - 1 - i] += tray_data[tray_number - s + i]/pass_number;
+            } 
+        }       
+        r++; // Siguiente pasada
+        s = get_s(r); // Solapamiento en la siguiente pasada
     }
+    // Calcular promedio y desvios
     const sum = profile.reduce((a, b) => a + b, 0);
     const avg = sum / profile.length;
     const sqdiff = profile.map(x => Math.pow(x - avg, 2));

@@ -1,6 +1,6 @@
-import { f7, Block, List } from 'framework7-react';
+import { f7, Row, Col, Button } from 'framework7-react';
 import React from 'react';
-import CustomInput from '../Inputs';
+//import CustomInput from '../Inputs';
 
 class Picker extends React.Component {
     
@@ -61,9 +61,23 @@ class Picker extends React.Component {
     
         render(){
             return(
-                <Block>
+                <div>
                     <input type="text" readOnly ref={this.inputRef} style={{display:"none"}}/>
-                    <List form style={{margin:0}} noHairlines>
+                    <Row style={{marginTop:20}}>
+                        <Col width={20}></Col>
+                        <Col width={60}>
+                            <Button 
+                                fill 
+                                style={{textTransform:"none"}} 
+                                color="teal"
+                                onClick={this.handleClick}>
+                                Ajustar ancho de labor
+                            </Button>
+                        </Col>
+                        <Col width={20}></Col>
+                    </Row>
+                    {/*
+                    <List form style={{margin:0}} noHairlines> 
                         <CustomInput                     
                             readonly
                             clearButton={false}
@@ -74,9 +88,10 @@ class Picker extends React.Component {
                             label={this.props.title}
                             value={this.props.value}
                             onFocus={this.handleClick}
-                        />
+                        /> 
                     </List> 
-                </Block>
+                    */}
+                </div>
             )
         }
 }

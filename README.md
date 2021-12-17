@@ -12,21 +12,28 @@
     - [ ] Detectar tipo de perfil medido (?).  
     - [ ] Sugerir correcciones sobre el perfil medido.  
     - [x] Computar perfil aplicacion en funcion del ancho de labor.  
-    - [ ] Agregar datos al reporte actual.  
+    - [x] Agregar datos al reporte actual.  
   - Sección insumos:  
     - [x] Calcular insumos en fc. de la superficie de trabajo.  
-    - [ ] Agregar insumos al reporte actual.  
+    - [x] Agregar insumos al reporte actual.  
   - Sección reportes:  
-    - [ ] Implementar modelo de reportes (basado en campero siembra).  
-    - [ ] Agregar datos a reportes (mostrar en sidepanel).  
+    - [x] Implementar modelo de reportes (basado en campero siembra).  
+    - [x] Agregar datos a reportes (mostrar en sidepanel).  
     - [x] Listar reportes guardados.  
-    - [ ] Abrir reportes.  
-    - [ ] Editar/borrar reportes.  
-    - [ ] Exportar reportes a pdf.  
+    - [x] Abrir reportes.  
+    - [x] Editar/borrar reportes.  
+    - [x] Exportar reportes a pdf.  
 
 
-#### Semana del 20 al 24 de diciembre
-  - Actualizar módulos de pruebas (api y model).
+#### Features    
+  - Cronometro de recolección de muestra -> hasta 3 muestras promediadas.  
+  - En cálculo de insumos, ingresar capacidad de maquina para saber la cantidad de cargas y cargas equilibradas.  
+
+#### Android
+  - Instalar AndroidStudio.  
   - Compilar app con Capacitor.  
   - Guardar datos en almacenamiento persistente.  
   - Exportar contenido para compartir.  
+
+#### Refactoring
+  - Actualizar módulos de pruebas (api y model).
