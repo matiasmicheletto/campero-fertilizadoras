@@ -25,9 +25,9 @@ const SectionDosif = props => {
     const [expected_dose, setExpectedDose] = useState(model.expected_dose || '');
     const [gear, setGear] = useState(model.gear || '');    
     const [distance, setDistance] = useState(model.distance || '');
-    const [time, setTime] = useState(model.time || '');
+    let [time, setTime] = useState(model.time || '');
     let [work_velocity, setWorkVelocity] = useState(model.work_velocity || '');
-    const [recolected, setRecolected] = useState(model.recolected || '');
+    let [recolected, setRecolected] = useState(model.recolected || '');
     
     // Resultados
     const [outputs, setOutputs] = useState({
@@ -41,8 +41,10 @@ const SectionDosif = props => {
         setOutputs(outputs => {return{...outputs, show: false}});
     }, [props.work_width]);
 
-    // Para que actualice al volver de la vista de cronometro
+    // Para que actualice datos al volver de las vistas de cronometro
     work_velocity = model.work_velocity;
+    recolected = model.recolected;
+    time = model.time;
 
     const updateValue = (name, value) => {
         let f = parseFloat(value);
@@ -206,23 +208,29 @@ const SectionDosif = props => {
                                         onChange={handleInputChange}
                                         ></CustomInput>
                                 </Col>
-                                <Col width="20" style={{paddingTop:"12px", marginRight:"10px"}}>
-                                    <CalculatorButton />
+                                <Col width="20" style={{paddingTop:"5px", marginRight:"10px"}}>
+                                    <CalculatorButton href="/velocity/" tooltip="Medir velocidad"/>
                                 </Col>
                             </Row>
                         </div>
                     }
-                    <CustomInput                    
-                        slot="list"
-                        name="recolected"
-                        icon={iconCollected}
-                        label="Peso recolectado"
-                        type="number"
-                        unit="kg"    
-                        value={recolected}  
-                        onInputClear={handleInputClear}
-                        onChange={handleInputChange}
-                        ></CustomInput>
+                    <Row slot="list">
+                        <Col width="80">
+                            <CustomInput                    
+                                name="recolected"
+                                icon={iconCollected}
+                                label="Peso recolectado"
+                                type="number"
+                                unit="kg"    
+                                value={recolected}  
+                                onInputClear={handleInputClear}
+                                onChange={handleInputChange}
+                                ></CustomInput>
+                        </Col>
+                        <Col width="20" style={{paddingTop:"5px", marginRight:"10px"}}>
+                            <CalculatorButton href="/recolected/" color="teal" tooltip="Cronómetro"/>
+                        </Col>
+                    </Row>
                 </List>
                 <Row>
                     <Col width={20}></Col>

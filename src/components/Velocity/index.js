@@ -1,15 +1,15 @@
 import { Page, Navbar, Block, List, Row, Col, Button } from "framework7-react";
 import CustomInput from "../Inputs";
-import DistanceIcon from "../../img/icons/distancia.png"
+import DistanceIcon from "../../img/icons/distancia.png";
 import classes from './Velocity.module.css';
 import moment from 'moment';
 import Timer from './Timer';
 import Toast from "../Toast";
 import { useContext, useState } from "react";
-import { FaPlay, FaStop, FaPlus, FaMinus } from 'react-icons/fa';
+import { FaPlus, FaMinus } from 'react-icons/fa';
 import { ModelCtx } from "../../Context";
-
-const timer = new Timer();
+import { set_2_decimals } from "../../Utils";
+import { PlayButton } from "../Buttons";
 
 const InputBlock = props => ( // Input de distancia
     <List form noHairlinesMd className={classes.Form}>
@@ -29,17 +29,6 @@ const InputBlock = props => ( // Input de distancia
     </List>
 );
 
-const PlayButton = props => ( // Boton de control del cronometro
-    <Button style={{minHeight:50}} onClick={props.onClick}>
-        {
-            props.running ? 
-                <FaStop color="red" size={40}/>
-            :
-                <FaPlay color="green" size={40}/>
-        }
-    </Button>
-);
-
 const DataTable = props => ( // Tabla de resultados parciales
     <table className={`data-table ${classes.Table}`}>
         <thead>
@@ -50,15 +39,15 @@ const DataTable = props => ( // Tabla de resultados parciales
             </tr>
         </thead>
         <tbody>
-            {
-                props.data.map((d, idx) => (
-                    <tr key={idx}>
-                        <td>{idx+1}</td>
-                        <td>{d.time/1000} seg.</td>
-                        <td>{d.vel.toFixed(2)} Km/h</td>
-                    </tr>
-                ))
-            }
+        {
+            props.data.map((d, idx) => (
+                <tr key={idx}>
+                    <td>{idx+1}</td>
+                    <td>{d.time/1000} seg.</td>
+                    <td>{d.vel.toFixed(2)} Km/h</td>
+                </tr>
+            ))
+        }
         </tbody>
     </table>
 );
@@ -73,7 +62,7 @@ const OutputBlock = props => ( // Bloque con resultado final a exportar
                     value={props.output}
                     label="Vel. promedio"
                     type="number"
-                    unit="Km/h"
+                    unit="km/h"
                     clearButton={false}
                 ></CustomInput>
             </Col>
@@ -82,29 +71,24 @@ const OutputBlock = props => ( // Bloque con resultado final a exportar
     </List>
 );
 
+const timer = new Timer(0, false);
 
 const Velocity = ({f7router}) => { // View
     
     const model = useContext(ModelCtx);
-
-    const [time, setTime] = useState(0);     
-    
-    const [running, setRunning] = useState(0);
-
+    const [time, setTime] = useState(0);
+    const [running, setRunning] = useState(false);
     const [distance, setDistance] = useState(50);
-
     const [data, setData] = useState([]);
-
     const [pushEnabled, setPushEnabled] = useState(false);
-    
+
     const toggleRunning = () => {
         if(!running){
+            timer.onChange = setTime;
             timer.clear();
-            timer.callback = c => {setTime(c)};            
-            timer.start();            
+            timer.start();
         }else{
             timer.stop();
-            timer.callback = ()=>{};            
         }
         setRunning(!running);
         setPushEnabled(running);
@@ -113,7 +97,7 @@ const Velocity = ({f7router}) => { // View
     const getTime = () => {
         // unix to min:seg:ms
         return moment(time).format('mm:ss:S');
-    };    
+    };
 
     const updateDistance = d => {
         if(d > 0){
@@ -150,9 +134,9 @@ const Velocity = ({f7router}) => { // View
     const dataAvg = () => data.length > 0 ? data.reduce((r, a) => a.vel + r, 0)/data.length : 0;
 
     const exportData = () => {           
-        model.work_velocity = Math.round( dataAvg()*100 )/100;
+        model.work_velocity = set_2_decimals(dataAvg());
         f7router.back();        
-    }
+    };
 
     return (
         <Page>

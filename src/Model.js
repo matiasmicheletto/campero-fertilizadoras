@@ -126,7 +126,7 @@ export default class CamperoModel {
 
     /// Reportes
 
-    addDoseToReport(results) {
+    addDoseToReport({dose, diffkg, diffp}) {
         this.currentReport.dose = {
             gear: this.gear,
             work_width: this.work_width,
@@ -136,14 +136,14 @@ export default class CamperoModel {
             time: this.time,
             work_velocity: this.work_velocity,
             expected_dose: this.expected_dose,
-            effective_dose: results.dose,
-            diffkg: results.diffkg,
-            diffp: results.diffp
+            effective_dose: dose,
+            diffkg: diffkg,
+            diffp: diffp
         };
         this.currentReport.completed.dose = true;
     }
 
-    addDistributionToreport(results) {
+    addDistributionToreport({fitted_dose, avg, cv}) {
         this.currentReport.distr = {
             tray_area: this.tray_area,
             tray_distance: this.tray_distance,
@@ -151,9 +151,9 @@ export default class CamperoModel {
             pass_number: this.pass_number,
             work_pattern: this.work_pattern,
             work_width: this.work_width,
-            fitted_dose: results.fitted_dose,
-            avg: results.avg,
-            cv: results.cv
+            fitted_dose: fitted_dose,
+            avg: avg,
+            cv: cv
         };
         this.currentReport.completed.distribution = true;        
     }

@@ -2,6 +2,7 @@ import { App, View, f7 } from 'framework7-react';
 import Home from './components/Home/index';
 import Control from './components/Control/index';
 import Velocity from './components/Velocity/index';
+import Recolected from './components/Recolected/index';
 import Info from './components/Info/index';
 import About from './components/About/index';
 import Supplies from './components/Supplies/index';
@@ -51,6 +52,12 @@ const f7params = {
             component: Velocity,
             on:{pageInit: ()=>pushState("velocity")}
         },
+        { // Cronometro
+            path: '/recolected/',
+            component: Recolected,
+            on:{pageInit: ()=>pushState("recolected")}
+        },
+        
         { // Calculo de insumos
             path: '/supplies/',
             component: Supplies,

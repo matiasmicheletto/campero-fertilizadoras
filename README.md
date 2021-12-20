@@ -25,8 +25,8 @@
     - [x] Exportar reportes a pdf.  
 
 
-#### Features    
-  - Cronometro de recolección de muestra -> hasta 3 muestras promediadas.  
+#### Features   
+  - En cronometro de muestras, personalizar input del prompt   
   - En cálculo de insumos, ingresar capacidad de maquina para saber la cantidad de cargas y cargas equilibradas.  
 
 #### Android
@@ -35,5 +35,5 @@
   - Guardar datos en almacenamiento persistente.  
   - Exportar contenido para compartir.  
 
-#### Refactoring
+#### Refactoring  
   - Actualizar módulos de pruebas (api y model).
