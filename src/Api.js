@@ -100,7 +100,7 @@ const sweepForProfile = (params, optionals) => {
     const {tray_data, tray_distance} = params;    
     
     // El barrido de ancho de labor, se realiza sobre el sgte rango
-    const ww_min = 1;
+    const ww_min = tray_distance;
     const ww_max = tray_data.length*tray_distance;
     const ww_step = tray_distance;
 

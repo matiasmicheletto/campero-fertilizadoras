@@ -1,14 +1,11 @@
 import { 
-    f7, 
     Page, 
     Navbar, 
     Block, 
     List, 
     Row, 
     Col, 
-    Button,
-    Radio,
-    BlockTitle 
+    Button
 } from "framework7-react";
 import { useContext, useState } from "react";
 import { useSound } from "use-sound";
