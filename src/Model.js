@@ -44,7 +44,11 @@ export default class CamperoModel {
         // Variables de insumos
         this.work_area = null; // Superficie de lote
         this.field_name = null; // Nombre del lote
+        this.capacity = null; // Capacidad de la fertilizadora
         this.products = []; // Lista de prductos
+        this.quantities = []; // Cantidades de productos
+        this.load_number = null; // Numero de cargas
+        this.eq_load_weight = null; // Carga equilibrada
 
         // Reportes
         this.reports = [];

@@ -7,12 +7,31 @@ const SuppliesList = props => {
 
     const model = useContext(ModelCtx);
 
+    console.log(model.capacity);
+
+    // Texto descriptivo de las cargas no equilibradas
+    const n = model.capacity ? model.loads_data.complete_loads : 0; // Completa
+    const b = model.capacity ? model.loads_data.fraction_weight : 0; // Fraccion
+    const uneq_load = {
+        number: n > 0 ? (n+" carga(s) completa(s)") : "",
+        separator: n>0 && b>0 ? " y " : "",
+        fraction: b > 0 ? ("una fracción de "+b.toFixed(2)+" kg") : ""
+    };
+    // Texto de cargas equilibradas
+    const eq_load = model.capacity ? ((model.loads_data.load_number > 1 && model.loads_data.load_number % 1 !== 0) ? 
+            (" ó "+Math.ceil(model.loads_data.load_number)+
+                " carga(s) de " + 
+                model.loads_data.eq_load_weight.toFixed(2) + " kg ")
+            : null ) : null;
+
     const addSuppliesToReport = () => {
         const results = {
-            field_name: props.field_name,
-            work_area: props.work_area,
-            products: props.products,
-            quantities: props.quantities
+            field_name: model.field_name,
+            work_area: model.work_area,
+            products: model.products,
+            capacity: model.capacity,
+            quantities: model.quantities,
+            uneq_load: uneq_load
         };
         model.addSuppliesToReport(results);
         f7.panel.open();
@@ -26,19 +45,34 @@ const SuppliesList = props => {
                     <tbody>
                         <tr>
                             <td><b>Lote:</b></td>
-                            <td style={{textAlign:"left"}}>{props.field_name}</td>
+                            <td style={{textAlign:"left"}}>{model.field_name}</td>
                         </tr>
                         <tr>
                             <td><b>Superficie:</b></td>
-                            <td style={{textAlign:"left"}}>{props.work_area} ha</td>
-                        </tr>                        
+                            <td style={{textAlign:"left"}}>{model.work_area} ha</td>
+                        </tr>
+                        {   
+                            model.capacity ?
+                            <React.Fragment>
+                                <tr>
+                                    <td><b>Capacidad de carga:</b></td>
+                                    <td style={{textAlign:"left"}}>{model.capacity} kg</td>
+                                </tr>
+                                <tr>
+                                    <td style={{verticalAlign:"top"}}><b>Cantidad de cargas:</b></td>
+                                    <td style={{textAlign:"left", fontSize:12}}>{uneq_load.number}{uneq_load.separator}{uneq_load.separator && <br/>}{uneq_load.fraction}{eq_load && <br/>}{eq_load}</td>
+                                </tr>
+                            </React.Fragment>
+                            :
+                            null
+                        }
                         {
-                            props.products?.map((prod, index) => (                    
+                            model.products?.map((prod, index) => (
                                 <React.Fragment key={index}>
-                                    <tr style={{height:"15px"}}>                                        
+                                    <tr style={{height:"15px"}}>
                                     </tr>
                                     <tr>
-                                        <td><b>Producto:</b></td>
+                                        <td><b>Producto {index+1}:</b></td>
                                         <td style={{textAlign:"left"}}>{prod.name}</td>
                                     </tr>
                                     <tr>
@@ -49,9 +83,9 @@ const SuppliesList = props => {
                                         <td><b>Total:</b></td>
                                         {
                                             prod.presentation === 0 ?
-                                                <td style={{textAlign:"left"}}> {props.quantities[index]?.toFixed(2)} kg</td>
+                                                <td style={{textAlign:"left"}}> {model.quantities[index]?.toFixed(2)} kg</td>
                                             :
-                                                <td style={{textAlign:"left"}}> {Math.ceil(props.quantities[index])} envases de {prod.presentation} kg</td>
+                                                <td style={{textAlign:"left"}}> {Math.ceil(model.quantities[index])} envases de {prod.presentation} kg</td>
                                         } 
                                     </tr>         
                                 </React.Fragment>

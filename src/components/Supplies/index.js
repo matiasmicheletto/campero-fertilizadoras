@@ -18,7 +18,11 @@ import Toast from '../Toast';
 import api from '../../Api';
 import { error_messages, generate_id, set_2_decimals } from '../../Utils';
 import { PresentationSelector } from '../Selectors';
-
+import iconProduct from '../../img/icons/calculador.png';
+import iconDose from '../../img/icons/kg_ha_fert.png';
+import iconArea from '../../img/icons/sup_lote.png';
+import iconName from '../../img/icons/nombre_lote.png';
+import iconCapacity from '../../img/icons/capacidad_carga.png';
 
 const Supplies = props => {
 
@@ -26,7 +30,8 @@ const Supplies = props => {
 
     const [inputs, setInputs] = useState({
         field_name: model.field_name || "", // Nombre de lote
-        work_area: model.work_area || 0 // Superficie
+        work_area: model.work_area || 0, // Superficie
+        capacity: model.capacity || 0 // Capacidad carga
     });
 
     const [products, setProducts] = useState(model.products);
@@ -51,7 +56,7 @@ const Supplies = props => {
         setProducts(temp);
     };
 
-    const setFieldParams = (attr, value) => {
+    const setMainParams = (attr, value) => {
         const temp = { ...inputs };
         temp[attr] = value;
         model.update(attr, value);
@@ -71,53 +76,63 @@ const Supplies = props => {
             Toast("error", error_messages[res.wrong_keys[0]], 2000, "center");
             console.log(res);
         }else{
-            const quantities = res.quantities;
-            const {products, field_name, work_area} = model;
-            props.f7router.navigate("/suppliesList/", { props: { quantities, products, work_area, field_name } });
+            model.update({
+                quantities: res.quantities, 
+                loads_data: res.loads_data
+            });
+            props.f7router.navigate("/suppliesList/");
         }
     };
 
     return (
         <Page>            
             <Navbar title="Calculador de insumos" style={{maxHeight:"40px", marginBottom:"0px"}}/>      
-            <Row style={{marginBottom:"0px", marginTop: "0px"}}>
-                <BlockTitle style={{marginBottom:"0px", marginTop: "0px"}}>Área de trabajo</BlockTitle>
-                <List form noHairlinesMd style={{marginBottom:"10px"}}>
-                    <Row slot="list">
-                        <Col width={50} style={{width:"50%"}}>
-                            <CustomInput
-                                label="Lote"
-                                name="field_name"
-                                type="text"
-                                defaultValue={inputs.field_name || ''}
-                                onChange={v=>setFieldParams('field_name', v.target.value)}
-                                ></CustomInput>
-                        </Col>
-                        <Col width={50} style={{width:"50%"}}>
-                            <CustomInput                    
-                                label="Superficie"
-                                name="work_area"
-                                type="number"
-                                unit="ha"
-                                defaultValue={inputs.work_area || ''}
-                                onChange={v=>setFieldParams('work_area', parseInt(v.target.value))}
-                                ></CustomInput>
-                        </Col>
-                    </Row>
-                </List>
-            </Row>
+            <BlockTitle style={{marginBottom:"0px", marginTop: "0px"}}>Área de trabajo y capacidad de carga</BlockTitle>
+            <List form noHairlinesMd style={{marginBottom:"10px"}}>    
+                <CustomInput
+                    slot="list"
+                    label="Lote"
+                    name="field_name"
+                    type="text"
+                    icon={iconName}
+                    defaultValue={inputs.field_name || ''}
+                    onChange={v=>setMainParams('field_name', v.target.value)}
+                    ></CustomInput>
+                <CustomInput
+                    slot="list"
+                    label="Superficie"
+                    name="work_area"
+                    type="number"
+                    unit="ha"
+                    icon={iconArea}
+                    defaultValue={inputs.work_area || ''}
+                    onChange={v=>setMainParams('work_area', parseFloat(v.target.value))}
+                    ></CustomInput>
+                <CustomInput
+                    slot="list"
+                    label="Capacidad de carga"
+                    name="capacity"
+                    type="number"
+                    unit="kg"
+                    icon={iconCapacity}
+                    defaultValue={inputs.capacity || ''}
+                    onChange={v=>setMainParams('capacity', parseFloat(v.target.value))}
+                    ></CustomInput>
+            </List>
             <Block style={{marginTop: "0px", marginBottom: "0px"}}>
-                <BlockTitle style={{marginBottom:"0px", marginTop: "0px"}}>Productos</BlockTitle>
+                <BlockTitle style={{marginBottom:"0px", marginTop: "0px"}}>Lista de insumos</BlockTitle>
                 {
                     products.map((p, index) =>(
                         <Card key={p.key} style={{margin:"0px 0px 10px 0px"}}>
                             <DeleteButton onClick={()=>removeProduct(index)}/>
                             <CardContent style={{paddingTop:0}}>
+                                <span style={{color:"gray"}}>Producto {index+1}</span>
                                 <List form noHairlinesMd style={{marginBottom:"0px", marginTop: "0px"}}>
                                     <CustomInput
                                         slot="list"
                                         label="Nombre"
-                                        type="text"                                        
+                                        type="text" 
+                                        icon={iconProduct}                                       
                                         value={p.name || ''}
                                         onInputClear={()=>setProductParams(index, "name", "")}
                                         onChange={v=>setProductParams(index, "name", v.target.value)}
@@ -127,6 +142,7 @@ const Supplies = props => {
                                         label="Dosis"
                                         type="number"
                                         unit="kg/ha"
+                                        icon={iconDose}
                                         value={p.density || ''}
                                         onInputClear={()=>setProductParams(index, "density", "")}
                                         onChange={v=>setProductParams(index, "density", parseFloat(v.target.value))}

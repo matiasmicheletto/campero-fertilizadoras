@@ -181,14 +181,31 @@ const computeSuppliesList = params => {
     if(DEBUG) console.log(params);
     const wrong_keys = validate(schemas.computeSuppliesList, params);
     if(wrong_keys.length > 0) return {status: "error", wrong_keys};
-    const {products, work_area} = params;
+    
+    const {products, work_area, capacity} = params;
+
     const quantities = [];
     for(let p in products)
         if(products[p].presentation === 0)
             quantities.push(products[p].density*work_area);
         else
-            quantities.push(products[p].density*work_area/products[p].presentation); 
-    return {status: "success", quantities};
+            quantities.push(products[p].density*work_area/products[p].presentation);
+    
+    // Calculo de cargas
+    // Peso total de productos
+    const total_weight = quantities.reduce((a, b) => a + b, 0); 
+    // Numero total de cargas (en decimal)
+    const load_number = capacity ? total_weight/capacity : 0; 
+    // Numero de cargas completas
+    const complete_loads = Math.floor(load_number); 
+    // Parte decimal de la carga
+    const fraction_weight = capacity ? (load_number - complete_loads)*capacity : 0; 
+    // Peso de cargas equilibradas
+    const eq_load_weight = total_weight/Math.ceil(load_number);
+    // Resumen a retornar
+    const loads_data = capacity ? {load_number, complete_loads, fraction_weight, eq_load_weight} : null;
+
+    return {status: "success", quantities, loads_data};
 };
 
 const exported = {
