@@ -202,7 +202,7 @@ const SectionDosif = props => {
                                         name="work_velocity"
                                         icon={iconVelocity}
                                         type="number"
-                                        unit="Km/h"
+                                        unit="km/h"
                                         value={work_velocity}
                                         onInputClear={handleInputClear}
                                         onChange={handleInputChange}
@@ -215,8 +215,8 @@ const SectionDosif = props => {
                         </div>
                     }
                     <Row slot="list">
-                        <Col width="80">
-                            <CustomInput                    
+                        <Col width={method === "direct" ? "100": "80"}>
+                            <CustomInput
                                 name="recolected"
                                 icon={iconCollected}
                                 label="Peso recolectado"
@@ -227,9 +227,11 @@ const SectionDosif = props => {
                                 onChange={handleInputChange}
                                 ></CustomInput>
                         </Col>
-                        <Col width="20" style={{paddingTop:"5px", marginRight:"10px"}}>
-                            <CalculatorButton href="/recolected/" color="teal" tooltip="Cronómetro"/>
-                        </Col>
+                        {method === "indirect" &&
+                            <Col width="20" style={{paddingTop:"5px", marginRight:"10px"}}>
+                                <CalculatorButton href="/recolected/" color="teal" tooltip="Cronómetro"/>
+                            </Col>
+                        }
                     </Row>
                 </List>
                 <Row>

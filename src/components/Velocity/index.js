@@ -44,7 +44,7 @@ const DataTable = props => ( // Tabla de resultados parciales
                 <tr key={idx}>
                     <td>{idx+1}</td>
                     <td>{d.time/1000} seg.</td>
-                    <td>{d.vel.toFixed(2)} Km/h</td>
+                    <td>{d.vel.toFixed(2)} km/h</td>
                 </tr>
             ))
         }

@@ -11,6 +11,7 @@ import {
     BlockTitle 
 } from "framework7-react";
 import { useContext, useState } from "react";
+import { useSound } from "use-sound";
 import CustomInput from "../Inputs";
 import { ModelCtx } from "../../Context";
 import { set_2_decimals } from "../../Utils";
@@ -20,6 +21,10 @@ import classes from './Recolected.module.css';
 import { PlayButton } from "../Buttons";
 import Timer from "../Velocity/Timer";
 import Toast from "../Toast";
+import oneSfx from '../../sounds/uno.mp3';
+import twoSfx from '../../sounds/dos.mp3';
+import threeSfx from '../../sounds/tres.mp3';
+import readySfx from '../../sounds/listo.mp3'
 
 const defaultTimer = 30000;
 
@@ -106,10 +111,14 @@ const timer = new Timer(defaultTimer, true);
 const Recolected = ({f7router}) => {
     
     const model = useContext(ModelCtx);
-    const [elapsed, setElapsed] = useState(model.time || defaultTimer);
+    const [elapsed, setElapsed] = useState(model.time*1000 || defaultTimer);
     const [time, setTime] = useState(defaultTimer);
     const [running, setRunning] = useState(false);        
     const [data, setData] = useState([]);
+    const [play3] = useSound(threeSfx);
+    const [play2] = useSound(twoSfx);
+    const [play1] = useSound(oneSfx);
+    const [play0] = useSound(readySfx);
     
     const updateElapsed = value => {
         timer.setInitial(value);
@@ -159,6 +168,14 @@ const Recolected = ({f7router}) => {
     };
 
     const getTime = () => {
+        if(time === 3000)
+            play3();
+        if(time === 2000)
+            play2();
+        if(time === 1000)
+            play1();
+        if(time < 100)
+            play0();
         // unix to min:seg:ms
         return moment(time).format('mm:ss:S');
     };
