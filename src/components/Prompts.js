@@ -1,4 +1,4 @@
-import { f7, List, Row, Col } from 'framework7-react';
+import { f7, List, Row } from 'framework7-react';
 import ReactDOMServer from 'react-dom/server';
 import IconCollected from '../img/icons/peso_recolectado.png';
 import CustomInput from './Inputs';

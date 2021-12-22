@@ -31,6 +31,7 @@ const SuppliesList = props => {
             products: model.products,
             capacity: model.capacity,
             quantities: model.quantities,
+            eq_load: eq_load,
             uneq_load: uneq_load
         };
         model.addSuppliesToReport(results);
@@ -72,7 +73,7 @@ const SuppliesList = props => {
                                     <tr style={{height:"15px"}}>
                                     </tr>
                                     <tr>
-                                        <td><b>Producto {index+1}:</b></td>
+                                        <td><b>Producto{model.products?.length > 1 ? (" "+(index+1)) : ""}:</b></td>
                                         <td style={{textAlign:"left"}}>{prod.name}</td>
                                     </tr>
                                     <tr>

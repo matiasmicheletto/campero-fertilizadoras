@@ -139,6 +139,19 @@ const ReportDetails = props => {
                                 <td><b>Superficie:</b></td>
                                 <td className={classes.DataCell}>{report.supplies.work_area} ha</td>
                             </tr>
+                            {report.supplies.capacity ?
+                                <>
+                                    <tr>
+                                        <td><b>Capacidad de carga:</b></td>
+                                        <td className={classes.DataCell}>{report.supplies.capacity} kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td style={{verticalAlign:"top"}}><b>Cantidad de cargas:</b></td>
+                                        <td className={classes.DataCell}>{report.supplies.uneq_load.number}{report.supplies.uneq_load.separator}{report.supplies.uneq_load.separator && <br/>}{report.supplies.uneq_load.fraction}{report.supplies.eq_load && <br/>}{report.supplies.eq_load}</td>
+                                    </tr>
+                                </>
+                                : null
+                            }
                             {
                                 report.supplies?.products.map((prod, index)=>(
                                     <>

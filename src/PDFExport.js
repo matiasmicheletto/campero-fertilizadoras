@@ -23,6 +23,11 @@ const styles = { // Definicion de estilos de las secciones del reporte
         bold: true,
         margin: [0, 10, 0, 10]
     },
+    text: {
+        fontSize: 12,
+        bold: false,
+        margin: [0, 3, 0, 3]
+    },
     tableHeader: {
         bold: true,
         fontSize: 13,
@@ -50,7 +55,7 @@ const workPattern = {
 };
 
 const PDFExport = report => {
-    console.log(report);
+    //console.log(report);
 
     const reportContent = [ // Composicion de todo el documento
         {
@@ -175,6 +180,24 @@ const PDFExport = report => {
             text: "Cálculo de insumos",
             style: "section"
         });
+        reportContent.push({
+            text: "Lote: " + report.supplies.field_name,
+            style: "text"
+        });
+        reportContent.push({
+            text: "Superficie: " + report.supplies.work_area + " ha",
+            style: "text"
+        });
+        if(report.supplies.capacity){
+            reportContent.push({
+                text: "Capacidad de carga: " + report.supplies.capacity.toFixed(2) + " kg",
+                style: "text"
+            });
+            reportContent.push({
+                text: "Cantidad de cargas: "+report.supplies.uneq_load.number+report.supplies.uneq_load.separator+report.supplies.uneq_load.fraction+report.supplies.eq_load,
+                style: "text"
+            });
+        }
 
         const rows = [
             [
