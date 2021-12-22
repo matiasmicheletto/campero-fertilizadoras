@@ -4,7 +4,7 @@ import IconCollected from '../img/icons/peso_recolectado.png';
 import CustomInput from './Inputs';
 import React from 'react';
 
-const openCollectedPrompt = (row, side, n, callback) => { 
+const trayCollectedPrompt = (row, side, n, callback) => { 
     // Modal ingreso de peso recolectado de la bandeja
 
     const elId = "collectedweightinput"; // Id del input
@@ -17,19 +17,14 @@ const openCollectedPrompt = (row, side, n, callback) => {
     
     const content = ReactDOMServer.renderToStaticMarkup(
         <List form noHairlinesMd style={{marginBottom:"0px"}}>
-            <Row slot="list">
-                <Col width={10}>
-                    <img src={IconCollected} width={40} height={40} alt="icon"/>
-                </Col>
-                <Col width={90}>
-                    <CustomInput
-                        label="Peso recolectado"
-                        type="number"
-                        unit="gr"
-                        inputId={elId}
-                    ></CustomInput>
-                </Col>
-            </Row>
+            <CustomInput
+                slot="list"
+                label="Peso recolectado"
+                icon={IconCollected}
+                type="number"
+                unit="gr"
+                inputId={elId}
+            ></CustomInput>
         </List>
     );
 
@@ -56,7 +51,7 @@ const openCollectedPrompt = (row, side, n, callback) => {
                 f7.dialog.close();
                 const nextrow = row+1;
                 const nextside = nextrow === (n-1)/2 ? "middle" : (nextrow+1 < n/2 ? "left" : "right");
-                openCollectedPrompt(row+1, nextside, n, callback);
+                trayCollectedPrompt(row+1, nextside, n, callback);
             }
         });
 
@@ -107,6 +102,47 @@ const openRecipientSizePrompt = callback => {
     }).open();
 };
 
+const timerCollectedPrompt = (callback) => { 
+    // Modal ingreso de peso recolectado para dosis
 
-export { openCollectedPrompt, openRecipientSizePrompt };
+    const elId = "collectedweightinput"; // Id del input
+    
+    const content = ReactDOMServer.renderToStaticMarkup(
+        <List form noHairlinesMd style={{marginBottom:"0px"}}>
+            <CustomInput
+                slot="list"
+                label="Peso recolectado"
+                icon={IconCollected}
+                type="number"
+                unit="kg"
+                inputId={elId}
+            ></CustomInput>
+        </List>
+    );
+
+    const returnValue = () => { // Capturar valor ingresado y retornar
+        const inputEl = document.getElementById(elId);                    
+        callback(parseFloat(inputEl.value) || 0);
+    };
+
+    const buttons = [ // Botones del modal
+        {
+            text: "Cancelar"
+        },
+        {
+            text: "Aceptar",
+            onClick: returnValue
+        }
+    ];
+
+    f7.dialog.create({
+        title: "Indique el peso recolectado",
+        content: content,
+        buttons: buttons,
+        destroyOnClose: true        
+    }).open();
+};
+
+
+export { trayCollectedPrompt, timerCollectedPrompt, openRecipientSizePrompt };
 

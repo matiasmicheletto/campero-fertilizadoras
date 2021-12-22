@@ -2,7 +2,7 @@ import { List, Block, BlockTitle, Card, Row, Col, Button } from 'framework7-reac
 import { FaArrowCircleLeft, FaArrowCircleRight, FaStopCircle } from 'react-icons/fa';
 import { useState, useContext } from 'react';
 import CustomInput from '../Inputs';
-import { openCollectedPrompt } from '../Prompts';
+import { trayCollectedPrompt } from '../Prompts';
 import { ModelCtx } from '../../Context';
 import SimpleChart from '../SimpleChart';
 import SectionProfile from './SectionProfile';
@@ -245,7 +245,7 @@ const SectionDistr = props => {
                             <tbody style={{maxHeight:"300px",overflow: "auto"}}>
                                 {
                                     tray_data.map((tr,idx) => (
-                                        <tr key={idx} onClick={()=>openCollectedPrompt(idx, tr.side, tray_data.length, addCollected)}>
+                                        <tr key={idx} onClick={()=>trayCollectedPrompt(idx, tr.side, tray_data.length, addCollected)}>
                                             <td>{idx+1}</td>
                                             <td className="label-cell">
                                             {

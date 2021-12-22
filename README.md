@@ -25,8 +25,7 @@
     - [x] Exportar reportes a pdf.  
 
 
-#### Features   
-  - En cronometro de muestras, personalizar input del prompt   
+#### Features     
   - En cálculo de insumos, ingresar capacidad de maquina para saber la cantidad de cargas y cargas equilibradas.  
 
 #### Android
@@ -36,4 +35,5 @@
   - Exportar contenido para compartir.  
 
 #### Refactoring  
+  - Combinar los selectores en un solo componente: PresentationSelector, MethodSelector, PatternSelector, ElapsedSelector 
   - Actualizar módulos de pruebas (api y model).

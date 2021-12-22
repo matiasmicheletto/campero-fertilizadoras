@@ -3,7 +3,7 @@ import Picker from './Picker';
 import { useState, useContext } from 'react';
 import { ModelCtx } from '../../Context';
 import SimpleChart from '../SimpleChart';
-import PatternSelector from './PatternSelector';
+import { PatternSelector } from '../Selectors';
 import ResultsProfile from './ResultsProfile';
 import iconWorkWidth from '../../img/icons/ancho_labor.png';
 import { get_closest } from '../../Utils';

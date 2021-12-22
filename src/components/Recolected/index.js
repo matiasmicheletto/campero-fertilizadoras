@@ -21,10 +21,12 @@ import classes from './Recolected.module.css';
 import { PlayButton } from "../Buttons";
 import Timer from "../Velocity/Timer";
 import Toast from "../Toast";
+import { timerCollectedPrompt } from "../Prompts";
+import { ElapsedSelector } from "../Selectors";
 import oneSfx from '../../sounds/uno.mp3';
 import twoSfx from '../../sounds/dos.mp3';
 import threeSfx from '../../sounds/tres.mp3';
-import readySfx from '../../sounds/listo.mp3'
+import readySfx from '../../sounds/listo.mp3';
 
 const defaultTimer = 30000;
 
@@ -71,41 +73,6 @@ const OutputBlock = props => ( // Bloque con resultado final a exportar
     </List>
 );
 
-const ElapsedSelector = props => {
-
-    const setElapsed = (el, value) => {
-        if(el.target.checked){
-            props.onChange(value);
-        }
-    };
-
-    return (
-        <Block style={{margin:"0px"}}>
-            <BlockTitle>Duración del muestreo</BlockTitle>
-            <Row>
-                <Col style={{textAlign:"center"}}>
-                    <Radio 
-                        name="input-type" 
-                        checked={props.value===30000} 
-                        onChange={e=>setElapsed(e,30000)}/> 30 seg.
-                </Col>
-                <Col style={{textAlign:"center"}}>
-                    <Radio 
-                        name="input-type" 
-                        checked={props.value===60000} 
-                        onChange={e=>setElapsed(e,60000)}/> 60 seg.
-                </Col>
-                <Col style={{textAlign:"center"}}>
-                    <Radio 
-                        name="input-type" 
-                        checked={props.value===90000} 
-                        onChange={e=>setElapsed(e,90000)}/> 90 seg.
-                </Col>
-            </Row>
-        </Block>
-    );
-};
-
 const timer = new Timer(defaultTimer, true);
 
 const Recolected = ({f7router}) => {
@@ -129,12 +96,12 @@ const Recolected = ({f7router}) => {
 
     const onTimeout = () => {        
         setRunning(false);        
-        setTime(elapsed);
-        f7.dialog.prompt('Indique el peso recolectado', 'Peso recolectado', value => {
+        setTime(elapsed);        
+        timerCollectedPrompt( value => {
             const temp = [...data];
             temp.push(parseFloat(value));
             setData(temp);
-        }, null);
+        });
     };
 
     const popData = () => { // Quitar último dato medido

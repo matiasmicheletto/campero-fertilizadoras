@@ -2,7 +2,7 @@ import { f7, Block, BlockTitle, Row, Col, List, Button } from 'framework7-react'
 import { useContext, useEffect, useState } from 'react';
 import CustomInput from '../Inputs';
 import { CalculatorButton } from '../Buttons';
-import MethodSelector from './MethodSelector';
+import { MethodSelector } from '../Selectors';
 import ResultsDose from './ResultsDose';
 import Toast from '../Toast';
 import { ModelCtx } from '../../Context';

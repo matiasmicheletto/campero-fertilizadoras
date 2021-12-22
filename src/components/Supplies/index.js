@@ -17,7 +17,7 @@ import { ModelCtx } from '../../Context';
 import Toast from '../Toast';
 import api from '../../Api';
 import { error_messages, generate_id, set_2_decimals } from '../../Utils';
-import PresentationSelector from './PresentationSelector';
+import { PresentationSelector } from '../Selectors';
 
 
 const Supplies = props => {
