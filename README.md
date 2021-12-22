@@ -24,10 +24,6 @@
     - [x] Editar/borrar reportes.  
     - [x] Exportar reportes a pdf.  
 
-
-#### Features     
-  - En cálculo de insumos, ingresar capacidad de maquina para saber la cantidad de cargas y cargas equilibradas.  
-
 #### Android
   - Instalar AndroidStudio.  
   - Compilar app con Capacitor.  
