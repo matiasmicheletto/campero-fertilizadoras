@@ -24,6 +24,14 @@
     - [x] Editar/borrar reportes.  
     - [x] Exportar reportes a pdf.  
 
+#### Fixes
+  - Agregar ancho de labor ajustado a reportes.  
+  - Quitar ancho de labor en seccion de resultados de perfil.  
+  - Usar dosis y ancho de labor -> previsto, efectivo y ajustado.  
+  - En insumos, quitar "completa(s)" y "fraccion". Usar sólo cargas equilibradas.    
+  - Expresar cargas en números enteros (redondear).  
+
+
 #### Android
   - Instalar AndroidStudio.  
   - Compilar app con Capacitor.  

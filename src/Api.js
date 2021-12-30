@@ -185,15 +185,17 @@ const computeSuppliesList = params => {
     const {products, work_area, capacity} = params;
 
     const quantities = [];
-    for(let p in products)
+    let total_weight = 0; // Peso total para calculo de cargas
+    for(let p in products){
+        const quant = products[p].density*work_area;
+        total_weight += quant;
         if(products[p].presentation === 0)
-            quantities.push(products[p].density*work_area);
+            quantities.push(quant); // A granel -> cantidad
         else
-            quantities.push(products[p].density*work_area/products[p].presentation);
+            quantities.push(quant/products[p].presentation); // Cantidad de envases
+    }
     
     // Calculo de cargas
-    // Peso total de productos
-    const total_weight = quantities.reduce((a, b) => a + b, 0); 
     // Numero total de cargas (en decimal)
     const load_number = capacity ? total_weight/capacity : 0; 
     // Numero de cargas completas
