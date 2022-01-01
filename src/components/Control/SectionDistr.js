@@ -147,7 +147,7 @@ const SectionDistr = props => {
             pass_number,
             tray_area
         });        
-        return res.density;
+        return res.status === "success" ? res.density.toFixed(2) : 0;
     };
 
     const collected_chart_config = { // Configuracion del grafico de datos medidos

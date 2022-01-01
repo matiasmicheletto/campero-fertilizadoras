@@ -150,6 +150,10 @@ const PDFExport = report => {
                         style: "tableHeader"
                     }, workPattern[report.distr.work_pattern]],
                     [{
+                        text: "Ancho de labor ajustado",
+                        style: "tableHeader"
+                    }, workPattern[report.distr.work_width]],
+                    [{
                         text: "Superficie de bandeja",
                         style: "tableHeader"
                     }, report.distr.tray_area.toFixed(2) + " m²"],

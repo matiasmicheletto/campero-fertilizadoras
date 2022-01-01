@@ -102,6 +102,10 @@ const ReportDetails = props => {
                                 <td className={classes.DataCell}>{workPattern[report.distr.work_pattern]}</td>
                             </tr>
                             <tr>
+                                <td><b>Ancho de labor ajustado:</b></td>
+                                <td className={classes.DataCell}>{report.distr.work_width} m</td>
+                            </tr>
+                            <tr>
                                 <td><b>Superficie de bandeja:</b></td>
                                 <td className={classes.DataCell}>{report.distr.tray_area?.toFixed(2)} m²</td>
                             </tr>

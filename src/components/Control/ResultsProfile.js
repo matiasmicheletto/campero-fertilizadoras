@@ -25,17 +25,33 @@ const ResultsProfile = props => {
                         : null
                     }
                     {effective_dose ?
-                        <tr>
-                            <td><b>Dosis efectiva{expected_work_width ? ` (${expected_work_width} m)` : null}:</b></td>
-                            <td className={classes.DataCell}>{effective_dose?.toFixed(2) || ''} kg/ha ({diffp_c} %)</td>
-                        </tr>
+                        <>
+                            <tr>
+                                <td><b>Dosis efectiva:</b></td>
+                                <td className={classes.DataCell}>{effective_dose?.toFixed(2) || ''} kg/ha ({diffp_c} %)</td>
+                            </tr>
+                            { expected_work_width &&
+                            <tr>
+                                <td><b>Ancho de labor efectivo:</b></td>
+                                <td className={classes.DataCell}>{expected_work_width} m</td>
+                            </tr>
+                            }
+                        </>
                         : null
                     }
                     {fitted_dose && fitted_dose !== effective_dose ?
-                        <tr>
-                            <td><b>Dosis ajustada{work_width ? ` (${work_width} m)` : null}:</b></td>
-                            <td className={classes.DataCell}>{fitted_dose?.toFixed(2) || ''} kg/ha ({diffp_f} %)</td>
-                        </tr>
+                        <>
+                            <tr>
+                                <td><b>Dosis ajustada:</b></td>
+                                <td className={classes.DataCell}>{fitted_dose?.toFixed(2) || ''} kg/ha ({diffp_f} %)</td>
+                            </tr>
+                            { work_width &&
+                                <tr>
+                                    <td><b>Ancho de labor ajustado:</b></td>
+                                    <td className={classes.DataCell}>{work_width} m</td>
+                                </tr>
+                            }
+                        </>
                         : null
                     }
                     <tr>
