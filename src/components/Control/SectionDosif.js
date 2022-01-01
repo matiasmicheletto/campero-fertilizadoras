@@ -123,7 +123,7 @@ const SectionDosif = props => {
             setOutputs({...res, show: true});
             model.update({
                 effective_dose: res.dose, 
-                initial_work_width: props.work_width
+                expected_work_width: props.work_width
             });
         }
     };

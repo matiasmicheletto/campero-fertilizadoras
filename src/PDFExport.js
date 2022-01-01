@@ -194,7 +194,8 @@ const PDFExport = report => {
                 style: "text"
             });
             reportContent.push({
-                text: "Cantidad de cargas: "+report.supplies.uneq_load.number+report.supplies.uneq_load.separator+report.supplies.uneq_load.fraction+report.supplies.eq_load,
+                //text: "Cantidad de cargas: "+report.supplies.uneq_load.number+report.supplies.uneq_load.separator+report.supplies.uneq_load.fraction+report.supplies.eq_load,
+                text: "Cantidad de cargas: "+report.supplies.eq_load,
                 style: "text"
             });
         }

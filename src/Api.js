@@ -94,7 +94,6 @@ const computeDensityFromRecolected = params => {
 const sweepForProfile = (params, optionals) => { 
     // Barrido para obtener perfil de distribución variando ancho de labor y patron
     if(DEBUG) console.log(params);
-    
     const wrong_keys = validate(schemas.sweepForProfile, params);
     if(wrong_keys.length > 0) return {status: "error", wrong_keys};
     const {tray_data, tray_distance} = params;    

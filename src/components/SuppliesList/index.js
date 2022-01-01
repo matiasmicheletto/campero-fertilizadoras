@@ -9,20 +9,27 @@ const SuppliesList = props => {
 
     console.log(model.loads_data);
 
-    // Texto descriptivo de las cargas no equilibradas
+    // Cargas y cargas equilibradas
+    /*
     const n = model.capacity ? model.loads_data.complete_loads : 0; // Completa
     const b = model.capacity ? model.loads_data.fraction_weight : 0; // Fraccion
     const uneq_load = {
         number: n > 0 ? (n+" carga(s) completa(s)") : "",
         separator: n>0 && b>0 ? " y " : "",
         fraction: b > 0 ? ("una fracción de "+b.toFixed(2)+" kg") : ""
-    };
+    };}
     // Texto de cargas equilibradas
     const eq_load = model.capacity ? ((model.loads_data.load_number > 1 && model.loads_data.load_number % 1 !== 0) ? 
             (" ó "+Math.ceil(model.loads_data.load_number)+
                 " carga(s) de " + 
-                model.loads_data.eq_load_weight.toFixed(2) + " kg ")
+                Math.round(model.loads_data.eq_load_weight) + " kg ")
             : null ) : null;
+    */
+
+    // Texto de cargas equilibradas
+    const eq_load = model.capacity ?
+        (Math.ceil(model.loads_data.load_number)+" carga(s) de " + Math.round(model.loads_data.eq_load_weight) + " kg ")
+        : null;
 
     const addSuppliesToReport = () => {
         const results = {
@@ -31,8 +38,8 @@ const SuppliesList = props => {
             products: model.products,
             capacity: model.capacity,
             quantities: model.quantities,
-            eq_load: eq_load,
-            uneq_load: uneq_load
+            //uneq_load: uneq_load,
+            eq_load: eq_load
         };
         model.addSuppliesToReport(results);
         f7.panel.open();
@@ -61,7 +68,8 @@ const SuppliesList = props => {
                                 </tr>
                                 <tr>
                                     <td style={{verticalAlign:"top"}}><b>Cantidad de cargas:</b></td>
-                                    <td style={{textAlign:"left", fontSize:12}}>{uneq_load.number}{uneq_load.separator}{uneq_load.separator && <br/>}{uneq_load.fraction}{eq_load && <br/>}{eq_load}</td>
+                                    {/*<td style={{textAlign:"left", fontSize:12}}>{uneq_load.number}{uneq_load.separator}{uneq_load.separator && <br/>}{uneq_load.fraction}{eq_load && <br/>}{eq_load}</td>*/}
+                                    <td style={{textAlign:"left", fontSize:12}}>{eq_load}</td>
                                 </tr>
                             </React.Fragment>
                             :

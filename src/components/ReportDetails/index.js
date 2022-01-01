@@ -149,7 +149,8 @@ const ReportDetails = props => {
                                     </tr>
                                     <tr>
                                         <td style={{verticalAlign:"top"}}><b>Cantidad de cargas:</b></td>
-                                        <td className={classes.DataCell}>{report.supplies.uneq_load.number}{report.supplies.uneq_load.separator}{report.supplies.uneq_load.separator && <br/>}{report.supplies.uneq_load.fraction}{report.supplies.eq_load && <br/>}{report.supplies.eq_load}</td>
+                                        {/*<td className={classes.DataCell}>{report.supplies.uneq_load.number}{report.supplies.uneq_load.separator}{report.supplies.uneq_load.separator && <br/>}{report.supplies.uneq_load.fraction}{report.supplies.eq_load && <br/>}{report.supplies.eq_load}</td>*/}
+                                        <td className={classes.DataCell}>{report.supplies.eq_load}</td>
                                     </tr>
                                 </>
                                 : null
