@@ -7,8 +7,6 @@ const SuppliesList = props => {
 
     const model = useContext(ModelCtx);
 
-    console.log(model.loads_data);
-
     // Cargas y cargas equilibradas
     /*
     const n = model.capacity ? model.loads_data.complete_loads : 0; // Completa

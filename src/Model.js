@@ -1,4 +1,6 @@
 import { generate_id } from "./Utils";
+import { Storage } from '@capacitor/storage';
+import { Capacitor } from "@capacitor/core";
 
 const version = '0.0.3'; // Ante cualquier cambio en el modelo, se debe incrementar la version
 
@@ -91,24 +93,44 @@ export default class CamperoModel {
     /// Persistencia de parametros
 
     saveToLocalStorage(){ // Guardar datos en localStorage
-        localStorage.setItem("campero_model"+version, JSON.stringify(this));
+        const key = "campero_model"+version;
+        const value = JSON.stringify(this);
+        if(Capacitor.isNativePlatform())
+            Storage.set({key, value});
+        else
+            localStorage.setItem(key, value);
     }
 
     getFromLocalStorage(){ // Recuperar datos de localStorage
-        const content = localStorage.getItem("campero_model"+version);        
-        if(content){
-            const model = JSON.parse(content);
-            if(model)
-                Object.assign(this, model);
-        }else{ 
-            // Si no hay datos en localStorage, puede ser por cambio de version, entonces borrar todo
-            console.log("Nueva version de CamperoModel, bienvenido!");
-            localStorage.clear();
+        if(Capacitor.isNativePlatform())
+            Storage.get({key: "campero_model"+version}).then(result => {
+                if(result.value)
+                    Object.assign(this, JSON.parse(result.value));
+                else{
+                    console.log("Nueva version de CamperoModel");
+                    Storage.clear();
+                }
+            });
+        else{
+            const content = localStorage.getItem("campero_model"+version);
+            if(content){
+                const model = JSON.parse(content);
+                if(model)
+                    Object.assign(this, model);
+            }else{ 
+                // Si no hay datos en localStorage, puede ser por cambio de version, entonces borrar todo
+                console.log("Nueva version de CamperoModel");
+                localStorage.clear();
+            }
         }
     }
 
     clearLocalStorage(){ // Limpiar datos de localStorage
-        localStorage.removeItem("campero_model"+version);
+        const key = "campero_model"+version;
+        if(Capacitor.isNativePlatform())
+            Storage.remove({key});
+        else
+            localStorage.removeItem(key);
     }
 
 

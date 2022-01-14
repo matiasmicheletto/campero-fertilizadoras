@@ -74,7 +74,7 @@ const Supplies = props => {
         const res = api.computeSuppliesList({...inputs, products});        
         if(res.status === "error"){
             Toast("error", error_messages[res.wrong_keys[0]], 2000, "center");
-            console.log(res);
+            //console.log(res);
         }else{
             model.update({
                 quantities: res.quantities, 

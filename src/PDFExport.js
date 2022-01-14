@@ -3,7 +3,13 @@
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import moment from 'moment';
+import Toast from './components/Toast';
+import { Capacitor, Plugins } from '@capacitor/core';
+import { Filesystem, Directory } from '@capacitor/filesystem';
 import { logoCAMPERO, membreteCAMPERO } from './img/base64';
+
+const { Share } = Plugins;
+
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const styles = { // Definicion de estilos de las secciones del reporte
@@ -242,7 +248,7 @@ const PDFExport = report => {
         });
     }
 
-    var document = { // Documento
+    const document = { // Documento
         header: reportHeader,
         footer: reportFooter,
         content: reportContent,
@@ -250,9 +256,43 @@ const PDFExport = report => {
     };
 
     // Generar y guardar
-    var fileName = "Reporte Campero Fertilizadoras "+moment(report.timestamp).format("DD-MM-YYYY HH-mm")+".pdf";
-    var pdfFile = pdfMake.createPdf(document);
-    pdfFile.download(fileName);
+    const fileName = "Reporte Campero Fertilizadoras "+moment(report.timestamp).format("DD-MM-YYYY HH-mm")+".pdf";
+    const pdfFile = pdfMake.createPdf(document);
+
+    if(Capacitor.isNativePlatform()){
+        pdfFile.getBuffer(buffer => {
+            var blob = new Blob([buffer], { type: 'application/pdf' });
+            Filesystem.writeFile({
+                data: blob,
+                path: "reports/"+fileName,
+                directory: Directory.Documents,
+                replace: true
+            }).then(res => {
+                console.log("Reporte guardado en: "+fileName);
+                console.log(res);
+                // Share file
+                Filesystem.readFile({
+                    path: "reports/"+fileName,
+                    directory: Directory.Documents
+                }).then(contents => {
+                    console.log(contents);
+                    Share.share({
+                        title: "Reporte Campero Fertilizadoras",
+                        text: "Reporte generado por Campero Fertilizadoras",
+                        files: [contents]
+                    });
+                }).catch(err => {
+                    console.log(err);
+                    Toast("error", "Error al leer el reporte", 2000, "center");
+                });
+            }).catch(err => {
+                console.log(err);
+                Toast("error", "Error al guardar el reporte", 2000, "center");
+            });
+        });
+    }else{
+        pdfFile.download(fileName);
+    }
 };
 
 export default PDFExport;

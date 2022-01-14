@@ -16,8 +16,6 @@ const ReportDetails = props => {
     const model = useContext(ModelCtx);
     const report = model.getReport(props.id);
 
-    console.log(report.supplies);
-
     const exportReport = () => {
         PDFExport(report);
     };

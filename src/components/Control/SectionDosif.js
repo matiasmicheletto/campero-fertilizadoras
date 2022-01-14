@@ -118,7 +118,7 @@ const SectionDosif = props => {
         const res = api.computeDose(params);
         if(res.status === "error"){
             Toast("error", error_messages[res.wrong_keys[0]], 2000, "center");
-            console.log(res);
+            //console.log(res);
         }else{
             setOutputs({...res, show: true});
             model.update({

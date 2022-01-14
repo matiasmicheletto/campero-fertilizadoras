@@ -131,7 +131,7 @@ const SectionDistr = props => {
         const res = api.sweepForProfile(params, get_optionals(model));
         if(res.status === "error"){
             Toast("error", error_messages[res.wrong_keys[0]], 2000, "center");
-            console.log(res);
+            //console.log(res);
         }else
             setOutputs({
                 show: true,

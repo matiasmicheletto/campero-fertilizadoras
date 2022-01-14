@@ -1,5 +1,29 @@
 # Campero fertilizadoras
 
+Descargar codigo fuente y correr version live
+```bash
+$ git clone https://github.com/matiasmicheletto/camperofertilizadoras
+$ cd camperofertilizadoras
+$ npm install
+$ npm start
+```
+
+Ejecutar módulo de pruebas:
+```bash
+$ npm run test
+```
+
+Compilar aplicación web
+```bash
+$ npm run build
+```
+
+Correr aplicación híbrida (android) - Requiere instalar AndroidStudio
+```bash
+$ npx cap open android
+```
+
+
 ### Backlog
 
   - Seccion control:  
