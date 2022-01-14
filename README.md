@@ -25,6 +25,15 @@ $ npx cap open android
 $ adb logcat chromium:I
 ```
 
+Compilar release apk (android)
+```bash
+cd android && 
+./gradlew assembleRelease && 
+cd app/build/outputs/apk/release &&
+jarsigner -keystore $KEYSTORE_PATH -storepass $KEYSTORE_PASS app-release-unsigned.apk $KEYSTORE_ALIAS &&
+zipalign 4 app-release-unsigned.apk app-release.apk
+```
+
 
 ### Backlog
 

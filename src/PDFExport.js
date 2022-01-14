@@ -5,7 +5,7 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 import moment from 'moment';
 import Toast from './components/Toast';
 import { Capacitor } from '@capacitor/core';
-import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Share } from '@capacitor/share';
 import { logoCAMPERO, membreteCAMPERO } from './img/base64';
 
@@ -132,6 +132,9 @@ const PDFExport = report => {
     }
 
     if (report.completed.distribution) {
+
+        console.log(report.distr);
+
         reportContent.push({
             text: "Distribución y ancho de labor",
             style: "section"
@@ -157,7 +160,7 @@ const PDFExport = report => {
                     [{
                         text: "Ancho de labor ajustado",
                         style: "tableHeader"
-                    }, workPattern[report.distr.work_width]],
+                    }, report.distr.work_width + " m"],
                     [{
                         text: "Superficie de bandeja",
                         style: "tableHeader"
@@ -259,7 +262,30 @@ const PDFExport = report => {
     const pdfFile = pdfMake.createPdf(document);
 
     if(Capacitor.isNativePlatform()){
-        const saveFile = () => {            
+        
+        const shareFile = fileName => {
+            Filesystem.getUri({
+                path: fileName,
+                directory: Directory.Documents
+            }).then(res => { 
+                console.log("Compartiendo archivo: "+res.uri);
+                Share.share({
+                    title: "Reporte Campero Fertilizadoras",                            
+                    url: res.uri
+                }).then(shareResult => {
+                    console.log(shareResult.activityType);
+                    Toast("success", "Reporte enviado a "+shareResult.activityType, 2000, "center");
+                }).catch(err => {
+                    console.log("Error al compartir: "+JSON.stringify(err))
+                    Toast("error", "Error al compartir reporte", 2000, "center");
+                });
+            }).catch(err => {
+                console.log("Error abriendo reporte: "+JSON.stringify(err));
+                Toast("error", "Error al abrir reporte", 2000, "center");
+            });
+        };
+
+        const saveFile = fileName => {            
             pdfFile.getBase64(base64pdf => {                                
                 Filesystem.writeFile({
                     data: base64pdf,
@@ -267,20 +293,8 @@ const PDFExport = report => {
                     directory: Directory.Documents,                    
                     replace: true
                 }).then(() => {                    
-                    Toast("success", "Reporte guardado en Documentos: "+fileName, 2000, "center");
-                    // Share file                    
-                    Filesystem.getUri({
-                        path: fileName,
-                        directory: Directory.Documents
-                    }).then(urires => {                        
-                        Share.share({
-                            title: "Reporte Campero Fertilizadoras",                            
-                            url: urires.uri
-                        });
-                    }).catch(err => {
-                        console.log(err);
-                        Toast("error", "Error al compartir reporte", 2000, "center");
-                    });
+                    Toast("success", "Reporte guardado en Documentos: "+fileName, 2000, "center");                    
+                    shareFile(fileName);
                 }).catch(err => {
                     console.log(err);
                     Toast("error", "Error al guardar el reporte", 2000, "center");
@@ -288,14 +302,14 @@ const PDFExport = report => {
             });
         };
 
-        Filesystem.checkPermissions().then(state => {            
-            if(state === "granted")
-                saveFile();
-            else{ 
-                console.log("No tiene permisos");
+        Filesystem.checkPermissions().then(permissions => {                        
+            if(permissions.publicStorage === "granted"){ 
+                saveFile(fileName);
+            }else{
+                Toast("info", "Permisos de almacenamiento no otorgados", 2000, "center");
                 Filesystem.requestPermissions().then(res => {
                     console.log(res);
-                    saveFile();
+                    saveFile(fileName);
                 }).catch(() => {
                     console.log("No se pudo guardar el reporte");
                 });
