@@ -1,5 +1,6 @@
 import { App, View, f7 } from 'framework7-react';
-import { App as CapApp } from '@capacitor/app';
+import { App as cApp } from '@capacitor/app';
+import { Capacitor } from '@capacitor/core';
 import Home from './components/Home/index';
 import Control from './components/Control/index';
 import Velocity from './components/Velocity/index';
@@ -13,7 +14,6 @@ import ReportDetails from './components/ReportDetails';
 import ReportsPanel from './components/ReportsPanel';
 import ModelProvider from './Context';
 import './index.css';
-import { Capacitor } from '@capacitor/core';
 
 /*
     CAMPERO Fertilizadoras
@@ -115,10 +115,10 @@ const f7params = {
 
 
 if(Capacitor.isNativePlatform())
-    CapApp.addListener('backButton', () => {
-        // If main view, then exit
+    cApp.addListener('backButton', () => {
+        // Salir en vista principal
         if(f7.view.main.router.url === '/'){
-            CapApp.exitApp();
+            cApp.exitApp();
         }else{
             f7.view.main.router.back();
         }

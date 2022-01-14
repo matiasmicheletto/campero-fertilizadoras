@@ -257,14 +257,18 @@ const PDFExport = report => {
 
     // Generar y guardar
     const fileName = "Reporte Campero Fertilizadoras "+moment(report.timestamp).format("DD-MM-YYYY HH-mm")+".pdf";
+    const path = "Reportes/" + fileName;
     const pdfFile = pdfMake.createPdf(document);
 
     if(Capacitor.isNativePlatform()){
-        pdfFile.getBuffer(buffer => {
-            var blob = new Blob([buffer], { type: 'application/pdf' });
+        pdfFile.getBuffer(buffer => {            
+            //const utf8 = new Uint8Array(buffer);            
+            //const blob = utf8.buffer;
+            const blob = new Blob([buffer], { type: 'application/pdf' });
+            console.log("Intentando guardar...");
             Filesystem.writeFile({
                 data: blob,
-                path: "reports/"+fileName,
+                path: path,
                 directory: Directory.Documents,
                 replace: true
             }).then(res => {
@@ -272,7 +276,7 @@ const PDFExport = report => {
                 console.log(res);
                 // Share file
                 Filesystem.readFile({
-                    path: "reports/"+fileName,
+                    path: path,
                     directory: Directory.Documents
                 }).then(contents => {
                     console.log(contents);

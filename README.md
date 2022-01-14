@@ -18,9 +18,11 @@ Compilar aplicación web
 $ npm run build
 ```
 
-Correr aplicación híbrida (android) - Requiere instalar AndroidStudio
+Compilar apk (android)
 ```bash
+$ npm run build && npx cap sync
 $ npx cap open android
+$ adb logcat chromium:I *:S
 ```
 
 
