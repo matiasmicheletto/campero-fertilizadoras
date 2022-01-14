@@ -22,7 +22,7 @@ Compilar apk (android)
 ```bash
 $ npm run build && npx cap sync
 $ npx cap open android
-$ adb logcat chromium:I *:S
+$ adb logcat chromium:I
 ```
 
 

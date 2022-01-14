@@ -4,11 +4,10 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import moment from 'moment';
 import Toast from './components/Toast';
-import { Capacitor, Plugins } from '@capacitor/core';
-import { Filesystem, Directory } from '@capacitor/filesystem';
+import { Capacitor } from '@capacitor/core';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { Share } from '@capacitor/share';
 import { logoCAMPERO, membreteCAMPERO } from './img/base64';
-
-const { Share } = Plugins;
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -256,43 +255,51 @@ const PDFExport = report => {
     };
 
     // Generar y guardar
-    const fileName = "Reporte Campero Fertilizadoras "+moment(report.timestamp).format("DD-MM-YYYY HH-mm")+".pdf";
-    const path = "Reportes/" + fileName;
+    const fileName = "Reporte Campero Fertilizadoras "+moment(report.timestamp).format("DD-MM-YYYY HH-mm")+".pdf";    
     const pdfFile = pdfMake.createPdf(document);
 
     if(Capacitor.isNativePlatform()){
-        pdfFile.getBuffer(buffer => {            
-            //const utf8 = new Uint8Array(buffer);            
-            //const blob = utf8.buffer;
-            const blob = new Blob([buffer], { type: 'application/pdf' });
-            console.log("Intentando guardar...");
-            Filesystem.writeFile({
-                data: blob,
-                path: path,
-                directory: Directory.Documents,
-                replace: true
-            }).then(res => {
-                console.log("Reporte guardado en: "+fileName);
-                console.log(res);
-                // Share file
-                Filesystem.readFile({
-                    path: path,
-                    directory: Directory.Documents
-                }).then(contents => {
-                    console.log(contents);
-                    Share.share({
-                        title: "Reporte Campero Fertilizadoras",
-                        text: "Reporte generado por Campero Fertilizadoras",
-                        files: [contents]
+        const saveFile = () => {            
+            pdfFile.getBase64(base64pdf => {                                
+                Filesystem.writeFile({
+                    data: base64pdf,
+                    path: fileName,
+                    directory: Directory.Documents,                    
+                    replace: true
+                }).then(() => {                    
+                    Toast("success", "Reporte guardado en Documentos: "+fileName, 2000, "center");
+                    // Share file                    
+                    Filesystem.getUri({
+                        path: fileName,
+                        directory: Directory.Documents
+                    }).then(urires => {                        
+                        Share.share({
+                            title: "Reporte Campero Fertilizadoras",                            
+                            url: urires.uri
+                        });
+                    }).catch(err => {
+                        console.log(err);
+                        Toast("error", "Error al compartir reporte", 2000, "center");
                     });
                 }).catch(err => {
                     console.log(err);
-                    Toast("error", "Error al leer el reporte", 2000, "center");
+                    Toast("error", "Error al guardar el reporte", 2000, "center");
                 });
-            }).catch(err => {
-                console.log(err);
-                Toast("error", "Error al guardar el reporte", 2000, "center");
             });
+        };
+
+        Filesystem.checkPermissions().then(state => {            
+            if(state === "granted")
+                saveFile();
+            else{ 
+                console.log("No tiene permisos");
+                Filesystem.requestPermissions().then(res => {
+                    console.log(res);
+                    saveFile();
+                }).catch(() => {
+                    console.log("No se pudo guardar el reporte");
+                });
+            }
         });
     }else{
         pdfFile.download(fileName);
