@@ -1,21 +1,25 @@
 # Campero fertilizadoras
 
-Descargar codigo fuente y correr version live
+Descargar codigo fuente e instalar dependencias
 ```bash
 $ git clone https://github.com/matiasmicheletto/camperofertilizadoras
 $ cd camperofertilizadoras
 $ npm install
+```
+
+Correr versión web para debug
+```bash
 $ npm start
 ```
 
-Ejecutar módulo de pruebas:
-```bash
-$ npm run test
-```
-
-Compilar aplicación web
+Compilar versión web optimizada
 ```bash
 $ npm run build
+```
+
+Ejecutar módulo de pruebas
+```bash
+$ npm run test
 ```
 
 Compilar apk (android)
@@ -30,7 +34,7 @@ Compilar release apk (android)
 cd android && 
 ./gradlew assembleRelease && 
 cd app/build/outputs/apk/release &&
-jarsigner -keystore $KEYSTORE_PATH -storepass $KEYSTORE_PASS app-release-unsigned.apk $KEYSTORE_ALIAS &&
+jarsigner -keystore $KEYSTORE_PATH -storepass $KEYSTORE_PASS app-release-unsigned.apk $KEYSTORE_ALIAS && 
 zipalign 4 app-release-unsigned.apk app-release.apk
 ```
 
@@ -60,10 +64,7 @@ zipalign 4 app-release-unsigned.apk app-release.apk
     - [x] Exportar reportes a pdf.  
 
 
-#### Android
-  - Instalar AndroidStudio.  
-  - Compilar app con Capacitor.  
-  - Guardar datos en almacenamiento persistente.  
+#### Android  
   - Exportar contenido para compartir.  
 
 #### Refactoring  
