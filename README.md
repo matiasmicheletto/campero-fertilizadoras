@@ -29,6 +29,13 @@ $ npx cap open android
 $ adb logcat chromium:I
 ```
 
+Lo anterior puede requerir variables de entorno:
+```bash
+export CAPACITOR_ANDROID_STUDIO_PATH="/home/$USER/Programas/android-studio/bin/studio.sh"
+export PATH=~/.npm-global/bin:$PATH  
+```
+
+
 Compilar release apk (android)
 ```bash
 cd android && 

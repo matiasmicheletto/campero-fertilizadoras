@@ -142,8 +142,9 @@ const SectionDosif = props => {
     return (
         <div>
             <MethodSelector value={method} onChange={handleInputChange} />
-            <Block style={{margin:0}}>                
-                <List form noHairlinesMd>
+            <Block style={{marginBottom:0}}>   
+                <BlockTitle>Propiedades del fertilizante</BlockTitle>
+                <List form noHairlinesMd>                    
                     <CustomInput                    
                         slot="list"
                         name="prod_density"
@@ -157,7 +158,7 @@ const SectionDosif = props => {
                         ></CustomInput>
                     </List>
             </Block>
-            <Block style={{marginBottom:"0px"}}>
+            <Block style={{marginBottom:0}}>
                 <BlockTitle>Dosis</BlockTitle>
                 <List form noHairlinesMd style={{marginBottom:"10px"}}>
                     <CustomInput                    
