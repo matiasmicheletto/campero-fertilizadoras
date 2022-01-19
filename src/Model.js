@@ -22,11 +22,13 @@ const get_blank_report = () => {
 
 export default class CamperoModel {
     constructor(){
+        // Variables que no intervienen en los calculos
+        this.gear = null; // Regulacion de la maquina
+        this.prod_density = null; // Densidad de fertilizante
         // Variables de dosificacion
         this.expected_dose = null; // Dosis prevista
         this.effective_dose = null; // Dosis efectiva
         this.expected_work_width = null; // Ancho de labor inicial
-        this.gear = null; // Cambio de la maquina
         this.recolected = null; // Peso total recolectado
         this.time = null;  // Tiempo de muestreo      
         this.work_velocity = null; // Velocidad de trabajo
@@ -139,6 +141,7 @@ export default class CamperoModel {
     addDoseToReport({dose, diffkg, diffp}) {
         this.currentReport.dose = {
             gear: this.gear,
+            prod_density: this.prod_density,
             work_width: this.work_width,
             recolected: this.recolected,
             method: this.method,

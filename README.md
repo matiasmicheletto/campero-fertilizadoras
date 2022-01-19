@@ -64,8 +64,6 @@ zipalign 4 app-release-unsigned.apk app-release.apk
     - [x] Exportar reportes a pdf.  
 
 
-#### Android  
-  - Exportar contenido para compartir.  
 
 #### Refactoring  
   - Combinar los selectores en un solo componente: PresentationSelector, MethodSelector, PatternSelector, ElapsedSelector 

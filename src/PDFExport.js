@@ -94,9 +94,13 @@ const PDFExport = report => {
                 widths: ['*', '*'],
                 body: [
                     [{
-                        text: "Cambio:",
+                        text: "Regulación:",
                         style: "tableHeader"
-                    }, report.dose.gear ? report.dose.gear : "N/A"],
+                    }, report.dose.gear ? report.dose.gear : "N/D"],
+                    [{
+                        text: "Densidad:",
+                        style: "tableHeader"
+                    }, report.dose.prod_density ? report.dose.prod_density : "N/D"],
                     [{
                         text: "Ancho de labor:",
                         style: "tableHeader"

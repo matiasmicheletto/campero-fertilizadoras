@@ -7,7 +7,8 @@ import ResultsDose from './ResultsDose';
 import Toast from '../Toast';
 import { ModelCtx } from '../../Context';
 import iconDose from '../../img/icons/kg_ha_fert.png';
-import iconGear from '../../img/icons/cambio.png';
+import iconGear from '../../img/icons/regulacion.png';
+import iconDensity from '../../img/icons/densidad.png';
 import iconDistance from '../../img/icons/dist_muestreo.png';
 import iconWorkWidth from '../../img/icons/ancho_labor.png';
 import iconVelocity from '../../img/icons/velocidad.png';
@@ -23,7 +24,8 @@ const SectionDosif = props => {
     // Campos del formulario
     const [method, setMethod] = useState(model.method || 'direct');
     const [expected_dose, setExpectedDose] = useState(model.expected_dose || '');
-    const [gear, setGear] = useState(model.gear || '');    
+    const [gear, setGear] = useState(model.gear || '');
+    const [prod_density, setProdDensity] = useState(model.prod_density || '');
     const [distance, setDistance] = useState(model.distance || '');
     let [time, setTime] = useState(model.time || '');
     let [work_velocity, setWorkVelocity] = useState(model.work_velocity || '');
@@ -59,6 +61,9 @@ const SectionDosif = props => {
                 break;
             case 'gear':
                 setGear(value);
+                break;
+            case 'prod_density':
+                setProdDensity(f);
                 break;
             case 'work_width':
                 props.setWorkWidth(f);
@@ -96,13 +101,14 @@ const SectionDosif = props => {
         setMethod('direct');
         setExpectedDose('');
         setGear('');
+        setProdDensity('');
         props.setWorkWidth('');
         setDistance('');
         setTime('');
         setWorkVelocity('');
         setRecolected('');
         setOutputs({...outputs, show: false});
-        model.clear(["method", "expected_dose","effective_dose", "gear", "work_width", "distance", "time", "work_velocity", "recolected"]);
+        model.clear(["method", "expected_dose","effective_dose", "gear","prod_density", "work_width", "distance", "time", "work_velocity", "recolected"]);
     };
 
     const submit = () => {        
@@ -136,6 +142,21 @@ const SectionDosif = props => {
     return (
         <div>
             <MethodSelector value={method} onChange={handleInputChange} />
+            <Block style={{margin:0}}>                
+                <List form noHairlinesMd>
+                    <CustomInput                    
+                        slot="list"
+                        name="prod_density"
+                        icon={iconDensity}
+                        label="Densidad"
+                        type="number"                
+                        unit="gr/cm³"
+                        value={prod_density}
+                        onInputClear={handleInputClear}
+                        onChange={handleInputChange}
+                        ></CustomInput>
+                    </List>
+            </Block>
             <Block style={{marginBottom:"0px"}}>
                 <BlockTitle>Dosis</BlockTitle>
                 <List form noHairlinesMd style={{marginBottom:"10px"}}>
@@ -154,7 +175,7 @@ const SectionDosif = props => {
                         slot="list"
                         name="gear"
                         icon={iconGear}
-                        label="Cambio"
+                        label="Regulación"
                         type="text"
                         value={gear}
                         onInputClear={handleInputClear}

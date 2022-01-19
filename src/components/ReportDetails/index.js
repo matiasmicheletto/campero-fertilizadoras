@@ -33,9 +33,15 @@ const ReportDetails = props => {
                     <h3>Parámetros de fertilización</h3>
                     <table className={classes.Table}>
                         <tbody>
+                            {report.dose.prod_density && 
+                                <tr>
+                                    <td><b>Densidad:</b></td>
+                                    <td className={classes.DataCell}>{report.dose.prod_density?.toFixed(2)} gr/cm³</td>
+                                </tr>
+                            }
                             {report.dose.gear && 
                                 <tr>
-                                    <td><b>Cambio:</b></td>
+                                    <td><b>Regulación:</b></td>
                                     <td className={classes.DataCell}>{report.dose.gear}</td>
                                 </tr>
                             }

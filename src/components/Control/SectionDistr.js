@@ -72,6 +72,12 @@ const SectionDistr = props => {
                 break;
             case "tray_distance":
                 setTrayDistance(f);
+                // Sugerir valor para cantidad de bandejas
+                if(model.work_width && f > 0.1){
+                    const nt = Math.ceil(model.work_width*1.3/f);  
+                    setNumTrays(nt);
+                    Toast("info", `Se sugiere usar ${nt} bandejas`, 3000, "bottom");
+                }
                 break;
             case "pass_number":
                 setPassNumber(n);
