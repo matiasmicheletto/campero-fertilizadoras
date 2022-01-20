@@ -4,6 +4,7 @@ import { BackButton } from '../Buttons';
 import { ModelCtx } from '../../Context';
 import classes from './ReportDetails.module.css';
 import moment from 'moment';
+import { Capacitor } from '@capacitor/core';
 import PDFExport from '../../PDFExport';
 
 const workPattern = {
@@ -16,8 +17,8 @@ const ReportDetails = props => {
     const model = useContext(ModelCtx);
     const report = model.getReport(props.id);
 
-    const exportReport = () => {
-        PDFExport(report);
+    const exportReport = share => {
+        PDFExport(report, share);
     };
 
     return (
@@ -193,14 +194,25 @@ const ReportDetails = props => {
                     </table>
                 </Block>
             }
-            <Row style={{marginTop:10, marginBottom:15}}>
+            <Row style={{marginTop:10, marginBottom: 10}}>
                 <Col width={20}></Col>
                 <Col width={60}>
-                    <Button fill onClick={exportReport} style={{textTransform:"none"}}>Guardar como  PDF</Button>
+                    <Button fill onClick={()=>exportReport(false)} style={{textTransform:"none"}}>Guardar como  PDF</Button>
                 </Col>
                 <Col width={20}></Col>
             </Row>
-            <BackButton {...props} />
+            {Capacitor.isNativePlatform() &&
+                <Row>
+                    <Col width={20}></Col>
+                    <Col width={60}>
+                        <Button fill color="teal" onClick={()=>exportReport(true)} style={{textTransform:"none"}}>Compartir</Button>
+                    </Col>
+                    <Col width={20}></Col>
+                </Row>
+            }
+            
+            <BackButton {...props}/>
+            
         </Page>
     );
 };

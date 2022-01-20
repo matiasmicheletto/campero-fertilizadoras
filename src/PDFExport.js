@@ -6,7 +6,6 @@ import moment from 'moment';
 import Toast from './components/Toast';
 import { Capacitor } from '@capacitor/core';
 import { Filesystem, Directory } from '@capacitor/filesystem';
-//import { Share } from '@capacitor/share';
 import { FileSharer } from '@byteowls/capacitor-filesharer';
 import { logoCAMPERO, membreteCAMPERO } from './img/base64';
 
@@ -60,7 +59,7 @@ const workPattern = {
     circular: "En círculos"
 };
 
-const PDFExport = report => {
+const PDFExport = (report, share) => {
     //console.log(report);
 
     const reportContent = [ // Composicion de todo el documento
@@ -269,27 +268,6 @@ const PDFExport = report => {
     if(Capacitor.isNativePlatform()){
         
         const shareFile = (fileName, data) => {
-            /*
-            Filesystem.getUri({
-                path: fileName,
-                directory: Directory.Documents
-            }).then(res => { 
-                console.log("Compartiendo archivo: "+res.uri);
-                Share.share({
-                    title: "Reporte Campero Fertilizadoras",                            
-                    url: res.uri
-                }).then(shareResult => {
-                    console.log(shareResult.activityType);
-                    Toast("success", "Reporte enviado a "+shareResult.activityType, 2000, "center");
-                }).catch(err => {
-                    console.log("Error al compartir: "+JSON.stringify(err))
-                    Toast("error", "Error al compartir reporte", 2000, "center");
-                });
-            }).catch(err => {
-                console.log("Error abriendo reporte: "+JSON.stringify(err));
-                Toast("error", "Error al abrir reporte", 2000, "center");
-            });
-            */
             FileSharer.share({
                 filename: fileName,
                 base64Data: data,
@@ -298,7 +276,7 @@ const PDFExport = report => {
                 Toast("success", "Reporte compartido", 2000, "center");
             }).catch(error => {
                 console.error("Error FileSharer: "+error.message);
-                Toast("error", "Error al compartir reporte", 2000, "center");
+                Toast("error", "Reporte no compartido", 2000, "center");
             });
         };
 
@@ -310,8 +288,11 @@ const PDFExport = report => {
                     directory: Directory.Documents,                    
                     replace: true
                 }).then(() => {                    
-                    Toast("success", "Reporte guardado en Documentos: "+fileName, 2000, "center");                    
-                    shareFile(fileName, base64pdf);
+                    if(share){
+                        Toast("info", "Generando reporte...", 2000, "center");
+                        shareFile(fileName, base64pdf);
+                    }else 
+                        Toast("success", "Reporte guardado en Documentos: "+fileName, 2000, "center");                    
                 }).catch(err => {
                     console.log(err);
                     Toast("error", "Error al guardar el reporte", 2000, "center");
