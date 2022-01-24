@@ -24,6 +24,11 @@ export default class WalkthroughModel {
         this.steps = STEPS;        
         this.currentIndex = -1;
         this.currentStep = null;
+        this.model = null;
+    }
+
+    setModel(model){
+        this.model = model;
     }
 
     start() {
@@ -38,6 +43,7 @@ export default class WalkthroughModel {
     }
 
     next() {
+
         this.currentIndex++;
         
         if(this.currentIndex >= this.steps.length){

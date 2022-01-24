@@ -131,13 +131,13 @@ else
 
 const Campero = () => (
     <App {...f7params}>
-        <WalkthroughProvider>
-            <ModelProvider>
+        <ModelProvider>
+            <WalkthroughProvider>
                 <View main url="/" className="app"/>
                 <ReportsPanel />
                 <Popovers />
-            </ModelProvider>
-        </WalkthroughProvider>
+            </WalkthroughProvider>
+        </ModelProvider>
     </App>
 );
 

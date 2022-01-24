@@ -72,23 +72,7 @@ zipalign 4 app-release-unsigned.apk app-release.apk
 
 
 #### TODO
-  - Modo ayuda paso a paso:
-
-```jsx
-const ScrollDemo = () => {
-   const myRef = useRef(null)
-
-   const executeScroll = () => myRef.current.scrollIntoView()    
-   // run this function from an event handler or an effect to execute scroll 
-
-   return (
-      <> 
-         <div ref={myRef}>Element to scroll to</div> 
-         <button onClick={executeScroll}> Click to scroll </button> 
-      </>
-   )
-}
-```
+  - Modo ayuda paso a paso
 
 #### Refactoring  
   - Combinar los selectores en un solo componente: PresentationSelector, MethodSelector, PatternSelector, ElapsedSelector 
