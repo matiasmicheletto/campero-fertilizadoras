@@ -7,7 +7,7 @@ import Timer from './Timer';
 import Toast from "../Toast";
 import { useContext, useState } from "react";
 import { FaPlus, FaMinus } from 'react-icons/fa';
-import { ModelCtx } from "../../Context";
+import { ModelCtx } from "../../context";
 import { set_2_decimals } from "../../Utils";
 import { PlayButton } from "../Buttons";
 

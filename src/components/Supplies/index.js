@@ -13,7 +13,7 @@ import {
 import { useContext, useState } from 'react';
 import CustomInput from '../Inputs';
 import { BackButton, DeleteButton, AddButton } from '../Buttons';
-import { ModelCtx } from '../../Context';
+import { ModelCtx } from '../../context';
 import Toast from '../Toast';
 import api from '../../Api';
 import { error_messages, generate_id, set_2_decimals } from '../../Utils';

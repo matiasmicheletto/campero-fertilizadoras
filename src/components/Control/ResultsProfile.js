@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Block, BlockTitle } from 'framework7-react';
-import { ModelCtx } from '../../Context';
+import { ModelCtx } from '../../context';
 import classes from './Results.module.css';
 
 const ResultsProfile = props => {

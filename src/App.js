@@ -12,7 +12,8 @@ import SuppliesList from './components/SuppliesList/index';
 import Reports from './components/Reports/index';
 import ReportDetails from './components/ReportDetails';
 import ReportsPanel from './components/ReportsPanel';
-import ModelProvider from './Context';
+import Popovers from './components/Popovers';
+import { ModelProvider, WalkthroughProvider } from './context';
 import './index.css';
 
 /*
@@ -130,10 +131,13 @@ else
 
 const Campero = () => (
     <App {...f7params}>
-        <ModelProvider>
-            <View main url="/" className="app"/>
-            <ReportsPanel />
-        </ModelProvider>
+        <WalkthroughProvider>
+            <ModelProvider>
+                <View main url="/" className="app"/>
+                <ReportsPanel />
+                <Popovers />
+            </ModelProvider>
+        </WalkthroughProvider>
     </App>
 );
 

@@ -1,7 +1,7 @@
 import { Navbar, Page, Block, Row, Col, Button } from 'framework7-react';
 import { useContext } from 'react';
 import { BackButton } from '../Buttons';
-import { ModelCtx } from '../../Context';
+import { ModelCtx } from '../../context';
 import classes from './ReportDetails.module.css';
 import moment from 'moment';
 import { Capacitor } from '@capacitor/core';

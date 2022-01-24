@@ -15,7 +15,7 @@ const MethodSelector = props => {
     }
 
     return (
-        <Block style={{margin:"0px"}}>
+        <Block style={{margin:"0px"}} {...props}>
             <BlockTitle>Método de muestreo</BlockTitle>
             <Row>
                 <Col style={{textAlign:"center"}}>

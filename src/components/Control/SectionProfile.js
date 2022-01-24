@@ -1,7 +1,7 @@
 import { f7, Row, Col, Button } from 'framework7-react';
 import Picker from './Picker';
 import { useState, useContext } from 'react';
-import { ModelCtx } from '../../Context';
+import { ModelCtx } from '../../context';
 import SimpleChart from '../SimpleChart';
 import { PatternSelector } from '../Selectors';
 import ResultsProfile from './ResultsProfile';

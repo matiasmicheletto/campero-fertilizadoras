@@ -4,7 +4,7 @@ import SectionDosif from './SectionDosif';
 //import TestForm from './TestForm';
 import SectionDistr from './SectionDistr';
 import { BackButton } from '../Buttons';
-import { ModelCtx } from '../../Context';
+import { ModelCtx } from '../../context';
 
 const Control = props => {
 

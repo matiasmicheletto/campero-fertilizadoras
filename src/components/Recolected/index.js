@@ -10,7 +10,7 @@ import {
 import { useContext, useState } from "react";
 import { useSound } from "use-sound";
 import CustomInput from "../Inputs";
-import { ModelCtx } from "../../Context";
+import { ModelCtx } from "../../context";
 import { set_2_decimals } from "../../Utils";
 import { FaMinus } from 'react-icons/fa';
 import moment from 'moment';

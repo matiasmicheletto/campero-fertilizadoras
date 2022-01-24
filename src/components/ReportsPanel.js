@@ -1,6 +1,6 @@
 import { f7, View, Panel, Page, Block, BlockTitle, Button, Row } from 'framework7-react';
 import { useState, useContext } from 'react';
-import { ModelCtx } from '../Context';
+import { ModelCtx } from '../context';
 import classes from './ReportsPanel.module.css';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import Toast from './Toast';

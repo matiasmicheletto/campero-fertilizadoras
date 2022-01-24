@@ -5,7 +5,7 @@ import { CalculatorButton } from '../Buttons';
 import { MethodSelector } from '../Selectors';
 import ResultsDose from './ResultsDose';
 import Toast from '../Toast';
-import { ModelCtx } from '../../Context';
+import { ModelCtx } from '../../context';
 import iconDose from '../../img/icons/kg_ha_fert.png';
 import iconGear from '../../img/icons/regulacion.png';
 import iconProduct from '../../img/icons/producto.png';
@@ -20,7 +20,7 @@ import { error_messages } from '../../Utils';
 
 const SectionDosif = props => {
 
-    const model = useContext(ModelCtx);
+    const model = useContext(ModelCtx);   
     
     // Campos del formulario
     const [method, setMethod] = useState(model.method || 'direct');
@@ -158,7 +158,8 @@ const SectionDosif = props => {
 
     return (
         <div>
-            <MethodSelector value={method} onChange={handleInputChange} />
+            <MethodSelector value={method} onChange={handleInputChange} className="help-target-1"/>
+            
             <Block style={{marginBottom:0}}>   
                 <BlockTitle>Propiedades del fertilizante</BlockTitle>
                 <List form noHairlinesMd>

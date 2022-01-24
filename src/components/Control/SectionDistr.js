@@ -3,7 +3,7 @@ import { FaArrowCircleLeft, FaArrowCircleRight, FaStopCircle } from 'react-icons
 import { useState, useContext } from 'react';
 import CustomInput from '../Inputs';
 import { trayCollectedPrompt } from '../Prompts';
-import { ModelCtx } from '../../Context';
+import { ModelCtx } from '../../context';
 import SimpleChart from '../SimpleChart';
 import SectionProfile from './SectionProfile';
 import iconTrayDist from '../../img/icons/dist_bandejas.png';
@@ -16,7 +16,7 @@ import { error_messages } from '../../Utils';
 
 const SectionDistr = props => {
 
-    const model = useContext(ModelCtx);
+    const model = useContext(ModelCtx);    
 
     // Campos del formulario
     const [tray_area, setTrayArea] = useState(model.tray_area || '');
@@ -198,16 +198,18 @@ const SectionDistr = props => {
                     onInputClear={handleInputClear}
                     onChange={handleInputChange}
                     ></CustomInput>
-                <CustomInput
-                    slot="list"        
-                    name="tray_number"            
-                    icon={iconTrayNum}
-                    label="Cantidad de bandejas"
-                    type="number"       
-                    value={tray_number}   
-                    onInputClear={handleInputClear}
-                    onChange={handleInputChange}
-                    ></CustomInput>
+                <div slot="list">
+                    <CustomInput                        
+                        name="tray_number"            
+                        icon={iconTrayNum}
+                        label="Cantidad de bandejas"
+                        type="number"       
+                        value={tray_number}   
+                        onInputClear={handleInputClear}
+                        onChange={handleInputChange}
+                        className="help-target-2"                        
+                        ></CustomInput>
+                </div>
                 <CustomInput
                     slot="list"
                     name="pass_number"

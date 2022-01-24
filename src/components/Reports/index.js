@@ -2,7 +2,7 @@ import { f7, Navbar, Page, Block, Checkbox, Row, Col, Button } from 'framework7-
 import { useState, useContext } from 'react';
 import { BackButton } from '../Buttons';
 import iconEmpty from '../../img/icons/empty_folder.png';
-import { ModelCtx } from '../../Context';
+import { ModelCtx } from '../../context';
 import Toast from '../Toast';
 import classes from './Reports.module.css';
 import moment from 'moment';

@@ -72,7 +72,6 @@ zipalign 4 app-release-unsigned.apk app-release.apk
 
 
 #### TODO
-  - Agregar campo "producto" a la sección de dosis -> copiar dato a seccion insumos.
   - Modo ayuda paso a paso:
 
 ```jsx

@@ -1,7 +1,7 @@
 import { f7, Navbar, Page, Row, Col, Button} from 'framework7-react';
 import React, { useContext } from 'react';
 import { BackButton } from '../Buttons';
-import { ModelCtx } from '../../Context';
+import { ModelCtx } from '../../context';
 
 const SuppliesList = props => {
 
