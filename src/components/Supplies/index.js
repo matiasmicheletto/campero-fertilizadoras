@@ -40,7 +40,7 @@ const Supplies = props => {
         const temp = [...products];
         temp.push({
             key: generate_id(),
-            name: "",
+            name: model.main_prod || '',
             density: set_2_decimals(model.fitted_dose || model.effective_dose || model.expected_dose || 0),
             presentation: 0 // 0->granel, x->envase de x kg
         });

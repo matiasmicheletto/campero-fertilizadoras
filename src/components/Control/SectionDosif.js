@@ -8,6 +8,7 @@ import Toast from '../Toast';
 import { ModelCtx } from '../../Context';
 import iconDose from '../../img/icons/kg_ha_fert.png';
 import iconGear from '../../img/icons/regulacion.png';
+import iconProduct from '../../img/icons/producto.png';
 import iconDensity from '../../img/icons/densidad.png';
 import iconDistance from '../../img/icons/dist_muestreo.png';
 import iconWorkWidth from '../../img/icons/ancho_labor.png';
@@ -25,6 +26,7 @@ const SectionDosif = props => {
     const [method, setMethod] = useState(model.method || 'direct');
     const [expected_dose, setExpectedDose] = useState(model.expected_dose || '');
     const [gear, setGear] = useState(model.gear || '');
+    const [main_prod, setMainProd] = useState(model.main_prod || '');
     const [prod_density, setProdDensity] = useState(model.prod_density || '');
     const [distance, setDistance] = useState(model.distance || '');
     let [time, setTime] = useState(model.time || '');
@@ -62,6 +64,9 @@ const SectionDosif = props => {
             case 'gear':
                 setGear(value);
                 break;
+            case 'main_prod':
+                setMainProd(value);
+                break;
             case 'prod_density':
                 setProdDensity(f);
                 break;
@@ -83,7 +88,7 @@ const SectionDosif = props => {
             default:
                 break;
         }
-        model.update(name, name === 'method' || name === 'gear' ? value : f);
+        model.update(name, name === 'method' || name === 'gear' || name === 'main_prod' ? value : f);
         setOutputs({...outputs, show: false});
     };
 
@@ -108,7 +113,19 @@ const SectionDosif = props => {
         setWorkVelocity('');
         setRecolected('');
         setOutputs({...outputs, show: false});
-        model.clear(["method", "expected_dose","effective_dose", "gear","prod_density", "work_width", "distance", "time", "work_velocity", "recolected"]);
+        model.clear([
+            "method", 
+            "expected_dose", 
+            "effective_dose", 
+            "gear", 
+            "main_prod", 
+            "prod_density", 
+            "work_width", 
+            "distance", 
+            "time", 
+            "work_velocity", 
+            "recolected"
+        ]);
     };
 
     const submit = () => {        
@@ -144,13 +161,23 @@ const SectionDosif = props => {
             <MethodSelector value={method} onChange={handleInputChange} />
             <Block style={{marginBottom:0}}>   
                 <BlockTitle>Propiedades del fertilizante</BlockTitle>
-                <List form noHairlinesMd>                    
-                    <CustomInput                    
+                <List form noHairlinesMd>
+                    <CustomInput
+                        slot="list"
+                        name="main_prod"
+                        icon={iconProduct}
+                        label="Producto"
+                        type="text"
+                        value={main_prod}
+                        onInputClear={handleInputClear}
+                        onChange={handleInputChange}
+                        ></CustomInput>
+                    <CustomInput
                         slot="list"
                         name="prod_density"
                         icon={iconDensity}
                         label="Densidad"
-                        type="number"                
+                        type="number"
                         unit="gr/cm³"
                         value={prod_density}
                         onInputClear={handleInputClear}

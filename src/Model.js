@@ -24,6 +24,7 @@ export default class CamperoModel {
     constructor(){
         // Variables que no intervienen en los calculos
         this.gear = null; // Regulacion de la maquina
+        this.main_prod = null; // Nombre de producto
         this.prod_density = null; // Densidad de fertilizante
         // Variables de dosificacion
         this.expected_dose = null; // Dosis prevista
