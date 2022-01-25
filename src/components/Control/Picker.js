@@ -67,6 +67,7 @@ class Picker extends React.Component {
                         <Col width={20}></Col>
                         <Col width={60}>
                             <Button 
+                                className="help-target-work-width"
                                 fill 
                                 style={{textTransform:"none"}} 
                                 color="teal"

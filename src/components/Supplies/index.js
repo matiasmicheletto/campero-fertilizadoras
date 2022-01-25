@@ -13,7 +13,7 @@ import {
 import { useContext, useState } from 'react';
 import CustomInput from '../Inputs';
 import { BackButton, DeleteButton, AddButton } from '../Buttons';
-import { ModelCtx } from '../../context';
+import { ModelCtx, WalkthroughCtx } from '../../context';
 import Toast from '../Toast';
 import api from '../../Api';
 import { error_messages, generate_id, set_2_decimals } from '../../Utils';
@@ -84,6 +84,21 @@ const Supplies = props => {
         }
     };
 
+    const wlk = useContext(WalkthroughCtx);
+    Object.assign(wlk.callbacks, {
+        load_number: () => {
+            setInputs({
+                field_name: model.field_name,
+                work_area: model.work_area,
+                capacity: model.capacity
+            });
+            setProducts(model.products);
+        },
+        supplies_results: () => {
+            submit();
+        }
+    });
+
     return (
         <Page>            
             <Navbar title="Calculador de insumos" style={{maxHeight:"40px", marginBottom:"0px"}}/>      
@@ -99,6 +114,7 @@ const Supplies = props => {
                     onChange={v=>setMainParams('field_name', v.target.value)}
                     ></CustomInput>
                 <CustomInput
+                    className="help-target-supplies-form"
                     slot="list"
                     label="Superficie"
                     name="work_area"
@@ -109,6 +125,7 @@ const Supplies = props => {
                     onChange={v=>setMainParams('work_area', parseFloat(v.target.value))}
                     ></CustomInput>
                 <CustomInput
+                    className="help-target-load-number"
                     slot="list"
                     label="Capacidad de carga"
                     name="capacity"
@@ -138,6 +155,7 @@ const Supplies = props => {
                                         onChange={v=>setProductParams(index, "name", v.target.value)}
                                         ></CustomInput>
                                     <CustomInput
+                                        className="help-target-add-products"
                                         slot="list"
                                         label="Dosis"
                                         type="number"
@@ -168,7 +186,7 @@ const Supplies = props => {
             <Row style={{marginBottom:"15px"}}>
                 <Col width={20}></Col>
                 <Col width={60}>
-                    <Button fill onClick={submit} style={{textTransform:"none"}}>Calcular insumos</Button>
+                    <Button className="help-target-supplies-results" fill onClick={submit} style={{textTransform:"none"}}>Calcular insumos</Button>
                 </Col>
                 <Col width={20}></Col>
             </Row>                

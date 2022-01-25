@@ -104,7 +104,7 @@ const SuppliesList = props => {
             <Row style={{marginTop:"20px", marginBottom: "15px"}}>
                 <Col width={20}></Col>
                 <Col width={60}>
-                    <Button fill onClick={addSuppliesToReport} style={{textTransform:"none"}}>
+                    <Button className="help-target-add-report" fill onClick={addSuppliesToReport} style={{textTransform:"none"}}>
                         Agregar a reporte
                     </Button>
                 </Col>

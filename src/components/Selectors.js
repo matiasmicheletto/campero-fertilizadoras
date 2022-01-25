@@ -49,6 +49,7 @@ const PatternSelector = props => {
             <Row>
                 <Col style={{textAlign:"center"}}>
                     <Radio 
+                        className="help-target-work-pattern"
                         name="input-type" 
                         checked={props.pattern==="linear"} 
                         onChange={e=>setPattern(e,"linear")}/> Ida y vuelta

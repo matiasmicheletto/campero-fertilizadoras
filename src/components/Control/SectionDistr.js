@@ -3,7 +3,7 @@ import { FaArrowCircleLeft, FaArrowCircleRight, FaStopCircle } from 'react-icons
 import { useState, useContext } from 'react';
 import CustomInput from '../Inputs';
 import { trayCollectedPrompt } from '../Prompts';
-import { ModelCtx } from '../../context';
+import { ModelCtx, WalkthroughCtx } from '../../context';
 import SimpleChart from '../SimpleChart';
 import SectionProfile from './SectionProfile';
 import iconTrayDist from '../../img/icons/dist_bandejas.png';
@@ -45,7 +45,7 @@ const SectionDistr = props => {
                 });
             }
             model.update("tray_data", tempArr);
-            setTrayData(tempArr);            
+            setTrayData(tempArr);
             setTrayNumber(n);            
         }
     };
@@ -172,6 +172,26 @@ const SectionDistr = props => {
         }]
     };
 
+    const wlk = useContext(WalkthroughCtx);
+    Object.assign(wlk.callbacks, {
+        distr_form: () => {
+            [
+                "tray_area",
+                "tray_distance",
+                "pass_number",
+                "tray_number"
+            ].forEach(key => {
+                updateValue(key, model[key])
+            });
+            setTimeout(()=>{
+                setTrayData(model.tray_data);
+            }, 200);
+        },
+        distr_results: () => {
+            submit();
+        }
+    });
+
     return (
         <Block style={{marginBottom:15}}>
             <BlockTitle>Distribución y ancho de labor</BlockTitle>
@@ -207,7 +227,7 @@ const SectionDistr = props => {
                         value={tray_number}   
                         onInputClear={handleInputClear}
                         onChange={handleInputChange}
-                        className="help-target-2"                        
+                        className="help-target-distr-form"
                         ></CustomInput>
                 </div>
                 <CustomInput

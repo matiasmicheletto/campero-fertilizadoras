@@ -5,7 +5,7 @@ import { CalculatorButton } from '../Buttons';
 import { MethodSelector } from '../Selectors';
 import ResultsDose from './ResultsDose';
 import Toast from '../Toast';
-import { ModelCtx } from '../../context';
+import { ModelCtx, WalkthroughCtx } from '../../context';
 import iconDose from '../../img/icons/kg_ha_fert.png';
 import iconGear from '../../img/icons/regulacion.png';
 import iconProduct from '../../img/icons/producto.png';
@@ -20,7 +20,7 @@ import { error_messages } from '../../Utils';
 
 const SectionDosif = props => {
 
-    const model = useContext(ModelCtx);   
+    const model = useContext(ModelCtx);
     
     // Campos del formulario
     const [method, setMethod] = useState(model.method || 'direct');
@@ -42,7 +42,7 @@ const SectionDosif = props => {
     });
 
     useEffect(() => {
-        setOutputs(outputs => {return{...outputs, show: false}});
+        setOutputs(outputs => {return{...outputs, show: false}});        
     }, [props.work_width]);
 
     // Para que actualice datos al volver de las vistas de cronometro
@@ -156,9 +156,36 @@ const SectionDosif = props => {
         f7.panel.open();
     };
 
+    // Callbacks del modo ayuda
+    const wlk = useContext(WalkthroughCtx);
+    Object.assign(wlk.callbacks, {
+        prop_fert: () => {            
+            [
+                "main_prod",
+                "prod_density"
+            ].forEach(key => {
+                updateValue(key, model[key])
+            });
+        },
+        dose_form: () => {            
+            [
+                "method",
+                "expected_dose",
+                "work_width",
+                "distance",
+                "recolected"
+            ].forEach(key => {
+                updateValue(key, model[key])
+            });
+        },
+        dose_results: () => {
+            submit();
+        }
+    });
+
     return (
         <div>
-            <MethodSelector value={method} onChange={handleInputChange} className="help-target-1"/>
+            <MethodSelector value={method} onChange={handleInputChange} className="help-target-sampling"/>
             
             <Block style={{marginBottom:0}}>   
                 <BlockTitle>Propiedades del fertilizante</BlockTitle>
@@ -175,6 +202,7 @@ const SectionDosif = props => {
                         ></CustomInput>
                     <CustomInput
                         slot="list"
+                        className="help-target-prop-fert"
                         name="prod_density"
                         icon={iconDensity}
                         label="Densidad"
@@ -189,7 +217,8 @@ const SectionDosif = props => {
             <Block style={{marginBottom:0}}>
                 <BlockTitle>Dosis</BlockTitle>
                 <List form noHairlinesMd style={{marginBottom:"10px"}}>
-                    <CustomInput                    
+                    <CustomInput   
+                        className="help-target-dose-form"                 
                         slot="list"
                         name="expected_dose"
                         icon={iconDose}
@@ -287,7 +316,7 @@ const SectionDosif = props => {
                 <Row>
                     <Col width={20}></Col>
                     <Col width={60}>
-                        <Button fill onClick={submit} style={{textTransform:"none"}}>Calcular dosis</Button>
+                        <Button className="help-target-dose-results" fill onClick={submit} style={{textTransform:"none"}}>Calcular dosis</Button>
                     </Col>
                     <Col width={20}></Col>
                 </Row>

@@ -16,7 +16,7 @@ const ResultsProfile = props => {
         <Block className={classes.Container}>
             <BlockTitle className={classes.Title}>Perfil de fertilización</BlockTitle>
             <table className={classes.Table}>
-                <tbody>
+                <tbody className="help-target-distr-results">
                     {expected_dose ? 
                         <tr>
                             <td><b>Dosis prevista:</b></td>

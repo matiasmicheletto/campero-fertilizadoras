@@ -71,8 +71,12 @@ zipalign 4 app-release-unsigned.apk app-release.apk
     - [x] Exportar reportes a pdf.  
 
 
-#### TODO
-  - Modo ayuda paso a paso
+#### FIX
+  - Modo ayuda paso a paso:
+    - Agregar atributo "top" o "bottom" en cada step para la flecha del popover.  
+    - No se cargan los datos de bandejas (muestra todo en 0). 
+    - Corregir formulario supplies (usar un set para cada input) porque no muestra valores correctamente.  
+
 
 #### Refactoring  
   - Combinar los selectores en un solo componente: PresentationSelector, MethodSelector, PatternSelector, ElapsedSelector 

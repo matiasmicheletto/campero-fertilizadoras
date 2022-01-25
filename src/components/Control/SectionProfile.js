@@ -86,7 +86,7 @@ const SectionProfile = props => {
                 </Col>
             </Row>
             <PatternSelector pattern={work_pattern} onChange={handlePatternChange}/>
-            <Picker 
+            <Picker                 
                 pattern={work_pattern}
                 title={"Ancho de labor"} 
                 cols={pickerCols} 
