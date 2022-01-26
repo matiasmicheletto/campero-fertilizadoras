@@ -3,7 +3,7 @@ import { f7 } from "framework7-react";
 
 /*
 
-    Como funciona esto:
+    Sobre el funcionamiento de este modulo:
 
     En cada step, se ejecuta una accion y se muestra un popover con texto de ayuda.
 
@@ -98,14 +98,16 @@ const STEPS = [
         key: "work_pattern",
         text: 'Aquí puede alternar el patrón de trabajo. En caso de perfil sesgado hacia un lateral, se recomienda elegir "patrón circular".',
         popover_el: "help-popover-work-pattern",
-        target_el: "help-target-work-pattern"
+        target_el: "help-target-work-pattern",
+        angle: "on-bottom"
     },
     {
         page: "/control/",
         key: "work_width",
         text: 'Finalmente, puede ajustar el ancho de labor para reducir la variación del perfil.',
         popover_el: "help-popover-work-width",
-        target_el: "help-target-work-width"
+        target_el: "help-target-work-width",
+        angle: "on-bottom"
     },
     ////// Supplies
     {
@@ -126,6 +128,7 @@ const STEPS = [
             work_area: 25,
             capacity: 500,
             products: [{
+                key: "prod_1",
                 presentation: 0,
                 name: "Urea",
                 density: 50
@@ -140,15 +143,15 @@ const STEPS = [
         popover_el: "help-popover-add-products",
         target_el: "help-target-add-products"
     },
+    ////// SuppliesList
     {
         page: "/supplies/",
         key: "supplies_results",
-        text: 'Para obtener los resultados, presione "Calcular insumos".',
+        text: 'Luego de presionar en "Calcular insumos", se mostrará el detalle de los resultados obtenidos.',
         popover_el: "help-popover-supplies-results",
         target_el: "help-target-supplies-results",
         callback: true // Presionar boton calcular insumos
     },
-    ////// SuppliesList
     {
         page: "/supplies/", // La vista es otra, pero el cambio lo realiza el callback del paso anterior
         key: "add_report",

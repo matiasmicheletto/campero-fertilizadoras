@@ -28,10 +28,10 @@ const Supplies = props => {
 
     const model = useContext(ModelCtx);
 
-    const [inputs, setInputs] = useState({
-        field_name: model.field_name || "", // Nombre de lote
-        work_area: model.work_area || 0, // Superficie
-        capacity: model.capacity || 0 // Capacidad carga
+    const [{field_name, work_area, capacity}, setInputs] = useState({
+        field_name: model.field_name || '', // Nombre de lote
+        work_area: model.work_area || '', // Superficie
+        capacity: model.capacity || '' // Capacidad carga
     });
 
     const [products, setProducts] = useState(model.products);
@@ -57,10 +57,8 @@ const Supplies = props => {
     };
 
     const setMainParams = (attr, value) => {
-        const temp = { ...inputs };
-        temp[attr] = value;
         model.update(attr, value);
-        setInputs(temp);
+        setInputs(prevState => ({ ...prevState, [attr]: value }));
     };
 
     const setProductParams = (index, attr, value) => {
@@ -71,7 +69,7 @@ const Supplies = props => {
     };
 
     const submit = () => {
-        const res = api.computeSuppliesList({...inputs, products});        
+        const res = api.computeSuppliesList({field_name, work_area, capacity, products});        
         if(res.status === "error"){
             Toast("error", error_messages[res.wrong_keys[0]], 2000, "center");
             //console.log(res);
@@ -110,7 +108,7 @@ const Supplies = props => {
                     name="field_name"
                     type="text"
                     icon={iconName}
-                    defaultValue={inputs.field_name || ''}
+                    value={field_name}
                     onChange={v=>setMainParams('field_name', v.target.value)}
                     ></CustomInput>
                 <CustomInput
@@ -121,7 +119,7 @@ const Supplies = props => {
                     type="number"
                     unit="ha"
                     icon={iconArea}
-                    defaultValue={inputs.work_area || ''}
+                    value={work_area}
                     onChange={v=>setMainParams('work_area', parseFloat(v.target.value))}
                     ></CustomInput>
                 <CustomInput
@@ -132,7 +130,7 @@ const Supplies = props => {
                     type="number"
                     unit="kg"
                     icon={iconCapacity}
-                    defaultValue={inputs.capacity || ''}
+                    value={capacity}
                     onChange={v=>setMainParams('capacity', parseFloat(v.target.value))}
                     ></CustomInput>
             </List>
@@ -186,7 +184,7 @@ const Supplies = props => {
             <Row style={{marginBottom:"15px"}}>
                 <Col width={20}></Col>
                 <Col width={60}>
-                    <Button className="help-target-supplies-results" fill onClick={submit} style={{textTransform:"none"}}>Calcular insumos</Button>
+                    <Button fill onClick={submit} style={{textTransform:"none"}}>Calcular insumos</Button>
                 </Col>
                 <Col width={20}></Col>
             </Row>                

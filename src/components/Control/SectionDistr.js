@@ -175,6 +175,7 @@ const SectionDistr = props => {
     const wlk = useContext(WalkthroughCtx);
     Object.assign(wlk.callbacks, {
         distr_form: () => {
+            const t = [...model.tray_data];
             [
                 "tray_area",
                 "tray_distance",
@@ -184,7 +185,8 @@ const SectionDistr = props => {
                 updateValue(key, model[key])
             });
             setTimeout(()=>{
-                setTrayData(model.tray_data);
+                setTrayData(t);
+                model.update("tray_data", t);
             }, 200);
         },
         distr_results: () => {

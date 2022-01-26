@@ -11,7 +11,7 @@ const Popovers = () => {
             {
             wlk.steps.map((step, index) => (
                 <div className={`popover ios ${step.popover_el}`} key={step.key}>
-                    <div className="popover-angle on-top" style={{left:"50%"}}></div>
+                    <div className={`popover-angle ${step.angle ? step.angle : "on-top"}`} style={{left:"50%"}}></div>
                     <Block>
                         <BlockTitle>Paso {index+1} de {len}</BlockTitle>
                         {step.text}

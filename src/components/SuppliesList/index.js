@@ -47,7 +47,7 @@ const SuppliesList = props => {
         <Page>
             <Navbar title="Lista de insumos" sliding />
             <Row>                
-                <table style={{padding:"0px!important", margin:"20px 0px auto auto", width:"90%"}}>
+                <table className="help-target-supplies-results" style={{padding:"0px!important", margin:"20px 0px auto auto", width:"90%"}}>
                     <tbody>
                         <tr>
                             <td><b>Lote:</b></td>
