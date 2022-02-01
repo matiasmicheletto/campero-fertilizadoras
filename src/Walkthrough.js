@@ -104,7 +104,7 @@ const STEPS = [
     {
         page: "/control/",
         key: "work_width",
-        text: 'Finalmente, puede ajustar el ancho de labor para reducir la variación del perfil.',
+        text: 'Finalmente, puede ajustar el ancho de labor hasta obtener una variabilidad (CV) adecuada.',
         popover_el: "help-popover-work-width",
         target_el: "help-target-work-width",
         angle: "on-bottom"

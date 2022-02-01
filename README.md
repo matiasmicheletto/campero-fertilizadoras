@@ -1,5 +1,18 @@
 # Campero fertilizadoras
 
+Una app para regular distribuidoras de cualquier tipo de producto por proyección como fertilizantes, abonos o enmiendas. Entre sus principales utilidades se encuentra un calculador de dosis y las herramientas de cálculo necesarias para determinar el ancho de labor del equipo y el grado de uniformidad de esa distribución.
+Cuenta con un calculador de insumos que permite determinar la cantidad de producto a granel o en envases necesarios para el tratamiento de una determinada superficie.  
+Los resultados obtenidos pueden ser compilados en un reporte que se almacena en el dispositivo y puede ser compartido por mail o redes sociales.
+
+![screencapture](doc/promotional.gif)
+
+## Capturas de pantalla
+![captura1](doc/screenshots.png)
+
+
+
+## Instalación y despliegue
+
 Descargar codigo fuente e instalar dependencias
 ```bash
 $ git clone https://github.com/matiasmicheletto/camperofertilizadoras
@@ -31,7 +44,7 @@ $ adb logcat chromium:I
 
 Lo anterior puede requerir variables de entorno:
 ```bash
-export CAPACITOR_ANDROID_STUDIO_PATH="/home/$USER/Programas/android-studio/bin/studio.sh"
+export CAPACITOR_ANDROID_STUDIO_PATH="..../android-studio/bin/studio.sh"
 export PATH=~/.npm-global/bin:$PATH  
 ```
 
@@ -69,8 +82,3 @@ zipalign 4 app-release-unsigned.apk app-release.apk
     - [x] Abrir reportes.  
     - [x] Editar/borrar reportes.  
     - [x] Exportar reportes a pdf.  
-
-
-#### Refactoring  
-  - Combinar los selectores en un solo componente: PresentationSelector, MethodSelector, PatternSelector, ElapsedSelector 
-  - Actualizar módulos de pruebas (api y model).
