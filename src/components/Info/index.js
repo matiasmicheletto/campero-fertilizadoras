@@ -18,7 +18,7 @@ const Info = props => {
                     <Link className={classes.MenuButton} onClick={()=>wlk.start()}>
                         <p>Iniciar ayuda</p>
                     </Link>
-                    <Link external rel="noopener noreferrer" target="_blank" href="https://www.facebook.com/intaascasubi" className={[classes.MenuButton]}>
+                    <Link external rel="noopener noreferrer" target="_blank" href="https://inta.gob.ar/documentos/campero-y-criollo-informacion-y-novedades-para-usuarios" className={[classes.MenuButton]}>
                         <p>Info técnica y novedades</p>
                     </Link>
                     <Link href="/about/" className={classes.MenuButton} style={{marginBottom:"20px"}}>

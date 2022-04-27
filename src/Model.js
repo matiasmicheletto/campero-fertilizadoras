@@ -100,8 +100,23 @@ export default class CamperoModel {
         const value = JSON.stringify(this);
         if(Capacitor.isNativePlatform())
             Storage.set({key, value});
-        else
-            localStorage.setItem(key, value);
+        else{
+            if(window.avt){
+                try{
+                    const userData = window.avt.generalData.getUserData();
+                    window.avt.storage.user.put({
+                        id: userData.id,
+                        key: key,
+                        value: value,
+                        overwrite: true
+                    });
+                }catch(e){
+                    console.log(e);
+                }
+            }else{
+                localStorage.setItem(key, value);
+            }
+        }
     }
 
     getFromLocalStorage(){ // Recuperar datos de localStorage
@@ -115,15 +130,30 @@ export default class CamperoModel {
                 }
             });
         else{
-            const content = localStorage.getItem("campero_model"+version);
-            if(content){
-                const model = JSON.parse(content);
-                if(model)
-                    Object.assign(this, model);
-            }else{ 
-                // Si no hay datos en localStorage, puede ser por cambio de version, entonces borrar todo
-                console.log("Nueva version de CamperoModel");
-                localStorage.clear();
+            if(window.avt){
+                const userData = window.avt.generalData.getUserData();
+                window.avt.storage.user.get({ids:[userData.id], keys:[`campero_model${version}`]})
+                .then(result => {
+                    console.log(result);
+                    console.log(result.info.objects[userData.id]);
+                    /*
+                    const model = result.info.objects[userData.id];
+                    if(model){
+                        Object.assign(this, model);
+                    }
+                    */
+                });
+            }else{
+                const content = localStorage.getItem("campero_model"+version);
+                if(content){
+                    const model = JSON.parse(content);
+                    if(model)
+                        Object.assign(this, model);
+                }else{ 
+                    // Si no hay datos en localStorage, puede ser por cambio de version, entonces borrar todo
+                    console.log("Nueva version de CamperoModel");
+                    localStorage.clear();
+                }
             }
         }
     }

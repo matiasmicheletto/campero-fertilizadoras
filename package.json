@@ -2,6 +2,7 @@
   "name": "campero-fertilizadoras",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "dependencies": {
     "@byteowls/capacitor-filesharer": "^3.0.0",
     "@capacitor/android": "^3.3.4",
@@ -22,14 +23,14 @@
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0",
     "react-scripts": "4.0.3",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "use-sound": "^4.0.1",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "react-scripts start",    
+    "build": "react-scripts build",    
+    "test": "react-scripts test"
   },
   "eslintConfig": {
     "extends": [
@@ -48,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.9.2"
   }
 }
