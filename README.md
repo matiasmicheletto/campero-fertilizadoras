@@ -54,6 +54,10 @@ jarsigner -keystore $KEYSTORE_PATH -storepass $KEYSTORE_PASS app-release-unsigne
 zipalign 4 app-release-unsigned.apk app-release.apk
 ```
 
+Para compilar extension auravant, agregar el siguiente tag dentro del ```<head>``` de index.html
+```html
+<script src="https://auraview.auravant.com/sdk/v1.0/aura-package_v1.0.js"></script>
+``` 
 
 ### Backlog
 
