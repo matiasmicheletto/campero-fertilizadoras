@@ -1,7 +1,7 @@
 
 
-import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
+import * as pdfFonts from "pdfmake/build/vfs_fonts.js";
+import pdfMake from 'pdfmake';
 import moment from 'moment';
 import Toast from './components/Toast';
 import { Capacitor } from '@capacitor/core';
@@ -137,7 +137,7 @@ const PDFExport = (report, share) => {
 
     if (report.completed.distribution) {
 
-        console.log(report.distr);
+        //console.log(report.distr);
 
         reportContent.push({
             text: "Distribución y ancho de labor",
