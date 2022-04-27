@@ -22,7 +22,7 @@ $ npm install
 
 Correr versión web para debug
 ```bash
-$ npm start
+$ npm run dev
 ```
 
 Compilar versión web optimizada
@@ -30,10 +30,6 @@ Compilar versión web optimizada
 $ npm run build
 ```
 
-Ejecutar módulo de pruebas
-```bash
-$ npm run test
-```
 
 Compilar apk (android)
 ```bash

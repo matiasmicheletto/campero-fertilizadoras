@@ -1,6 +1,6 @@
 {
 	"appId": "com.inta.camperofertilizadoras",
 	"appName": "Campero Fertilizadoras",
-	"webDir": "build",
+	"webDir": "dist",
 	"bundledWebRuntime": false
 }
