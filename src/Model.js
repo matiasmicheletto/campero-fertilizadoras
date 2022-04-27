@@ -2,7 +2,7 @@ import { generate_id } from "./Utils";
 import { Storage } from '@capacitor/storage';
 import { Capacitor } from "@capacitor/core";
 
-const version = '0.0.3'; // Ante cualquier cambio en el modelo, se debe incrementar la version
+const version = '3'; // Ante cualquier cambio en el modelo, se debe incrementar la version
 
 const get_blank_report = () => {
     return {
@@ -104,16 +104,19 @@ export default class CamperoModel {
             if(window.avt){
                 try{
                     const userData = window.avt.generalData.getUserData();
-                    window.avt.storage.user.put({
+                    const data = {
                         id: userData.id,
                         key: key,
-                        value: value,
+                        value: {data: value},
                         overwrite: true
-                    });
+                    };                    
+                    window.avt.storage.user.put(data);
                 }catch(e){
+                    console.log("Error al subir datos storage avt");
                     console.log(e);
                 }
             }else{
+                console.log("set: Fallback a localStorage");
                 localStorage.setItem(key, value);
             }
         }
@@ -132,18 +135,21 @@ export default class CamperoModel {
         else{
             if(window.avt){
                 const userData = window.avt.generalData.getUserData();
-                window.avt.storage.user.get({ids:[userData.id], keys:[`campero_model${version}`]})
-                .then(result => {
+                const req = {ids:[userData.id], keys:["campero_model"+version]};
+                window.avt.storage.user.get(req)
+                .then(result => {                    
                     console.log(result);
-                    console.log(result.info.objects[userData.id]);
-                    /*
-                    const model = result.info.objects[userData.id];
-                    if(model){
-                        Object.assign(this, model);
+                    if(result){
+                        if(result.info?.objects[userData.id]){
+                            if(result.info.objects[userData.id]["campero_model"+version]){
+                                const data = result.info.objects[userData.id]["campero_model"+version].data;
+                                Object.assign(this, JSON.parse(data));
+                            }
+                        }
                     }
-                    */
                 });
             }else{
+                console.log("get: Fallback a localStorage");
                 const content = localStorage.getItem("campero_model"+version);
                 if(content){
                     const model = JSON.parse(content);
