@@ -79,7 +79,8 @@ export default class CamperoModel {
         if(updated)
             this.saveToLocalStorage();
         else 
-            console.log("Error: no se pudo actualizar el modelo");
+            //console.log("Error: no se pudo actualizar el modelo");
+            Function.prototype();            
     }
 
     clear(params){ // Borrar lista de parametros
@@ -112,11 +113,12 @@ export default class CamperoModel {
                     };                    
                     window.avt.storage.user.put(data);
                 }catch(e){
-                    console.log("Error al subir datos storage avt");
-                    console.log(e);
+                    //console.log("Error al subir datos storage avt");
+                    //console.log(e);
+                    Function.prototype();
                 }
             }else{
-                console.log("set: Fallback a localStorage");
+                //console.log("set: Fallback a localStorage");
                 localStorage.setItem(key, value);
             }
         }
@@ -128,7 +130,7 @@ export default class CamperoModel {
                 if(result.value)
                     Object.assign(this, JSON.parse(result.value));
                 else{
-                    console.log("Nueva version de CamperoModel");
+                    //console.log("Nueva version de CamperoModel");
                     Storage.clear();
                 }
             });
@@ -138,7 +140,7 @@ export default class CamperoModel {
                 const req = {ids:[userData.id], keys:["campero_model"+version]};
                 window.avt.storage.user.get(req)
                 .then(result => {                    
-                    console.log(result);
+                    //console.log(result);
                     if(result){
                         if(result.info?.objects[userData.id]){
                             if(result.info.objects[userData.id]["campero_model"+version]){
@@ -149,7 +151,7 @@ export default class CamperoModel {
                     }
                 });
             }else{
-                console.log("get: Fallback a localStorage");
+                //console.log("get: Fallback a localStorage");
                 const content = localStorage.getItem("campero_model"+version);
                 if(content){
                     const model = JSON.parse(content);
@@ -157,7 +159,7 @@ export default class CamperoModel {
                         Object.assign(this, model);
                 }else{ 
                     // Si no hay datos en localStorage, puede ser por cambio de version, entonces borrar todo
-                    console.log("Nueva version de CamperoModel");
+                    //console.log("Nueva version de CamperoModel");
                     localStorage.clear();
                 }
             }

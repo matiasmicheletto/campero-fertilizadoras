@@ -222,11 +222,12 @@ export default class WalkthroughModel {
                     try{
                         f7.popover.open("."+this.currentStep.popover_el, "."+this.currentStep.target_el, true);    
                     }catch(e){
-                        console.log(e);
+                        //console.log(e);
+                        Function.prototype();
                     }
                 }, POPOVER_DELAY);
             }else{
-                console.log("Error de ayuda, elemento no existe: "+this.currentStep.target_el);
+                //console.log("Error de ayuda, elemento no existe: "+this.currentStep.target_el);
                 this.next();
             }
         }, SCROLL_DELAY);
