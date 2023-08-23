@@ -9,6 +9,7 @@ Los resultados obtenidos pueden ser compilados en un reporte que se almacena en 
 ## Capturas de pantalla
 ![captura1](doc/screenshots.png)
 
+### Versión 1.1 [2] (Migración Capacitor 3 a 5. Compatibilidad con Android 13)
 
 
 ## Instalación y despliegue

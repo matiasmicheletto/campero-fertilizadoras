@@ -1,5 +1,5 @@
 import { generate_id } from "./Utils";
-import { Storage } from '@capacitor/storage';
+import { Preferences } from '@capacitor/preferences';
 import { Capacitor } from "@capacitor/core";
 
 const version = '3'; // Ante cualquier cambio en el modelo, se debe incrementar la version
@@ -100,7 +100,7 @@ export default class CamperoModel {
         const key = "campero_model"+version;
         const value = JSON.stringify(this);
         if(Capacitor.isNativePlatform())
-            Storage.set({key, value});
+            Preferences.set({key, value});
         else{
             if(window.avt){
                 try{
@@ -126,12 +126,12 @@ export default class CamperoModel {
 
     getFromLocalStorage(){ // Recuperar datos de localStorage
         if(Capacitor.isNativePlatform())
-            Storage.get({key: "campero_model"+version}).then(result => {
+            Preferences.get({key: "campero_model"+version}).then(result => {
                 if(result.value)
                     Object.assign(this, JSON.parse(result.value));
                 else{
                     //console.log("Nueva version de CamperoModel");
-                    Storage.clear();
+                    Preferences.clear();
                 }
             });
         else{
@@ -169,7 +169,7 @@ export default class CamperoModel {
     clearLocalStorage(){ // Limpiar datos de localStorage
         const key = "campero_model"+version;
         if(Capacitor.isNativePlatform())
-            Storage.remove({key});
+            Preferences.remove({key});
         else
             localStorage.removeItem(key);
     }

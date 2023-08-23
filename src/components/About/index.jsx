@@ -18,7 +18,7 @@ const About = props => (
                     <AccordionContent>
                         <Block>
                             <center>
-                                    <h3>CAMPERO FERTILIZADORAS 1.0</h3>
+                                    <h3>CAMPERO FERTILIZADORAS 1.1</h3>
                             </center>
                             <h3>Staff</h3>
                             <p><b>Autor:</b> Juan Pablo D'Amico</p>
